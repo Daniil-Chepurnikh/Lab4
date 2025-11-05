@@ -11,7 +11,7 @@ namespace Task
     internal class Program
     {
         /// <summary>
-        /// Основная функция
+        /// Решает поставленные в лабе задачи
         /// </summary>
         /// <param name="args"></param>
         static void Main(string[] args)
