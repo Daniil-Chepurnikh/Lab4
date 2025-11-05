@@ -1,0 +1,120 @@
+﻿/*
+ Создать массив целых чисел: датчиком случайных чисел и вводом с клавиатуры; распечатать его;
+ удалить из него все чётные элементы; добавить К элементов в начало массива(что это за элементы?);
+ чётные элементы переставить в начало а нечётные в конец; найти первый чётный элемент; 
+ отсортировать массив простым выбором(???)
+*/
+using System;
+
+namespace Task
+{
+    internal class Program
+    {
+        /// <summary>
+        /// Основная функция
+        /// </summary>
+        /// <param name="args"></param>
+        static void Main(string[] args)
+        {
+            ReadArray(out int[] keyboardArray);
+            PrintArray(keyboardArray);
+            MakeRandomArray(out int[] randomArray);
+            PrintArray(randomArray);
+        }
+
+        /// <summary>
+        /// Датчик случайных чисел
+        /// </summary>
+        private static Random random = new();
+        
+        /// <summary>
+        /// Читает целое число и сообщает об ошибках ввода оного
+        /// </summary>
+        /// <param name="message">Приглашение к нужному вводу</param>
+        /// <param name="error">Уведомление об ошибочном вводе</param>
+        /// <returns></returns>
+        private static int ReadInteger(string message = "n ?", string error = "Ошибка ввода n!")
+        {
+            bool isNumber;
+            int number;
+            do
+            {          
+                Console.WriteLine(message);
+
+                isNumber = int.TryParse(Console.ReadLine(), out number);
+
+                if (!isNumber)
+                    Console.WriteLine(error);
+            } while (!isNumber);
+
+            return number;
+        }
+        
+        /// <summary>
+        /// Печатает массив целых чисел
+        /// </summary>
+        /// <param name="array">Массив, который необходимо распечатать</param>
+        private static void PrintArray(int[] array)
+        {
+            foreach (int p in array)
+            {
+                Console.Write(p + " ");
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Читает массив с клавиатуры
+        /// </summary>
+        /// <param name="keyboardArray">Получившийся массив</param>
+        private static void ReadArray(out int[] keyboardArray)
+        {
+            CheckArray(out int n);
+            
+            keyboardArray = new int[n];
+            for (int q = 0; q < n; q++)
+            {
+                keyboardArray[q] = ReadInteger("Элемент ?", "Ошибка ввода элемента массива!");
+            }
+        }
+
+        /// <summary>
+        /// Создаёт массив целых чисел датчиком случайных чисел
+        /// </summary>
+        /// <param name="randomArray"></param>
+        private static void MakeRandomArray(out int[] randomArray)
+        {
+            CheckArray(out int n);
+
+            randomArray = new int[n];
+            for (int q = 0; q < n; q++)
+            {
+                randomArray[q] = random.Next(int.MinValue, int.MaxValue);
+            }
+        }
+
+        /// <summary>
+        /// Проверяет переполнение памяти массивом целых чисел
+        /// </summary>
+        /// <param name="n">Длина массива</param>
+        private static void CheckArray(out int n)
+        {
+            bool isCorrectArraySize;
+            do
+            {
+                n = ReadInteger();
+                try
+                {
+                    int[] array = new int[n];
+                    isCorrectArraySize = true;
+                }
+                catch (OutOfMemoryException)
+                {
+                    Console.WriteLine("Переполнение памяти слишком большим массивом");
+                    isCorrectArraySize = false;
+                }
+
+            } while (!isCorrectArraySize);
+        }
+    }
+}
