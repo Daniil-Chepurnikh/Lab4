@@ -57,9 +57,9 @@ namespace Task
         /// Печатает массив целых чисел
         /// </summary>
         /// <param name="array">Массив, который необходимо распечатать</param>
-        private static void PrintArray(int[] array)
+        private static void PrintArray(int[] integerArray)
         {
-            foreach (int p in array)
+            foreach (int p in integerArray)
             {
                 Console.Write(p + " ");
             }
