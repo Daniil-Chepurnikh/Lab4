@@ -1,8 +1,12 @@
 ﻿/*
- Создать массив целых чисел: датчиком случайных чисел и вводом с клавиатуры; распечатать его;
- удалить из него все чётные элементы; добавить К элементов в начало массива(что это за элементы?);
- чётные элементы переставить в начало а нечётные в конец; найти первый чётный элемент; 
- бинарный поиск элемента; отсортировать массив простым выбором(???)
+ Создать массив целых чисел: датчиком случайных чисел и вводом с клавиатуры; СДЕЛАНО
+ распечатать его; СДЕЛАНО
+ удалить из него все чётные элементы;
+ добавить К элементов в начало массива(что это за элементы?);
+ чётные элементы переставить в начало, а нечётные в конец; 
+ найти первый чётный элемент; СДЕЛАНО
+ бинарный поиск элемента; СДЕЛАНО
+ отсортировать массив простым выбором(???)
 */
 using System;
 
@@ -72,7 +76,7 @@ namespace Task
         /// <param name="keyboardArray">Получившийся массив</param>
         private static void ReadArray(out int[] keyboardArray)
         {
-            CheckArray(out int n);
+            CheckArraySize(out int n);
 
             keyboardArray = new int[n];
             for (int q = 0; q < n; q++)
@@ -87,7 +91,7 @@ namespace Task
         /// <param name="randomArray"></param>
         private static void MakeRandomArray(out int[] randomArray)
         {
-            CheckArray(out int n);
+            CheckArraySize(out int n);
 
             randomArray = new int[n];
             for (int q = 0; q < n; q++)
@@ -100,7 +104,7 @@ namespace Task
         /// Проверяет переполнение памяти массивом целых чисел
         /// </summary>
         /// <param name="length">Длина массива</param>
-        private static void CheckArray(out int length)
+        private static void CheckArraySize(out int length)
         {
             bool isCorrectArraySize;
             do
@@ -159,7 +163,7 @@ namespace Task
             {
                 if (target == sortedIntegerArray[mid])
                 {
-                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1));
+                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1) + "Количество сравнений: " + steps);
                     return;
                 }
                 else if (target > sortedIntegerArray[mid])
