@@ -131,7 +131,7 @@ namespace Task
         /// <summary>
         /// Находит первый чётный элемент в массиве
         /// </summary>
-        /// <param name="array">Массив, в котором будет производиться поиск</param>
+        /// <param name="array">Массив для поиска</param>
         /// <returns></returns>
         private static string FindFirstEven(int[] array)
         {
