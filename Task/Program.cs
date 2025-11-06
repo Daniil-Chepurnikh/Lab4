@@ -2,7 +2,7 @@
  Создать массив целых чисел: датчиком случайных чисел и вводом с клавиатуры; СДЕЛАНО
  распечатать его; СДЕЛАНО
  удалить из него все чётные элементы;
- добавить К элементов в начало массива(что это за элементы?);
+ добавить К элементов в начало массива(что это за элементы???);
  чётные элементы переставить в начало, а нечётные в конец; 
  найти первый чётный элемент; СДЕЛАНО
  бинарный поиск элемента; СДЕЛАНО
@@ -111,9 +111,13 @@ namespace Task
             {
                 length = ReadInteger();
                 if (length == 0)
-
                 {
                     Console.WriteLine("Массив не может иметь нулевую длину!");
+                    isCorrectArraySize = false;
+                }
+                else if (length < 0)
+                {
+                    Console.WriteLine("Массив не может иметь отрицательную длину!");
                     isCorrectArraySize = false;
                 }
                 else
@@ -125,7 +129,7 @@ namespace Task
                     }
                     catch (OutOfMemoryException)
                     {
-                        Console.WriteLine("Переполнение памяти слишком большим массивом");
+                        Console.WriteLine("Переполнение памяти слишком большим массивом!");
                         isCorrectArraySize = false;
                     }
                 }
@@ -158,9 +162,9 @@ namespace Task
             int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве", "Ошибка ввода целого числа!");
             int left = 0;
             int right = sortedIntegerArray.Length - 1;
-            int mid = (left + right) / 2;
+            int mid = left + (right - left) / 2;
             int steps = 1;
-            do
+            while (left <= right)
             {
                 if (target == sortedIntegerArray[mid])
                 {
@@ -172,12 +176,10 @@ namespace Task
                 else
                     right = mid - 1;
 
-                mid = (left + right) / 2;
+                mid = left + (right - left) / 2;
                 steps++;
-
-            } while (left <= right);
-
-            Console.WriteLine("Элемента не существует в массиве");
+            }
+            Console.WriteLine("Элемента не существует в массиве!");
         }
     }
 }
