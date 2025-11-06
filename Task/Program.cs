@@ -56,7 +56,7 @@ namespace Task
         /// <summary>
         /// Печатает массив целых чисел
         /// </summary>
-        /// <param name="array">Массив, который необходимо распечатать</param>
+        /// <param name="integerArray">Массив, который необходимо распечатать</param>
         private static void PrintArray(int[] integerArray)
         {
             foreach (int p in integerArray)
