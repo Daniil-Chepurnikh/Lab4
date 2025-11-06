@@ -23,6 +23,8 @@ namespace Task
             MakeRandomArray(out int[] randomArray);
             PrintArray(randomArray);
             Console.WriteLine(FindFirstEven(randomArray));
+            Console.WriteLine("================================");
+            BinarySearch(keyboardArray);
         }
 
         /// <summary>
@@ -144,9 +146,39 @@ namespace Task
             return "Нет чётных элементов!";
         }
 
-        private static void BinarySearch(int[] integerArray)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="integerArray"></param>
+        private static void BinarySearch(int[] sortedIntegerArray)
         {
+            int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве", "Ошибка ввода целого числа!");
+            int left = 0;
+            int right = sortedIntegerArray.Length - 1;
+            int mid = (left + right) / 2;
+            int steps = 1;
+            do
+            {
+                if (target == sortedIntegerArray[mid])
+                {
+                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1));
+                    return;
+                }
+                else if (target > sortedIntegerArray[mid])
+                {
+                    left = mid + 1;
+                    mid = (left + right) / 2;
+                }
+                else
+                {
+                    right = mid - 1;
+                    mid = (left + right) / 2;
+                }
+                steps++;
 
+            } while (left <= right);
+
+            Console.WriteLine("Элемента не существует в массиве");
         }
     }
 }
