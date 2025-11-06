@@ -133,15 +133,20 @@ namespace Task
         /// </summary>
         /// <param name="array">Массив для поиска</param>
         /// <returns></returns>
-        private static string FindFirstEven(int[] array)
+        private static string FindFirstEven(int[] integerArray)
         {
-            for (uint i = 0; i < array.Length; i++)
+            for (uint i = 0; i < integerArray.Length; i++)
             {
-                if (array[i] % 2 == 0)
-                    return "Первый чётный элемент: " + $"{array[i]}";
+                if (integerArray[i] % 2 == 0)
+                    return "Первый чётный элемент: " + $"{integerArray[i]}";
             }
 
             return "Нет чётных элементов!";
+        }
+
+        private static void BinarySearch(int[] integerArray)
+        {
+
         }
     }
 }
