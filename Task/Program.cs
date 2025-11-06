@@ -147,9 +147,9 @@ namespace Task
         }
 
         /// <summary>
-        /// 
+        /// Ищет элемент в массиве алгоритмом бинарного поиска
         /// </summary>
-        /// <param name="integerArray"></param>
+        /// <param name="integerArray">Массив для поиска элемента в нём</param>
         private static void BinarySearch(int[] sortedIntegerArray)
         {
             int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве", "Ошибка ввода целого числа!");
@@ -165,15 +165,11 @@ namespace Task
                     return;
                 }
                 else if (target > sortedIntegerArray[mid])
-                {
                     left = mid + 1;
-                    mid = (left + right) / 2;
-                }
                 else
-                {
                     right = mid - 1;
-                    mid = (left + right) / 2;
-                }
+
+                mid = (left + right) / 2;
                 steps++;
 
             } while (left <= right);
