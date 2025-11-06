@@ -2,7 +2,7 @@
  Создать массив целых чисел: датчиком случайных чисел и вводом с клавиатуры; распечатать его;
  удалить из него все чётные элементы; добавить К элементов в начало массива(что это за элементы?);
  чётные элементы переставить в начало а нечётные в конец; найти первый чётный элемент; 
- отсортировать массив простым выбором(???)
+ бинарный поиск элемента; отсортировать массив простым выбором(???)
 */
 using System;
 
@@ -18,15 +18,18 @@ namespace Task
         {
             ReadArray(out int[] keyboardArray);
             PrintArray(keyboardArray);
+            Console.WriteLine(FindFirstEven(keyboardArray));
+
             MakeRandomArray(out int[] randomArray);
             PrintArray(randomArray);
+            Console.WriteLine(FindFirstEven(randomArray));
         }
 
         /// <summary>
         /// Датчик случайных чисел
         /// </summary>
         private static Random random = new();
-        
+
         /// <summary>
         /// Читает целое число и сообщает об ошибках ввода оного
         /// </summary>
@@ -38,7 +41,7 @@ namespace Task
             bool isNumber;
             int number;
             do
-            {          
+            {
                 Console.WriteLine(message);
 
                 isNumber = int.TryParse(Console.ReadLine(), out number);
@@ -49,7 +52,7 @@ namespace Task
 
             return number;
         }
-        
+
         /// <summary>
         /// Печатает массив целых чисел
         /// </summary>
@@ -70,7 +73,7 @@ namespace Task
         private static void ReadArray(out int[] keyboardArray)
         {
             CheckArray(out int n);
-            
+
             keyboardArray = new int[n];
             for (int q = 0; q < n; q++)
             {
@@ -103,18 +106,42 @@ namespace Task
             do
             {
                 n = ReadInteger();
-                try
+                if (n == 0)
                 {
-                    int[] array = new int[n];
-                    isCorrectArraySize = true;
-                }
-                catch (OutOfMemoryException)
-                {
-                    Console.WriteLine("Переполнение памяти слишком большим массивом");
+                    Console.WriteLine("Массив не может иметь нулевой размер!");
                     isCorrectArraySize = false;
+                }
+                else
+                {
+                    try
+                    {
+                        int[] array = new int[n];
+                        isCorrectArraySize = true;
+                    }
+                    catch (OutOfMemoryException)
+                    {
+                        Console.WriteLine("Переполнение памяти слишком большим массивом");
+                        isCorrectArraySize = false;
+                    }
                 }
 
             } while (!isCorrectArraySize);
+        }
+
+        /// <summary>
+        /// Находит первый чётный элемент в массиве
+        /// </summary>
+        /// <param name="array">Массив, в котором будет производиться поиск</param>
+        /// <returns></returns>
+        private static string FindFirstEven(int[] array)
+        {
+            for (uint i = 0; i < array.Length; i++)
+            {
+                if (array[i] % 2 == 0)
+                    return "Первый чётный элемент: " + $"{array[i]}";
+            }
+
+            return "Нет чётных элементов!";
         }
     }
 }
