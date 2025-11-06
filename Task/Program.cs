@@ -100,13 +100,13 @@ namespace Task
         /// Проверяет переполнение памяти массивом целых чисел
         /// </summary>
         /// <param name="n">Длина массива</param>
-        private static void CheckArray(out int n)
+        private static void CheckArray(out int length)
         {
             bool isCorrectArraySize;
             do
             {
-                n = ReadInteger();
-                if (n == 0)
+                length = ReadInteger();
+                if (length == 0)
                 {
                     Console.WriteLine("Массив не может иметь нулевой размер!");
                     isCorrectArraySize = false;
@@ -115,7 +115,7 @@ namespace Task
                 {
                     try
                     {
-                        int[] array = new int[n];
+                        int[] array = new int[length];
                         isCorrectArraySize = true;
                     }
                     catch (OutOfMemoryException)
