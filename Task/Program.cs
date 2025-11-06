@@ -23,8 +23,6 @@ namespace Task
             MakeRandomArray(out int[] randomArray);
             PrintArray(randomArray);
             Console.WriteLine(FindFirstEven(randomArray));
-            Console.WriteLine("================================");
-            BinarySearch(keyboardArray);
         }
 
         /// <summary>
