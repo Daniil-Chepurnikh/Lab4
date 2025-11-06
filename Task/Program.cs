@@ -76,10 +76,10 @@ namespace Task
         /// <param name="keyboardArray">Получившийся массив</param>
         private static void ReadArray(out int[] keyboardArray)
         {
-            CheckArraySize(out int n);
+            CheckArraySize(out int length);
 
-            keyboardArray = new int[n];
-            for (int q = 0; q < n; q++)
+            keyboardArray = new int[length];
+            for (int q = 0; q < length; q++)
             {
                 keyboardArray[q] = ReadInteger("Элемент ?", "Ошибка ввода элемента массива!");
             }
@@ -91,10 +91,10 @@ namespace Task
         /// <param name="randomArray"></param>
         private static void MakeRandomArray(out int[] randomArray)
         {
-            CheckArraySize(out int n);
+            CheckArraySize(out int length);
 
-            randomArray = new int[n];
-            for (int q = 0; q < n; q++)
+            randomArray = new int[length];
+            for (int q = 0; q < length; q++)
             {
                 randomArray[q] = random.Next(int.MinValue, int.MaxValue);
             }
@@ -112,7 +112,7 @@ namespace Task
                 length = ReadInteger();
                 if (length == 0)
                 {
-                    Console.WriteLine("Массив не может иметь нулевой размер!");
+                    Console.WriteLine("Массив не может иметь нулевую длину!");
                     isCorrectArraySize = false;
                 }
                 else
