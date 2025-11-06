@@ -99,7 +99,7 @@ namespace Task
         /// <summary>
         /// Проверяет переполнение памяти массивом целых чисел
         /// </summary>
-        /// <param name="n">Длина массива</param>
+        /// <param name="length">Длина массива</param>
         private static void CheckArray(out int length)
         {
             bool isCorrectArraySize;
