@@ -1,8 +1,12 @@
 /*
- Создать массив целых чисел: датчиком случайных чисел и вводом с клавиатуры; распечатать его;
- удалить из него все чётные элементы; добавить К элементов в начало массива(что это за элементы?);
- чётные элементы переставить в начало а нечётные в конец; найти первый чётный элемент; 
- бинарный поиск элемента; отсортировать массив простым выбором(???)
+ Создать массив целых чисел: датчиком случайных чисел и вводом с клавиатуры; СДЕЛАНО
+ распечатать его; СДЕЛАНО
+ удалить из него все чётные элементы;
+ добавить К элементов в начало массива(что это за элементы?);
+ чётные элементы переставить в начало, а нечётные в конец; 
+ найти первый чётный элемент; СДЕЛАНО
+ бинарный поиск элемента; СДЕЛАНО
+ отсортировать массив простым выбором(???)
 */
 using System;
 
@@ -56,10 +60,10 @@ namespace Task
         /// <summary>
         /// Печатает массив целых чисел
         /// </summary>
-        /// <param name="array">Массив, который необходимо распечатать</param>
-        private static void PrintArray(int[] array)
+        /// <param name="integerArray">Массив, который необходимо распечатать</param>
+        private static void PrintArray(int[] integerArray)
         {
-            foreach (int p in array)
+            foreach (int p in integerArray)
             {
                 Console.Write(p + " ");
             }
@@ -72,10 +76,10 @@ namespace Task
         /// <param name="keyboardArray">Получившийся массив</param>
         private static void ReadArray(out int[] keyboardArray)
         {
-            CheckArray(out int n);
+            CheckArraySize(out int length);
 
-            keyboardArray = new int[n];
-            for (int q = 0; q < n; q++)
+            keyboardArray = new int[length];
+            for (int q = 0; q < length; q++)
             {
                 keyboardArray[q] = ReadInteger("Элемент ?", "Ошибка ввода элемента массива!");
             }
@@ -87,10 +91,10 @@ namespace Task
         /// <param name="randomArray"></param>
         private static void MakeRandomArray(out int[] randomArray)
         {
-            CheckArray(out int n);
+            CheckArraySize(out int length);
 
-            randomArray = new int[n];
-            for (int q = 0; q < n; q++)
+            randomArray = new int[length];
+            for (int q = 0; q < length; q++)
             {
                 randomArray[q] = random.Next(int.MinValue, int.MaxValue);
             }
@@ -99,23 +103,24 @@ namespace Task
         /// <summary>
         /// Проверяет переполнение памяти массивом целых чисел
         /// </summary>
-        /// <param name="n">Длина массива</param>
-        private static void CheckArray(out int n)
+        /// <param name="length">Длина массива</param>
+        private static void CheckArraySize(out int length)
         {
             bool isCorrectArraySize;
             do
             {
-                n = ReadInteger();
-                if (n == 0)
+                length = ReadInteger();
+                if (length == 0)
+
                 {
-                    Console.WriteLine("Массив не может иметь нулевой размер!");
+                    Console.WriteLine("Массив не может иметь нулевую длину!");
                     isCorrectArraySize = false;
                 }
                 else
                 {
                     try
                     {
-                        int[] array = new int[n];
+                        int[] array = new int[length];
                         isCorrectArraySize = true;
                     }
                     catch (OutOfMemoryException)
@@ -131,17 +136,48 @@ namespace Task
         /// <summary>
         /// Находит первый чётный элемент в массиве
         /// </summary>
-        /// <param name="array">Массив, в котором будет производиться поиск</param>
+        /// <param name="array">Массив для поиска</param>
         /// <returns></returns>
-        private static string FindFirstEven(int[] array)
+        private static string FindFirstEven(int[] integerArray)
         {
-            for (uint i = 0; i < array.Length; i++)
+            for (uint i = 0; i < integerArray.Length; i++)
             {
-                if (array[i] % 2 == 0)
-                    return "Первый чётный элемент: " + $"{array[i]}";
+                if (integerArray[i] % 2 == 0)
+                    return "Первый чётный элемент: " + $"{integerArray[i]}";
             }
 
             return "Нет чётных элементов!";
+        }
+
+        /// <summary>
+        /// Ищет элемент в массиве алгоритмом бинарного поиска
+        /// </summary>
+        /// <param name="integerArray">Массив для поиска элемента в нём</param>
+        private static void BinarySearch(int[] sortedIntegerArray)
+        {
+            int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве", "Ошибка ввода целого числа!");
+            int left = 0;
+            int right = sortedIntegerArray.Length - 1;
+            int mid = (left + right) / 2;
+            int steps = 1;
+            do
+            {
+                if (target == sortedIntegerArray[mid])
+                {
+                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1) + "Количество сравнений: " + steps);
+                    return;
+                }
+                else if (target > sortedIntegerArray[mid])
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+
+                mid = (left + right) / 2;
+                steps++;
+
+            } while (left <= right);
+
+            Console.WriteLine("Элемента не существует в массиве");
         }
     }
 }
