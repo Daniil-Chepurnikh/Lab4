@@ -23,13 +23,15 @@ namespace Task
             ReadArray(out int[] keyboardArray);
             PrintArray(keyboardArray);
             Console.WriteLine(FindFirstEven(keyboardArray));
-            //PrintArray(SelectionSort(keyboardArray));
+            PrintArray(SelectionSort(keyboardArray));
             BinarySearch(keyboardArray);
+            
             Console.WriteLine("===================================");
+            
             MakeRandomArray(out int[] randomArray);
             PrintArray(randomArray);
             Console.WriteLine(FindFirstEven(randomArray));
-           // PrintArray(SelectionSort(randomArray));
+            PrintArray(SelectionSort(randomArray));
             BinarySearch(randomArray);
         }
 
@@ -100,7 +102,7 @@ namespace Task
             randomArray = new int[length];
             for (int q = 0; q < length; q++)
             {
-                randomArray[q] = random.Next(int.MinValue, int.MaxValue);
+                randomArray[q] = random.Next(-100, 100);
             }
         }
 
@@ -163,7 +165,7 @@ namespace Task
         /// <param name="integerArray">Массив для поиска элемента в нём</param>
         private static void BinarySearch(int[] sortedIntegerArray)
         {
-            int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве", "Ошибка ввода целого числа!");
+            int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка ввода целого числа!");
             int left = 0;
             int right = sortedIntegerArray.Length - 1;
             int mid = left + (right - left) / 2;
@@ -172,7 +174,7 @@ namespace Task
             {
                 if (target == sortedIntegerArray[mid])
                 {
-                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1) + " Количество сравнений: " + steps);
+                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1) + "." + " Количество сравнений: " + steps);
                     return;
                 }
                 else if (target > sortedIntegerArray[mid])
@@ -188,24 +190,22 @@ namespace Task
 
         private static int[] SelectionSort(int[] array)
         {
-            int max = int.MinValue;
-            uint lastIndex = (uint)(array.Length - 1);
-            uint maxIndex = 0;
-            for (uint q = 0; q < array.Length; q++)
+            for (uint q = 0; q < array.Length - 1; q++) // идём до предпоследнего. типа если все до него уже выстроены как надо он один останется иначе он бы был минимум на другом шаге, короче потом разберусь ещё раз по возможности 
             {
-                for (uint p = 0; p < array.Length - q; p++)
+                int min = array[q];
+                uint index = q;
+                for (uint p = q + 1; p < array.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
                 {
-                    if (max < array[p])
+                    if (min > array[p] && p != q)
                     {
-                        max = array[p];
-                        maxIndex = p;
+                        min = array[p]; // запомнили минимальный
+                        index = p; // его позицию
                     }
-
-                    int temp = array[lastIndex - q];
-                    array[lastIndex - q] = max;
-                    array[maxIndex] = temp;
                 }
 
+                int temp = array[q];
+                array[q] = min;
+                array[index] = temp;
             }
             
             return array;
