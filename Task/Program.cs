@@ -153,7 +153,7 @@ namespace Task
             for (uint i = 0; i < integerArray.Length; i++)
             {
                 if (integerArray[i] % 2 == 0)
-                    return "Первый чётный элемент: " + $"{integerArray[i]}";
+                    return "Первый чётный элемент: " + $"{integerArray[i]}. " + "Его индекс: " + $"{i + 1}";
             }
 
             return "Нет чётных элементов!";
