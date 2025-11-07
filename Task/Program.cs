@@ -24,16 +24,16 @@ namespace Task
 
             ReadArray(out int[] keyboardArray);
             PrintArray(keyboardArray);
-            Console.WriteLine(FindFirstEven(keyboardArray));
-            PrintArray(SelectionSort(keyboardArray));
+            FindFirstEven(keyboardArray);
+            SelectionSort(keyboardArray);
             BinarySearch(keyboardArray);
             
             Console.WriteLine("===================================");
             
             MakeRandomArray(out int[] randomArray);
             PrintArray(randomArray);
-            Console.WriteLine(FindFirstEven(randomArray));
-            PrintArray(SelectionSort(randomArray));
+            FindFirstEven(randomArray);
+            SelectionSort(randomArray);
             BinarySearch(randomArray);
         }
 
@@ -166,7 +166,7 @@ namespace Task
         }
 
         /// <summary>
-        /// Ищет элемент в массиве алгоритмом бинарного поиска
+        /// Быстро ищет элемент в массиве
         /// </summary>
         /// <param name="integerArray">Массив для поиска элемента в нём</param>
         private static void BinarySearch(int[] sortedIntegerArray)
@@ -180,7 +180,7 @@ namespace Task
             {
                 if (target == sortedIntegerArray[mid])
                 {
-                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1) + "." + " Количество сравнений: " + steps);
+                    Console.WriteLine("Элемент есть в массиве. Его индекс: " + (mid + 1) + "." + " Количество сравнений: " + steps);
                     return;
                 }
                 else if (target > sortedIntegerArray[mid])
@@ -191,15 +191,15 @@ namespace Task
                 mid = left + (right - left) / 2;
                 steps++;
             }
-            Console.WriteLine("Элемента не существует в массиве!");
+            Console.WriteLine("Элемента нет в массиве!");
         }
 
         private static int[] SelectionSort(int[] array)
         {
-            for (uint q = 0; q < array.Length - 1; q++) // идём до предпоследнего. типа если все до него уже выстроены как надо он один останется иначе он бы был минимум на другом шаге, короче потом разберусь ещё раз по возможности 
+            for (uint q = 0; q < array.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
-                int min = array[q];
-                uint index = q;
+                int min = array[q]; // чтобы самым первым минимальным
+                uint index = q; // не заполнить всё
                 for (uint p = q + 1; p < array.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
                 {
                     if (min > array[p] && p != q)
@@ -213,7 +213,8 @@ namespace Task
                 array[q] = min;
                 array[index] = temp;
             }
-            
+
+            PrintArray(array);
             return array;
         }
 
@@ -232,7 +233,6 @@ namespace Task
             }
             return count;
         }
-
 
         // TODO: удалить из массива все чётные элементы
 
