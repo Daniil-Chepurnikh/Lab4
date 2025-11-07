@@ -23,10 +23,14 @@ namespace Task
             ReadArray(out int[] keyboardArray);
             PrintArray(keyboardArray);
             Console.WriteLine(FindFirstEven(keyboardArray));
-
+            //PrintArray(SelectionSort(keyboardArray));
+            BinarySearch(keyboardArray);
+            Console.WriteLine("===================================");
             MakeRandomArray(out int[] randomArray);
             PrintArray(randomArray);
             Console.WriteLine(FindFirstEven(randomArray));
+           // PrintArray(SelectionSort(randomArray));
+            BinarySearch(randomArray);
         }
 
         /// <summary>
@@ -168,7 +172,7 @@ namespace Task
             {
                 if (target == sortedIntegerArray[mid])
                 {
-                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1) + "Количество сравнений: " + steps);
+                    Console.WriteLine("Элемент существует в массиве. Его индекс: " + (mid + 1) + " Количество сравнений: " + steps);
                     return;
                 }
                 else if (target > sortedIntegerArray[mid])
@@ -181,5 +185,30 @@ namespace Task
             }
             Console.WriteLine("Элемента не существует в массиве!");
         }
+
+        private static int[] SelectionSort(int[] array)
+        {
+            int max = int.MinValue;
+            uint lastIndex = (uint)(array.Length - 1);
+            uint maxIndex = 0;
+            for (uint q = 0; q < array.Length; q++)
+            {
+                for (uint p = 0; p < array.Length - q; p++)
+                {
+                    if (max < array[p])
+                    {
+                        max = array[p];
+                        maxIndex = p;
+                    }
+
+                    int temp = array[lastIndex - q];
+                    array[lastIndex - q] = max;
+                    array[maxIndex] = temp;
+                }
+
+            }
+            
+            return array;
+        }
     }
-}
+} 
