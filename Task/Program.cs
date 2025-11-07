@@ -150,15 +150,19 @@ namespace Task
         /// </summary>
         /// <param name="array">Массив для поиска</param>
         /// <returns></returns>
-        private static string FindFirstEven(int[] integerArray)
+        private static int? FindFirstEven(int[] integerArray)
         {
             for (uint i = 0; i < integerArray.Length; i++)
             {
                 if (integerArray[i] % 2 == 0)
-                    return "Первый чётный элемент: " + $"{integerArray[i]}. " + "Его индекс: " + $"{i + 1}";
+                {
+                    Console.WriteLine($"Первый чётный элемент: {integerArray[i]}. Его индекс: {i + 1}");
+                    return integerArray[i];
+                }
             }
 
-            return "Нет чётных элементов!";
+            Console.WriteLine("Нет чётных элементов!");
+            return null;
         }
 
         /// <summary>
@@ -212,6 +216,23 @@ namespace Task
             
             return array;
         }
+
+        /// <summary>
+        /// Считает число чётных чисел в массиве
+        /// </summary>
+        /// <param name="integerArray"></param>
+        private static uint CountEvenIntegers(int[] integerArray)
+        {
+            uint count = 0;
+            foreach (int p in integerArray)
+            {
+                if (p % 2 == 0)
+                    count++;
+
+            }
+            return count;
+        }
+
 
         // TODO: удалить из массива все чётные элементы
 
