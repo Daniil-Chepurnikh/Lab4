@@ -6,7 +6,7 @@
  чётные элементы переставить в начало, а нечётные в конец; 
  найти первый чётный элемент; СДЕЛАНО
  бинарный поиск элемента; СДЕЛАНО
- отсортировать массив простым выбором(???)
+ отсортировать массив простым выбором СДЕЛАНО
 */
 using System;
 
@@ -20,6 +20,8 @@ namespace Task
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            // TODO: сделать двухуровневое текстовое меню
+
             ReadArray(out int[] keyboardArray);
             PrintArray(keyboardArray);
             Console.WriteLine(FindFirstEven(keyboardArray));
@@ -199,7 +201,7 @@ namespace Task
                     if (min > array[p] && p != q)
                     {
                         min = array[p]; // запомнили минимальный
-                        index = p; // его позицию
+                        index = p; // место откуда его взяли
                     }
                 }
 
@@ -210,5 +212,11 @@ namespace Task
             
             return array;
         }
+
+        // TODO: удалить из массива все чётные элементы
+
+        // TODO: добавить К элементов в начало массива
+
+        // TODO: чётные элементы переставить в начало, а нечётные в конец
     }
 } 
