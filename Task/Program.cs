@@ -27,6 +27,7 @@ namespace Task
             FindFirstEven(keyboardArray);
             SelectionSort(keyboardArray);
             BinarySearch(keyboardArray);
+            PrintArray(DeleteEvens(keyboardArray));
             
             Console.WriteLine("===================================");
             
@@ -35,6 +36,7 @@ namespace Task
             FindFirstEven(randomArray);
             SelectionSort(randomArray);
             BinarySearch(randomArray);
+            PrintArray(DeleteEvens(randomArray));
         }
 
         /// <summary>
@@ -222,19 +224,49 @@ namespace Task
         /// Считает число чётных чисел в массиве
         /// </summary>
         /// <param name="integerArray"></param>
-        private static uint CountEvenIntegers(int[] integerArray)
+        private static uint CountEvens(int[] integerArray)
         {
             uint count = 0;
             foreach (int p in integerArray)
             {
                 if (p % 2 == 0)
                     count++;
-
             }
             return count;
         }
 
         // TODO: удалить из массива все чётные элементы
+        /// <summary>
+        /// Удаляет все чётные элементы из массива
+        /// </summary>
+        /// <param name="integerArray">Массив, из которого нужно удалить элементы</param>
+        /// <returns></returns>
+        private static int[]? DeleteEvens(int[] integerArray)
+        {
+            uint evens = CountEvens(integerArray);
+            if (evens == 0)
+                return integerArray;
+            else if (evens == integerArray.Length)
+            {
+                // TODO: узнать что делать в этом случае
+                Console.WriteLine("После удаления массив стал пустым!");
+                int[] empty = {0};
+                return empty;
+            }
+            else
+            {
+                int[] newArray = new int[integerArray.Length - evens];
+                uint index = 0;
+                foreach (int p in integerArray)
+                {
+                    if (p % 2 != 0)
+                        newArray[index] = p;
+                    index++;
+                }
+                return newArray;
+            }  
+        }
+
 
         // TODO: добавить К элементов в начало массива
 
