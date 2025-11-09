@@ -1,15 +1,5 @@
-/*
- Создать массив целых чисел: датчиком случайных чисел и вводом с клавиатуры; СДЕЛАНО
- распечатать его; СДЕЛАНО
- удалить из него все чётные элементы;
- добавить К элементов в начало массива(что это за элементы???);
- чётные элементы переставить в начало, а нечётные в конец; 
- найти первый чётный элемент; СДЕЛАНО
- бинарный поиск элемента; СДЕЛАНО
- отсортировать массив простым выбором СДЕЛАНО
-*/
 using System;
-
+// https://habr.com/ru/articles/204600/ прочитай
 namespace Task
 {
     internal class Program
@@ -25,18 +15,16 @@ namespace Task
             ReadArray(out int[] keyboardArray);
             PrintArray(keyboardArray);
             FindFirstEven(keyboardArray);
-            SelectionSort(keyboardArray);
+            SelectionSort(ref keyboardArray);
             BinarySearch(keyboardArray);
-            PrintArray(DeleteEvens(keyboardArray));
-            
-            Console.WriteLine("===================================");
+            DeleteEvens(keyboardArray);
             
             MakeRandomArray(out int[] randomArray);
             PrintArray(randomArray);
             FindFirstEven(randomArray);
-            SelectionSort(randomArray);
+            SelectionSort(ref randomArray);
             BinarySearch(randomArray);
-            PrintArray(DeleteEvens(randomArray));
+            DeleteEvens(randomArray);
         }
 
         /// <summary>
@@ -50,7 +38,7 @@ namespace Task
         /// <param name="message">Приглашение к нужному вводу</param>
         /// <param name="error">Уведомление об ошибочном вводе</param>
         /// <returns></returns>
-        private static int ReadInteger(string message = "n ?", string error = "Ошибка ввода n!")
+        private static int ReadInteger(string message = "Введите количество элементов массива:", string error = "Ошибка: Вы не ввели целое число в разрешённом дипазоне!")
         {
             bool isNumber;
             int number;
@@ -91,7 +79,7 @@ namespace Task
             keyboardArray = new int[length];
             for (int q = 0; q < length; q++)
             {
-                keyboardArray[q] = ReadInteger("Элемент ?", "Ошибка ввода элемента массива!");
+                keyboardArray[q] = ReadInteger("Введите элемент массива:");
             }
         }
 
@@ -173,7 +161,7 @@ namespace Task
         /// <param name="integerArray">Массив для поиска элемента в нём</param>
         private static void BinarySearch(int[] sortedIntegerArray)
         {
-            int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка ввода целого числа!");
+            int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка: Вы ввели не целое число!");
             int left = 0;
             int right = sortedIntegerArray.Length - 1;
             int mid = left + (right - left) / 2;
@@ -182,7 +170,7 @@ namespace Task
             {
                 if (target == sortedIntegerArray[mid])
                 {
-                    Console.WriteLine("Элемент есть в массиве. Его индекс: " + (mid + 1) + "." + " Количество сравнений: " + steps);
+                    Console.WriteLine($"Элемент есть в массиве. Его индекс: {mid + 1}. Количество сравнений: {steps}");
                     return;
                 }
                 else if (target > sortedIntegerArray[mid])
@@ -196,7 +184,7 @@ namespace Task
             Console.WriteLine("Элемента нет в массиве!");
         }
 
-        private static int[] SelectionSort(int[] array)
+        private static void SelectionSort(ref int[] array)
         {
             for (uint q = 0; q < array.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
@@ -215,9 +203,6 @@ namespace Task
                 array[q] = min;
                 array[index] = temp;
             }
-
-            PrintArray(array);
-            return array;
         }
 
         /// <summary>
@@ -235,11 +220,11 @@ namespace Task
             return count;
         }
 
-        // TODO: удалить из массива все чётные элементы
+        // TODO: удалить из массива все чётные элементы доделать
         /// <summary>
         /// Удаляет все чётные элементы из массива
         /// </summary>
-        /// <param name="integerArray">Массив, из которого нужно удалить элементы</param>
+        /// <param name="integerArray">Массив, из которого нужно удалить</param>
         /// <returns></returns>
         private static int[]? DeleteEvens(int[] integerArray)
         {
@@ -250,8 +235,7 @@ namespace Task
             {
                 // TODO: узнать что делать в этом случае
                 Console.WriteLine("После удаления массив стал пустым!");
-                int[] empty = {0};
-                return empty;
+                return null;
             }
             else
             {
@@ -260,13 +244,14 @@ namespace Task
                 foreach (int p in integerArray)
                 {
                     if (p % 2 != 0)
+                    {
                         newArray[index] = p;
-                    index++;
+                        index++;
+                    }
                 }
                 return newArray;
             }  
         }
-
 
         // TODO: добавить К элементов в начало массива
 
