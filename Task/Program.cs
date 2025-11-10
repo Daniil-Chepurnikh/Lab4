@@ -25,7 +25,7 @@ namespace Task
         }
 
         /// <summary>
-        /// Показать пользователю сколько работала программа
+        /// Время выполнения программы
         /// </summary>
         private static Stopwatch stopwatch = new();
 
@@ -41,6 +41,18 @@ namespace Task
             Console.ResetColor();
             stopwatch.Start();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static void DoWork()
+        {
+            // TODO: Сделать менюшку 
+
+
+            // TODO: Продумать взаимодействие методов с менюшкой 
+        }
+
 
         /// <summary>
         /// Уведомляет о завершении, времени выполнения и прощается
