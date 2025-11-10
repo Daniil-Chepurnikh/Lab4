@@ -41,9 +41,42 @@ namespace Task
         {
             uint action = PrintMenu();
 
-            // TODO: Придумать способ выбора действия и повтор 
+            string end = "Нет";
+            int[]? array = null;
 
-            // TODO: Продумать взаимодействие методов с менюшкой 
+            do
+            {
+                switch (action)
+                {
+                    case 1:
+                        // TODO: сделать крачсивый и удобный выбор создания массива
+                        break;
+                    case 2:
+                        PrintArray(array);
+                        break;
+                    case 3:
+                        SelectionSort(ref array);
+                        break;
+                    case 4:
+                        DeleteEvens(ref array);
+                        break;
+                    case 5:
+                        FindFirstEven(array);
+                        break;
+                    case 6:
+                        BinarySearch(array);
+                        break;
+                    case 7:
+                        // добавление K элементов в начало
+                        break;
+                    case 8:
+                        // Перестановка чётных в начало нечётных в конец
+                        break;
+                    case 9:
+                        end = "Да";
+                        break;
+                }
+            } while (end != "Да");
         }
 
         /// <summary>
@@ -54,7 +87,7 @@ namespace Task
         private static uint ChooseAction(string[] menu)
         {
             bool isCorrectAction = false;
-            uint action = 0;
+            uint action;
             do
             {
                 Console.Write("Введите номер выбранного действия: ");
@@ -246,19 +279,19 @@ namespace Task
         /// </summary>
         /// <param name="array">Массив для поиска</param>
         /// <returns></returns>
-        private static int? FindFirstEven(int[] integerArray)
+        private static void FindFirstEven(int[]? integerArray)
         {
+            if (CheckNull(integerArray))
+                return;
+
             for (uint i = 0; i < integerArray.Length; i++)
             {
                 if (integerArray[i] % 2 == 0)
-                {
                     Console.WriteLine($"Первый чётный элемент: {integerArray[i]}. Количество сравнений: {i + 1}");
-                    return integerArray[i];
-                }
             }
 
             Console.WriteLine("Нет чётных элементов!");
-            return null;
+            return;
         }
 
         /// <summary>
@@ -267,6 +300,9 @@ namespace Task
         /// <param name="integerArray">Массив для поиска элемента в нём</param>
         private static void BinarySearch(int[] sortedIntegerArray)
         {
+            if (CheckNull(sortedIntegerArray))
+                return;
+
             int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка: Вы ввели не целое число!");
             int left = 0;
             int right = sortedIntegerArray.Length - 1;
@@ -294,24 +330,28 @@ namespace Task
         /// Сортирует массив выбором
         /// </summary>
         /// <param name="array">Сортируемый массив</param>
-        private static void SelectionSort(ref int[] array)
+        private static void SelectionSort(ref int[]? integerArray)
         {
-            for (uint q = 0; q < array.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
+            if (CheckNull(integerArray))
+                return;
+
+            
+            for (uint q = 0; q < integerArray.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
-                int min = array[q]; // чтобы самым первым минимальным
+                int min = integerArray[q]; // чтобы самым первым минимальным
                 uint index = q; // не заполнить всё
-                for (uint p = q + 1; p < array.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
+                for (uint p = q + 1; p < integerArray.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
                 {
-                    if (min > array[p] && p != q)
+                    if (min > integerArray[p] && p != q)
                     {
-                        min = array[p]; // запомнили минимальный
+                        min = integerArray[p]; // запомнили минимальный
                         index = p; // место откуда его взяли
                     }
                 }
 
-                int temp = array[q];
-                array[q] = min;
-                array[index] = temp;
+                int temp = integerArray[q];
+                integerArray[q] = min;
+                integerArray[index] = temp;
             }
         }
 
@@ -337,6 +377,14 @@ namespace Task
         /// <returns></returns>
         private static void DeleteEvens(ref int[]? integerArray)
         {
+            if (integerArray == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Ошибка: Невозможно удалить элементы из  пустого массива!");
+                Console.ResetColor();
+                return;
+            }
+
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0)
                 return;
@@ -361,6 +409,25 @@ namespace Task
             }  
         }
 
+        /// <summary>
+        /// Проверяет массив на пустоту
+        /// </summary>
+        /// <param name="integerArray">Проверяемый массив</param>
+        /// <returns>Логическое значение</returns>
+        private static bool CheckNull(int[]? integerArray)
+        {
+            if (integerArray == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Ошибка: Невозможно выполнить выбранное действие в пустом массиве!");
+                Console.ResetColor();
+                return true;
+            }
+
+            return false;
+        }
+        
+        
         // TODO: добавить К элементов в начало массива
 
         // TODO: чётные элементы переставить в начало, а нечётные в конец
