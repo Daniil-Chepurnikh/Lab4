@@ -35,7 +35,7 @@ namespace Task
         }
 
         /// <summary>
-        /// 
+        /// Выполняет все требования пользователя
         /// </summary>
         private static void DoWork()
         {
@@ -46,11 +46,11 @@ namespace Task
             // TODO: Продумать взаимодействие методов с менюшкой 
         }
 
-       /// <summary>
-       /// Проверяет корректность выбора действия из меню
-       /// </summary>
-       /// <param name="menu">Массив возможных действий</param>
-       /// <param name="action">Номер выбранного действия</param>       
+        /// <summary>
+        /// Выбирает команду и проверяет корректность выбора
+        /// </summary>
+        /// <param name="menu">Массив команд</param>
+        /// <returns>Корректная выбранная команда</returns>        
         private static uint ChooseAction(string[] menu)
         {
             bool isCorrectAction = false;
