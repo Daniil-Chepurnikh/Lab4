@@ -47,12 +47,25 @@ namespace Task
         /// </summary>
         private static void DoWork()
         {
-            // TODO: Сделать менюшку 
+             
 
+            // TODO: Придумать способ выбора действия и повтор 
 
             // TODO: Продумать взаимодействие методов с менюшкой 
         }
 
+        // TODO: Сделать менюшку
+        private static void PrintMenu()
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("Программа реализует следующую функциональность: ");
+            Console.ResetColor();
+
+            for (int i = 0; i < 8; i++)
+            {
+
+            }
+        }
 
         /// <summary>
         /// Уведомляет о завершении, времени выполнения и прощается
@@ -202,7 +215,7 @@ namespace Task
             {
                 if (integerArray[i] % 2 == 0)
                 {
-                    Console.WriteLine($"Первый чётный элемент: {integerArray[i]}. Его индекс: {i + 1}");
+                    Console.WriteLine($"Первый чётный элемент: {integerArray[i]}. Количество сравнений: {i + 1}");
                     return integerArray[i];
                 }
             }
