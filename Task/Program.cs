@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 // https://habr.com/ru/articles/204600/ прочитай
 namespace Task
 {
@@ -12,15 +14,7 @@ namespace Task
         static void Main(string[] args)
         {
             StartWork();
-
-            ReadArray(out int[]? array);
-            PrintArray(array);
-            FindFirstEven(array);
-            SelectionSort(ref array);
-            PrintArray(array);
-            BinarySearch(array);
-            DeleteEvens(ref array);
-
+            DoWork();
             FinishWork();
         }
 
@@ -47,24 +41,67 @@ namespace Task
         /// </summary>
         private static void DoWork()
         {
-             
+            PrintMenu();
 
             // TODO: Придумать способ выбора действия и повтор 
 
             // TODO: Продумать взаимодействие методов с менюшкой 
         }
 
-        // TODO: Сделать менюшку
-        private static void PrintMenu()
+       /// <summary>
+       /// Проверяет корректность выбора действия из меню
+       /// </summary>
+       /// <param name="menu">Массив возможных действий</param>
+       /// <param name="action">Номер выбранного действия</param>       
+        private static void ChooseAction(string[] menu, out uint action)
         {
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            bool isNumber = false;
+            bool isInRange = false;
+            bool isCorrectComand = isNumber && isInRange;
+            action = 0;
+            do
+            {
+                Console.Write("Введите номер выбранного действия: ");
+                isNumber = uint.TryParse(Console.ReadLine(), out action);
+                
+                if (action <= menu.Length && action != 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Ошибка: Нераспознанная команда! Проверьте корректность ввода");
+                    Console.ResetColor();
+                    isInRange = true;
+                }
+                isCorrectComand = isNumber && isInRange;
+
+            } while (!isCorrectComand);
+        }
+        
+        
+        // TODO: Сделать менюшку
+        private static uint PrintMenu()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Программа реализует следующую функциональность: ");
             Console.ResetColor();
 
-            for (int i = 0; i < 8; i++)
-            {
+            string[] menu = {
+                "Создание массива",
+                "Печать массива",
+                "Сортировка массива",
+                "Удаление чётных элементов из массива",
+                "Нахождение первого чётного элемента в массиве",
+                "Поиск элемента в массиве",
+                "Добавление элементов в начало массива",
+                "Перестановка чётных элементов в начало массива"
+                            };
 
-            }
+                for (int i = 0; i < 8; i++)
+                {
+                    Console.WriteLine($"  {i + 1} " + menu[i]);
+                }                
+                ChooseAction(menu, out uint action);
+            
+            return action;
         }
 
         /// <summary>
@@ -101,11 +138,12 @@ namespace Task
                 Console.WriteLine(message);
 
                 isNumber = int.TryParse(Console.ReadLine(), out number);
-
-                Console.ForegroundColor = ConsoleColor.Red;
                 if (!isNumber)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(error);
-                Console.ResetColor();
+                    Console.ResetColor();
+                }
 
             } while (!isNumber);
 
