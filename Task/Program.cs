@@ -39,13 +39,12 @@ namespace Task
         /// </summary>
         private static void DoWork()
         {
-            uint action = PrintMenu();
-
             string end = "Нет";
             int[]? array = null;
-
             do
             {
+                uint action = PrintMenu();
+
                 switch (action)
                 {
                     case 1:
