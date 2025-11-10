@@ -286,7 +286,10 @@ namespace Task
             for (uint i = 0; i < integerArray.Length; i++)
             {
                 if (integerArray[i] % 2 == 0)
+                {
                     Console.WriteLine($"Первый чётный элемент: {integerArray[i]}. Количество сравнений: {i + 1}");
+                    return;
+                }
             }
 
             Console.WriteLine("Нет чётных элементов!");
