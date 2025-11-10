@@ -12,21 +12,55 @@ namespace Task
         {
             // TODO: сделать двухуровневое текстовое меню
 
-            ReadArray(out int[] keyboardArray);
-            PrintArray(keyboardArray);
-            FindFirstEven(keyboardArray);
-            SelectionSort(ref keyboardArray);
-            BinarySearch(keyboardArray);
-            DeleteEvens(keyboardArray);
-            
-            MakeRandomArray(out int[] randomArray);
-            PrintArray(randomArray);
-            FindFirstEven(randomArray);
-            SelectionSort(ref randomArray);
-            BinarySearch(randomArray);
-            DeleteEvens(randomArray);
+           // StartWorking(out string choice);
+
+            int[]? array = null;
+
+            //switch (choice) бесполезная херота. иф элс лучше. и вообще это не меню а херобора
+            //{
+            //    case "САМОСТОЯТЕЛЬНО":
+            //        ReadArray(out array);
+            //        break;
+            //    case "СЛУЧАЙНО":
+            //        MakeRandomArray(out array);
+            //        break;
+            //}
+
+            ReadArray(out array);
+            PrintArray(array);
+            FindFirstEven(array);
+            SelectionSort(ref array);
+            BinarySearch(array);
+            DeleteEvens(array);
+
+            MakeRandomArray(out array);
+            PrintArray(array);
+            FindFirstEven(array);
+            SelectionSort(ref array);
+            BinarySearch(array);
+            DeleteEvens(array);
         }
 
+        private static void StartWorking(out string choice)
+        {
+            Console.WriteLine("Здравствуйте! Я - программа, которая работает с массивами");
+
+            string yes = "Обманули дурака!";
+            do
+            {
+                Console.Write("Для начала работы необходимо создать массив.\nКак вы хотите это сделать: СЛУЧАЙНО или САМОСТОЯТЕЛЬНО\n Для выбора напишите нужное слово: ");
+                choice = Console.ReadLine();
+
+                if (choice == "СЛУЧАЙНО" || choice == "САМОСТОЯТЕЛЬНО")
+                {
+                    Console.WriteLine($"Если Вы уверены, что хотите создать массив {choice}, напишите ДА, иначе НЕТ");
+                    yes = Console.ReadLine();
+                }
+                else
+                    Console.WriteLine("Ошибка: нераспознанный ввод. Проверьте правилиность ввода команды");
+            } while (yes != "ДА");
+        }
+        
         /// <summary>
         /// Датчик случайных чисел
         /// </summary>
@@ -61,10 +95,13 @@ namespace Task
         /// <param name="integerArray">Массив, который необходимо распечатать</param>
         private static void PrintArray(int[] integerArray)
         {
-            foreach (int p in integerArray)
-            {
-                Console.Write(p + " ");
-            }
+            if (integerArray == null)
+                Console.WriteLine("Массив пустой");
+            else
+                foreach (int p in integerArray)
+                {
+                    Console.Write(p + " ");
+                }
             Console.WriteLine();
         }
 
@@ -94,12 +131,12 @@ namespace Task
             randomArray = new int[length];
             for (int q = 0; q < length; q++)
             {
-                randomArray[q] = random.Next(-100, 100);
+                randomArray[q] = random.Next(int.MinValue, int.MaxValue);
             }
         }
 
         /// <summary>
-        /// Проверяет переполнение памяти массивом целых чисел
+        /// Проверяет переполнение памяти массивом целых чисел и неположительное количество элементов
         /// </summary>
         /// <param name="length">Длина массива</param>
         private static void CheckArraySize(out int length)
@@ -110,12 +147,12 @@ namespace Task
                 length = ReadInteger();
                 if (length == 0)
                 {
-                    Console.WriteLine("Массив не может иметь нулевую длину!");
+                    Console.WriteLine("Ошибка: Массив не может иметь нулевую длину!");
                     isCorrectArraySize = false;
                 }
                 else if (length < 0)
                 {
-                    Console.WriteLine("Массив не может иметь отрицательную длину!");
+                    Console.WriteLine("Ошибка: Массив не может иметь отрицательную длину!");
                     isCorrectArraySize = false;
                 }
                 else
@@ -127,7 +164,7 @@ namespace Task
                     }
                     catch (OutOfMemoryException)
                     {
-                        Console.WriteLine("Переполнение памяти слишком большим массивом!");
+                        Console.WriteLine("Ошика: Переполнение памяти слишком большим массивом!");
                         isCorrectArraySize = false;
                     }
                 }
@@ -184,6 +221,10 @@ namespace Task
             Console.WriteLine("Элемента нет в массиве!");
         }
 
+        /// <summary>
+        /// Сортирует массив выбором
+        /// </summary>
+        /// <param name="array">Сортируемый массив</param>
         private static void SelectionSort(ref int[] array)
         {
             for (uint q = 0; q < array.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
