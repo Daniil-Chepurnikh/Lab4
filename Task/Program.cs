@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 // https://habr.com/ru/articles/204600/ прочитай
 namespace Task
 {
@@ -10,57 +11,51 @@ namespace Task
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            // TODO: сделать двухуровневое текстовое меню
+            StartWork();
 
-           // StartWorking(out string choice);
-
-            int[]? array = null;
-
-            //switch (choice) бесполезная херота. иф элс лучше. и вообще это не меню а херобора
-            //{
-            //    case "САМОСТОЯТЕЛЬНО":
-            //        ReadArray(out array);
-            //        break;
-            //    case "СЛУЧАЙНО":
-            //        MakeRandomArray(out array);
-            //        break;
-            //}
-
-            ReadArray(out array);
+            ReadArray(out int[]? array);
             PrintArray(array);
             FindFirstEven(array);
             SelectionSort(ref array);
-            BinarySearch(array);
-            DeleteEvens(array);
-
-            MakeRandomArray(out array);
             PrintArray(array);
-            FindFirstEven(array);
-            SelectionSort(ref array);
             BinarySearch(array);
-            DeleteEvens(array);
+            DeleteEvens(ref array);
+
+            FinishWork();
         }
 
-        private static void StartWorking(out string choice)
+        /// <summary>
+        /// Показать пользователю сколько работала программа
+        /// </summary>
+        private static Stopwatch stopwatch = new();
+
+        /// <summary>
+        /// Здоровается, начинает работу и уведомляет об этом
+        /// </summary>
+        private static void StartWork()
         {
-            Console.WriteLine("Здравствуйте! Я - программа, которая работает с массивами");
-
-            string yes = "Обманули дурака!";
-            do
-            {
-                Console.Write("Для начала работы необходимо создать массив.\nКак вы хотите это сделать: СЛУЧАЙНО или САМОСТОЯТЕЛЬНО\n Для выбора напишите нужное слово: ");
-                choice = Console.ReadLine();
-
-                if (choice == "СЛУЧАЙНО" || choice == "САМОСТОЯТЕЛЬНО")
-                {
-                    Console.WriteLine($"Если Вы уверены, что хотите создать массив {choice}, напишите ДА, иначе НЕТ");
-                    yes = Console.ReadLine();
-                }
-                else
-                    Console.WriteLine("Ошибка: нераспознанный ввод. Проверьте правилиность ввода команды");
-            } while (yes != "ДА");
+            Console.Beep();
+            Console.WriteLine("Здравствуйте!");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Работа начата");
+            Console.ResetColor();
+            stopwatch.Start();
         }
-        
+
+        /// <summary>
+        /// Уведомляет о завершении, времени выполнения и прощается
+        /// </summary>
+        private static void FinishWork()
+        {
+            Console.Beep();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Работа завершена");
+            Console.ResetColor();
+            stopwatch.Stop();
+            Console.WriteLine($"Время выполнения: {stopwatch.ElapsedMilliseconds} мс");
+            Console.WriteLine("До свидания!");
+        }
+
         /// <summary>
         /// Датчик случайных чисел
         /// </summary>
@@ -82,8 +77,11 @@ namespace Task
 
                 isNumber = int.TryParse(Console.ReadLine(), out number);
 
+                Console.ForegroundColor = ConsoleColor.Red;
                 if (!isNumber)
                     Console.WriteLine(error);
+                Console.ResetColor();
+
             } while (!isNumber);
 
             return number;
@@ -147,12 +145,16 @@ namespace Task
                 length = ReadInteger();
                 if (length == 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ошибка: Массив не может иметь нулевую длину!");
+                    Console.ResetColor(); // Сброс к стандартному цвету
                     isCorrectArraySize = false;
                 }
                 else if (length < 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ошибка: Массив не может иметь отрицательную длину!");
+                    Console.ResetColor();
                     isCorrectArraySize = false;
                 }
                 else
@@ -160,11 +162,16 @@ namespace Task
                     try
                     {
                         int[] array = new int[length];
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Ввод корректен");
+                        Console.ResetColor();
                         isCorrectArraySize = true;
                     }
                     catch (OutOfMemoryException)
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Ошика: Переполнение памяти слишком большим массивом!");
+                        Console.ResetColor();
                         isCorrectArraySize = false;
                     }
                 }
@@ -261,26 +268,24 @@ namespace Task
             return count;
         }
 
-        // TODO: удалить из массива все чётные элементы доделать
         /// <summary>
         /// Удаляет все чётные элементы из массива
         /// </summary>
         /// <param name="integerArray">Массив, из которого нужно удалить</param>
         /// <returns></returns>
-        private static int[]? DeleteEvens(int[] integerArray)
+        private static void DeleteEvens(ref int[]? integerArray)
         {
-            uint evens = CountEvens(integerArray);
-            if (evens == 0)
-                return integerArray;
-            else if (evens == integerArray.Length)
+            uint evensCount = CountEvens(integerArray);
+            if (evensCount == 0)
+                return;
+            else if (evensCount == integerArray.Length)
             {
-                // TODO: узнать что делать в этом случае
                 Console.WriteLine("После удаления массив стал пустым!");
-                return null;
+                integerArray = null;
             }
             else
             {
-                int[] newArray = new int[integerArray.Length - evens];
+                int[] newArray = new int[integerArray.Length - evensCount];
                 uint index = 0;
                 foreach (int p in integerArray)
                 {
@@ -290,7 +295,7 @@ namespace Task
                         index++;
                     }
                 }
-                return newArray;
+                integerArray = newArray;
             }  
         }
 
