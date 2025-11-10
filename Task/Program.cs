@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Xml.Serialization;
 // https://habr.com/ru/articles/204600/ прочитай
 namespace Task
 {
@@ -85,21 +86,37 @@ namespace Task
         /// <returns>Корректная выбранная команда</returns>        
         private static uint ChooseAction(string[] menu)
         {
-            bool isCorrectAction = false;
+            string choice = "Нет";
             uint action;
             do
             {
-                Console.Write("Введите номер выбранного действия: ");
-                isCorrectAction = uint.TryParse(Console.ReadLine(), out action);
-
-                if (action > menu.Length || action == 0)
+                bool isCorrectAction = false;
+                do
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Ошибка: Нераспознанная команда! Проверьте корректность ввода");
-                    Console.ResetColor();
-                    isCorrectAction = false;
-                }
-            } while (!isCorrectAction);
+                    Console.Write("Введите номер выбранного действия: ");
+                    isCorrectAction = uint.TryParse(Console.ReadLine(), out action);
+
+                    if (action > menu.Length || action == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Ошибка: Нераспознанная команда! Проверьте корректность ввода");
+                        Console.ResetColor();
+                        isCorrectAction = false;
+                    }
+                } while (!isCorrectAction);
+
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Ввод корректен");
+                Console.ResetColor();
+
+                Console.WriteLine("Вы уверены в своём выборе? Если уверены, напишите Да, любой другой ввод будет воспринят как нет");
+                choice = Console.ReadLine();
+
+            } while (choice != "Да");
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Приступаю к выполнению команды");
+            Console.ResetColor();
 
             return action;
         }
