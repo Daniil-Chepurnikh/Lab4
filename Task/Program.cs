@@ -94,7 +94,7 @@ namespace Task
         private static void PrintArray(int[] integerArray)
         {
             if (integerArray == null)
-                Console.WriteLine("Массив пустой");
+                Console.Write("Массив пустой");
             else
                 foreach (int p in integerArray)
                 {
@@ -107,7 +107,7 @@ namespace Task
         /// Читает массив с клавиатуры
         /// </summary>
         /// <param name="keyboardArray">Получившийся массив</param>
-        private static void ReadArray(out int[] keyboardArray)
+        private static void ReadArray(out int[]? keyboardArray)
         {
             CheckArraySize(out int length);
 
@@ -122,7 +122,7 @@ namespace Task
         /// Создаёт массив целых чисел датчиком случайных чисел
         /// </summary>
         /// <param name="randomArray"></param>
-        private static void MakeRandomArray(out int[] randomArray)
+        private static void MakeRandomArray(out int[]? randomArray)
         {
             CheckArraySize(out int length);
 
