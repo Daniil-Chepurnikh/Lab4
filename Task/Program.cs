@@ -1,7 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 // https://habr.com/ru/articles/204600/ прочитай
 namespace Task
 {
@@ -41,7 +39,7 @@ namespace Task
         /// </summary>
         private static void DoWork()
         {
-            PrintMenu();
+            uint action = PrintMenu();
 
             // TODO: Придумать способ выбора действия и повтор 
 
@@ -53,55 +51,55 @@ namespace Task
        /// </summary>
        /// <param name="menu">Массив возможных действий</param>
        /// <param name="action">Номер выбранного действия</param>       
-        private static void ChooseAction(string[] menu, out uint action)
+        private static uint ChooseAction(string[] menu)
         {
-            bool isNumber = false;
-            bool isInRange = false;
-            bool isCorrectComand = isNumber && isInRange;
-            action = 0;
+            bool isCorrectAction = false;
+            uint action = 0;
             do
             {
                 Console.Write("Введите номер выбранного действия: ");
-                isNumber = uint.TryParse(Console.ReadLine(), out action);
-                
-                if (action <= menu.Length && action != 0)
+                isCorrectAction = uint.TryParse(Console.ReadLine(), out action);
+
+                if (action > menu.Length || action == 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Ошибка: Нераспознанная команда! Проверьте корректность ввода");
                     Console.ResetColor();
-                    isInRange = true;
+                    isCorrectAction = false;
                 }
-                isCorrectComand = isNumber && isInRange;
+            } while (!isCorrectAction);
 
-            } while (!isCorrectComand);
+            return action;
         }
         
-        
-        // TODO: Сделать менюшку
+        /// <summary>
+        /// Печатае менюшку и передаёт выбранную команду
+        /// </summary>
+        /// <returns>Номер выбранной команды</returns>
         private static uint PrintMenu()
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Программа реализует следующую функциональность: ");
             Console.ResetColor();
 
-            string[] menu = {
-                "Создание массива",
-                "Печать массива",
-                "Сортировка массива",
-                "Удаление чётных элементов из массива",
-                "Нахождение первого чётного элемента в массиве",
-                "Поиск элемента в массиве",
-                "Добавление элементов в начало массива",
-                "Перестановка чётных элементов в начало массива"
-                            };
-
-                for (int i = 0; i < 8; i++)
+            string[] menu =
                 {
-                    Console.WriteLine($"  {i + 1} " + menu[i]);
-                }                
-                ChooseAction(menu, out uint action);
+                    "Создание массива",
+                    "Печать массива",
+                    "Сортировка массива",
+                    "Удаление чётных элементов из массива",
+                    "Нахождение первого чётного элемента в массиве",
+                    "Поиск элемента в массиве",
+                    "Добавление элементов в начало массива",
+                    "Перестановка чётных элементов в начало массива"
+                 };
+
+            for (int i = 0; i < 8; i++)
+            {
+                Console.WriteLine($"  {i + 1} " + menu[i]);
+            }
             
-            return action;
+            return ChooseAction(menu);
         }
 
         /// <summary>
