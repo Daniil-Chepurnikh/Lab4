@@ -40,16 +40,30 @@ namespace Task
         /// </summary>
         private static void DoWork()
         {
+            string[] mainMenu =
+            {
+                    "Создание массива",
+                    "Печать массива",
+                    "Сортировка массива",
+                    "Удаление чётных элементов из массива",
+                    "Нахождение первого чётного элемента в массиве",
+                    "Поиск элемента в массиве",
+                    "Добавление элементов в начало массива",
+                    "Перестановка чётных элементов в начало массива",
+                    "Завершить работу"
+            };
+
+
             string end = "Нет";
             int[]? array = null;
             do
             {
-                uint action = PrintMenu();
+                uint action = PrintMenu(mainMenu);
 
                 switch (action)
                 {
                     case 1:
-                        // TODO: сделать крачсивый и удобный выбор создания массива
+                        CreateArray();
                         break;
                     case 2:
                         PrintArray(array);
@@ -122,27 +136,15 @@ namespace Task
         }
         
         /// <summary>
-        /// Печатае менюшку и передаёт выбранную команду
+        /// Печатает меню и принимает выбор пользователя
         /// </summary>
-        /// <returns>Номер выбранной команды</returns>
-        private static uint PrintMenu()
+        /// <param name="menu">Массив возможных действий</param>
+        /// <returns>Выбранное действие</returns>
+        private static uint PrintMenu(string[] menu)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Программа реализует следующую функциональность: ");
             Console.ResetColor();
-
-            string[] menu =
-                {
-                    "Создание массива",
-                    "Печать массива",
-                    "Сортировка массива",
-                    "Удаление чётных элементов из массива",
-                    "Нахождение первого чётного элемента в массиве",
-                    "Поиск элемента в массиве",
-                    "Добавление элементов в начало массива",
-                    "Перестановка чётных элементов в начало массива",
-                    "Завершить работу"
-                 };
 
             for (int i = 0; i < menu.Length; i++)
             {
@@ -150,6 +152,32 @@ namespace Task
             }
             
             return ChooseAction(menu);
+        }
+
+        /// <summary>
+        /// Создаёт массив выбранным способом
+        /// </summary>
+        /// <returns>Созданный массив</returns>
+        private static int[]? CreateArray()
+        {
+            string[] arrayMenu =
+            {
+                "Самостоятельно",
+                "Случайно"
+            };
+
+            int[]? array = null;
+            switch (PrintMenu(arrayMenu))
+            {
+                case 1:
+                    ReadArray(out array); 
+                    break;
+                case 2:
+                    MakeRandomArray(out array);
+                    break;
+            }
+
+            return array;
         }
 
         /// <summary>
