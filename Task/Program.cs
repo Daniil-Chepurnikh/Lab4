@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
-using System.Xml.Serialization;
-// https://habr.com/ru/articles/204600/ прочитай
+
 namespace Task
 {
     internal class Program
@@ -53,17 +52,15 @@ namespace Task
                     "Завершить работу"
             };
 
-
             string end = "Нет";
-            int[]? array = null;
+            int[] array = [];
             do
             {
                 uint action = PrintMenu(mainMenu);
-
                 switch (action)
                 {
                     case 1:
-                        CreateArray();
+                        CreateArray(ref array);
                         break;
                     case 2:
                         PrintArray(array);
@@ -81,10 +78,10 @@ namespace Task
                         BinarySearch(array);
                         break;
                     case 7:
-                        // добавление K элементов в начало
+                        AddElements(ref array);
                         break;
                     case 8:
-                        // Перестановка чётных в начало нечётных в конец
+                        EvenOddSort(ref array);
                         break;
                     case 9:
                         end = "Да";
@@ -92,29 +89,35 @@ namespace Task
                 }
             } while (end != "Да");
         }
-
+        
         /// <summary>
-        /// Выбирает команду и проверяет корректность выбора
+        /// Печатает меню и принимает выбор пользователя
         /// </summary>
-        /// <param name="menu">Массив команд</param>
-        /// <returns>Корректная выбранная команда</returns>        
-        private static uint ChooseAction(string[] menu)
+        /// <param name="menu">Массив возможных действий</param>
+        /// <returns>Выбранное действие</returns>
+        private static uint PrintMenu(string[] menu, string message = "Программа реализует следующую функциональность: ")
         {
-            string choice = "Нет";
+            string? choice;
             uint action;
             do
             {
-                bool isCorrectAction = false;
+                bool isCorrectAction;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(message);
+                    Console.ResetColor();
+                    for (int i = 0; i < menu.Length; i++)
+                    {
+                        Console.WriteLine($"  {i + 1} " + menu[i]);
+                    }
+
                     Console.Write("Введите номер выбранного действия: ");
                     isCorrectAction = uint.TryParse(Console.ReadLine(), out action);
 
                     if (action > menu.Length || action == 0)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Ошибка: Нераспознанная команда! Проверьте корректность ввода");
-                        Console.ResetColor();
+                        PrintError();
                         isCorrectAction = false;
                     }
                 } while (!isCorrectAction);
@@ -126,6 +129,7 @@ namespace Task
                 Console.WriteLine("Вы уверены в своём выборе? Если уверены, напишите Да, любой другой ввод будет воспринят как нет");
                 choice = Console.ReadLine();
 
+
             } while (choice != "Да");
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -134,31 +138,12 @@ namespace Task
 
             return action;
         }
-        
-        /// <summary>
-        /// Печатает меню и принимает выбор пользователя
-        /// </summary>
-        /// <param name="menu">Массив возможных действий</param>
-        /// <returns>Выбранное действие</returns>
-        private static uint PrintMenu(string[] menu)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Программа реализует следующую функциональность: ");
-            Console.ResetColor();
-
-            for (int i = 0; i < menu.Length; i++)
-            {
-                Console.WriteLine($"  {i + 1} " + menu[i]);
-            }
-            
-            return ChooseAction(menu);
-        }
 
         /// <summary>
         /// Создаёт массив выбранным способом
         /// </summary>
         /// <returns>Созданный массив</returns>
-        private static int[]? CreateArray()
+        private static void CreateArray(ref int[] array)
         {
             string[] arrayMenu =
             {
@@ -166,18 +151,23 @@ namespace Task
                 "Случайно"
             };
 
-            int[]? array = null;
-            switch (PrintMenu(arrayMenu))
+            array = [];
+            bool isCreated = true;
+            do
             {
-                case 1:
-                    ReadArray(out array); 
-                    break;
-                case 2:
-                    MakeRandomArray(out array);
-                    break;
-            }
-
-            return array;
+                switch (PrintMenu(arrayMenu, "Выберете способ создания массива:"))
+                {
+                    case 1:
+                        ReadArray(out array);
+                        break;
+                    case 2:
+                        MakeRandomArray(out array);
+                        break;
+                    default:
+                        isCreated = false;
+                        break;
+                }
+            } while (!isCreated);
         }
 
         /// <summary>
@@ -205,7 +195,7 @@ namespace Task
         /// <param name="message">Приглашение к нужному вводу</param>
         /// <param name="error">Уведомление об ошибочном вводе</param>
         /// <returns></returns>
-        private static int ReadInteger(string message = "Введите количество элементов массива:", string error = "Ошибка: Вы не ввели целое число в разрешённом дипазоне!")
+        private static int ReadInteger(string message = "Введите количество элементов массива:", string error = "Вы не ввели целое число в разрешённом дипазоне!")
         {
             bool isNumber;
             int number;
@@ -216,9 +206,7 @@ namespace Task
                 isNumber = int.TryParse(Console.ReadLine(), out number);
                 if (!isNumber)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(error);
-                    Console.ResetColor();
+                    PrintError(error);
                 }
 
             } while (!isNumber);
@@ -232,7 +220,7 @@ namespace Task
         /// <param name="integerArray">Массив, который необходимо распечатать</param>
         private static void PrintArray(int[] integerArray)
         {
-            if (integerArray == null)
+            if (CheckEmpty(integerArray))
                 Console.Write("Массив пустой");
             else
                 foreach (int p in integerArray)
@@ -243,17 +231,28 @@ namespace Task
         }
 
         /// <summary>
+        /// Сообщает об ошибках
+        /// </summary>
+        /// <param name="error">Печатаемая ошибка</param>
+        private static void PrintError(string error = "Нераспознанная команда! Проверьте корректность ввода")
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Ошибка: " + error);
+            Console.ResetColor();
+        }
+
+        /// <summary>
         /// Читает массив с клавиатуры
         /// </summary>
         /// <param name="keyboardArray">Получившийся массив</param>
-        private static void ReadArray(out int[]? keyboardArray)
+        private static void ReadArray(out int[] keyboardArray)
         {
             CheckArraySize(out int length);
 
             keyboardArray = new int[length];
             for (int q = 0; q < length; q++)
             {
-                keyboardArray[q] = ReadInteger("Введите элемент массива:");
+                keyboardArray[q] = ReadInteger("Введите элемент массива: ");
             }
         }
 
@@ -261,7 +260,7 @@ namespace Task
         /// Создаёт массив целых чисел датчиком случайных чисел
         /// </summary>
         /// <param name="randomArray"></param>
-        private static void MakeRandomArray(out int[]? randomArray)
+        private static void MakeRandomArray(out int[] randomArray)
         {
             CheckArraySize(out int length);
 
@@ -282,18 +281,9 @@ namespace Task
             do
             {
                 length = ReadInteger();
-                if (length == 0)
+                if (length < 0)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Ошибка: Массив не может иметь нулевую длину!");
-                    Console.ResetColor(); // Сброс к стандартному цвету
-                    isCorrectArraySize = false;
-                }
-                else if (length < 0)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Ошибка: Массив не может иметь отрицательную длину!");
-                    Console.ResetColor();
+                    PrintError("Массив не может иметь отрицательную длину!");
                     isCorrectArraySize = false;
                 }
                 else
@@ -308,9 +298,7 @@ namespace Task
                     }
                     catch (OutOfMemoryException)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Ошика: Переполнение памяти слишком большим массивом!");
-                        Console.ResetColor();
+                        PrintError("Переполнение памяти слишком большим массивом!");
                         isCorrectArraySize = false;
                     }
                 }
@@ -323,9 +311,9 @@ namespace Task
         /// </summary>
         /// <param name="array">Массив для поиска</param>
         /// <returns></returns>
-        private static void FindFirstEven(int[]? integerArray)
+        private static void FindFirstEven(int[] integerArray)
         {
-            if (CheckNull(integerArray))
+            if (CheckEmpty(integerArray))
                 return;
 
             for (uint i = 0; i < integerArray.Length; i++)
@@ -347,7 +335,7 @@ namespace Task
         /// <param name="integerArray">Массив для поиска элемента в нём</param>
         private static void BinarySearch(int[] sortedIntegerArray)
         {
-            if (CheckNull(sortedIntegerArray))
+            if (CheckEmpty(sortedIntegerArray))
                 return;
 
             int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка: Вы ввели не целое число!");
@@ -377,9 +365,9 @@ namespace Task
         /// Сортирует массив выбором
         /// </summary>
         /// <param name="array">Сортируемый массив</param>
-        private static void SelectionSort(ref int[]? integerArray)
+        private static void SelectionSort(ref int[] integerArray)
         {
-            if (CheckNull(integerArray))
+            if (CheckEmpty(integerArray))
                 return;
 
             
@@ -422,15 +410,10 @@ namespace Task
         /// </summary>
         /// <param name="integerArray">Массив, из которого нужно удалить</param>
         /// <returns></returns>
-        private static void DeleteEvens(ref int[]? integerArray)
+        private static void DeleteEvens(ref int[] integerArray)
         {
-            if (integerArray == null)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Ошибка: Невозможно удалить элементы из  пустого массива!");
-                Console.ResetColor();
+            if (CheckEmpty(integerArray))
                 return;
-            }
 
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0)
@@ -438,7 +421,7 @@ namespace Task
             else if (evensCount == integerArray.Length)
             {
                 Console.WriteLine("После удаления массив стал пустым!");
-                integerArray = null;
+                integerArray = new int[0];
             }
             else
             {
@@ -460,23 +443,63 @@ namespace Task
         /// Проверяет массив на пустоту
         /// </summary>
         /// <param name="integerArray">Проверяемый массив</param>
-        /// <returns>Логическое значение</returns>
-        private static bool CheckNull(int[]? integerArray)
+        /// <returns>Логическое значение true если пустой</returns>
+        private static bool CheckEmpty(int[] integerArray)
         {
-            if (integerArray == null)
+            if (integerArray.Length == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Ошибка: Невозможно выполнить выбранное действие в пустом массиве!");
-                Console.ResetColor();
+                PrintError("Невозможно выполнить выбранное действие в пустом массиве!");
                 return true;
             }
 
             return false;
         }
-        
-        
-        // TODO: добавить К элементов в начало массива
 
-        // TODO: чётные элементы переставить в начало, а нечётные в конец
+        /// <summary>
+        /// Добавляет К элементов в начало массива
+        /// </summary>
+        /// <param name="integerArray">Массив, в который надо добавить элемент</param>
+        private static void AddElements(ref int[] integerArray)
+        {
+            int newElementsCount = ReadInteger("Введите количство добавляемых элементов");
+            int[] newArray = new int[newElementsCount + integerArray.Length];
+
+            for (int p = 0; p < newElementsCount; p++)
+            {
+                newArray[p] = ReadInteger("Введите элемент массива");
+            }
+            for (int q = newElementsCount; q < newArray.Length; q++)
+            {
+                newArray[q] = integerArray[q - newElementsCount];
+            }
+
+            integerArray = newArray;
+        }
+        
+        /// <summary>
+        /// Перставляет чётные в начало, а нечётные в конец
+        /// </summary>
+        /// <param name="integerArray">Массив для перестановки</param>
+        private static void EvenOddSort(ref int[] integerArray)
+        {
+            if (CheckEmpty(integerArray))
+            {
+                PrintError("Невозможно переставлить элементы в пустом массиве!");
+                return; 
+            }
+
+            uint countEvens = CountEvens(integerArray);
+            int[] sortedArray = new int[integerArray.Length];
+            uint counter = countEvens - 1;
+            for (uint p = 0; p < integerArray.Length; p++)
+            {
+                if (integerArray[p] % 2 == 0)
+                    sortedArray[counter--] = integerArray[p];
+                else
+                    sortedArray[countEvens++] = integerArray[p];
+            }
+
+            integerArray = sortedArray;
+        }
     }
 } 
