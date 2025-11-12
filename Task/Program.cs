@@ -135,8 +135,8 @@ namespace Task
         {
             string[] arrayMenu =
             {
-                "Самостоятельно",
-                "Случайно"
+                "Создать массив амостоятельно",
+                "Создать массмв случайно"
             };
 
             int [] array = [];
@@ -436,7 +436,7 @@ namespace Task
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
                 Console.WriteLine("После удаления массив стал пустым!");
-                integerArray = [];
+                integerArray = new int[0];
             }
             else
             {
