@@ -8,7 +8,7 @@ namespace Task
         /// <summary>
         /// Решает поставленные в лабе задачи
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">Чтобы было</param>
         static void Main(string[] args)
         {
             StartWork();
