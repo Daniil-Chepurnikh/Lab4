@@ -56,7 +56,7 @@ namespace Task
                 switch (PrintMenu(mainMenu))
                 {
                     case 1:
-                        array = CreateArray(array);
+                        array = CreateArray();
                         break;
                     case 2:
                         PrintArray(array);
@@ -131,7 +131,7 @@ namespace Task
         /// Создаёт массив выбранным способом
         /// </summary>
         /// <returns>Созданный массив</returns>
-        private static int[] CreateArray(int[] array)
+        private static int[] CreateArray()
         {
             string[] arrayMenu =
             {
@@ -139,7 +139,7 @@ namespace Task
                 "Случайно"
             };
 
-            array = [];
+            int [] array = [];
             bool isCreated = true;
             do
             {
