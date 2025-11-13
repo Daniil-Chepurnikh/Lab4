@@ -299,21 +299,22 @@ namespace MenyaITakZnaut
         /// </summary>
         /// <param name="array">Массив для поиска</param>
         /// <returns></returns>
-        private static void FindFirstEven(int[] integerArray)
+        private static int FindFirstEven(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
-                return;
+                return -1;
 
-            for (uint i = 0; i < integerArray.Length; i++)
+            for (int i = 0; i < integerArray.Length; i++)
             {
                 if (integerArray[i] % 2 == 0)
                 {
                     Console.WriteLine($"Первый чётный элемент: {integerArray[i]}. Количество сравнений: {i + 1}");
-                    return;
+                    return i + 1;
                 }
             }
 
             Console.WriteLine("Нет чётных элементов!");
+            return -1;
         }
 
         /// <summary>
@@ -382,27 +383,30 @@ namespace MenyaITakZnaut
             if (CheckEmpty(integerArray))
                 return;
 
-
             for (uint q = 0; q < integerArray.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
                 int min = integerArray[q]; // чтобы самым первым минимальным
-                uint index = q; // не заполнить всё
+                uint indexMin = q; // не заполнить всё
                 for (uint p = q + 1; p < integerArray.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
                 {
-                    if (min > integerArray[p] && p != q)
+                    if (min > integerArray[p])
                     {
                         min = integerArray[p]; // запомнили минимальный
-                        index = p; // место откуда его взяли
+                        indexMin = p; // место откуда его взяли
                     }
                 }
-
-                if (index == q)
+                if (indexMin == q)
                     continue;
 
-                int temp = integerArray[q];
-                integerArray[q] = min;
-                integerArray[index] = temp;
+                Swap(integerArray, indexMin, q);
             }
+        }
+
+        private static void Swap(int[] integerArray, uint indexMin, uint q)
+        {
+            int temp = integerArray[q];
+            integerArray[q] = integerArray[indexMin];
+            integerArray[indexMin] = temp;
         }
 
         /// <summary>
@@ -544,8 +548,6 @@ namespace MenyaITakZnaut
             Console.WriteLine(message);
             Console.ResetColor();
         }
-
-
 
         // TODO: написать выбор сортировки по аналогии с выбором созданиря массива
         /// <summary>
