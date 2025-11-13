@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Task
+namespace MenyaITakZnaut
 {
     internal class Program
     {
@@ -79,14 +79,14 @@ namespace Task
                     case 8:
                         EvenOddSort(array);
                         break;
-                    
+
                     case 9:
                         end = "Да";
-                    break;
+                        break;
                 }
             } while (end != "Да");
         }
-        
+
         /// <summary>
         /// Печатает меню и принимает выбор пользователя
         /// </summary>
@@ -135,11 +135,11 @@ namespace Task
         {
             string[] arrayMenu =
             {
-                "Создать массив амостоятельно",
+                "Создать массив самостоятельно",
                 "Создать массмв случайно"
             };
 
-            int [] array = [];
+            int[] array = [];
             bool isCreated = true;
             do
             {
@@ -351,7 +351,7 @@ namespace Task
             else
                 return -1;
 
-                Console.WriteLine("Элемента нет в массиве!");
+            Console.WriteLine("Элемента нет в массиве!");
             return -1;
         }
 
@@ -382,7 +382,7 @@ namespace Task
             if (CheckEmpty(integerArray))
                 return;
 
-            
+
             for (uint q = 0; q < integerArray.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
                 int min = integerArray[q]; // чтобы самым первым минимальным
@@ -451,7 +451,7 @@ namespace Task
                     }
                 }
                 integerArray = newArray;
-            }  
+            }
         }
 
         /// <summary>
@@ -484,30 +484,30 @@ namespace Task
             int newElementsCount = ReadInteger("Введите количство добавляемых элементов");
             int[] newArray = new int[newElementsCount + integerArray.Length];
 
-            switch(PrintMenu(addMenu,"Выберете способ добавления элементов:"))
+            switch (PrintMenu(addMenu, "Выберете способ добавления элементов:"))
             {
                 case 1:
                     for (int p = 0; p < newElementsCount; p++)
                     {
                         newArray[p] = ReadInteger("Введите элемент массива");
                     }
-                break;
+                    break;
 
                 case 2:
                     for (int p = 0; p < newElementsCount; p++)
                     {
-                        newArray[p] = random.Next(-100,100);
+                        newArray[p] = random.Next(-100, 100);
                     }
-                break;
-            }          
-            
+                    break;
+            }
+
             for (int q = newElementsCount; q < newArray.Length; q++)
             {
                 newArray[q] = integerArray[q - newElementsCount];
             }
             return newArray;
         }
-        
+
         /// <summary>
         /// Перставляет чётные в начало, а нечётные в конец
         /// </summary>
@@ -517,7 +517,7 @@ namespace Task
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно переставлить элементы в пустом массиве!");
-                return integerArray; 
+                return integerArray;
             }
 
             uint countEvens = CountEvens(integerArray);
@@ -544,5 +544,38 @@ namespace Task
             Console.WriteLine(message);
             Console.ResetColor();
         }
+
+
+
+        // TODO: написать выбор сортировки по аналогии с выбором созданиря массива
+        /// <summary>
+        /// Сортирует массив выбранным способом
+        /// </summary>
+        /// <param name="array">Сортируемый массив</param>
+        private static void Sort(int[] array)
+        {
+            string[] sortMenu =
+            {
+                "Сортировка простым выбором",
+                "Сортировка Хоара"
+            };
+
+            bool isSorted = true;
+            do
+            {
+                switch (PrintMenu(sortMenu, "Выберете способ создания массива:"))
+                {
+                    case 1:
+                        SelectionSort(array);
+                        break;
+                    case 2:
+                        // TODO: Сортировка Хоара
+                        break;
+                }
+            } while (!isSorted);
+        }
     }
-} 
+
+
+        // TODO: написать сортировку Хоара или лох и не смог
+}
