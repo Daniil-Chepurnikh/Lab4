@@ -513,7 +513,7 @@ namespace Task
         }
 
         /// <summary>
-        /// Перставляет чётные в начало, а нечётные в конец
+        /// Перставляет чётные в начало
         /// </summary>
         /// <param name="integerArray">Массив для перестановки</param>
         private static int[] EvenOddSort(int[] integerArray)
@@ -549,7 +549,7 @@ namespace Task
             Console.ResetColor();
         }
 
-        // TODO: написать выбор сортировки по аналогии с выбором созданиря массива
+        // TODO: написать выбор сортировки по аналогии с выбором создания массива
         /// <summary>
         /// Сортирует массив выбранным способом
         /// </summary>
