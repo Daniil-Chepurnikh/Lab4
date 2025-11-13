@@ -8,7 +8,7 @@ namespace Task
         /// <summary>
         /// Решает поставленные в лабе задачи
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">Чтобы было</param>
         static void Main(string[] args)
         {
             StartWork();
@@ -56,7 +56,7 @@ namespace Task
                 switch (PrintMenu(mainMenu))
                 {
                     case 1:
-                        array = CreateArray(array);
+                        array = CreateArray();
                         break;
                     case 2:
                         PrintArray(array);
@@ -131,15 +131,15 @@ namespace Task
         /// Создаёт массив выбранным способом
         /// </summary>
         /// <returns>Созданный массив</returns>
-        private static int[] CreateArray(int[] array)
+        private static int[] CreateArray()
         {
             string[] arrayMenu =
             {
-                "Самостоятельно",
-                "Случайно"
+                "Создать массив амостоятельно",
+                "Создать массмв случайно"
             };
 
-            array = [];
+            int [] array = [];
             bool isCreated = true;
             do
             {
@@ -436,7 +436,7 @@ namespace Task
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
                 Console.WriteLine("После удаления массив стал пустым!");
-                integerArray = [];
+                integerArray = new int[0];
             }
             else
             {
