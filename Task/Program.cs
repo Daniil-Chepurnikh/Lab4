@@ -495,14 +495,14 @@ namespace Task
                     {
                         newArray[p] = ReadInteger("Введите элемент массива");
                     }
-                    break;
+                break;
 
                 case 2:
                     for (int p = 0; p < newElementsCount; p++)
                     {
                         newArray[p] = random.Next(-100, 100);
                     }
-                    break;
+                break;
             }
 
             for (int q = newElementsCount; q < newArray.Length; q++)
