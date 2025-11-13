@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace MenyaITakZnaut
+namespace Task
 {
     internal class Program
     {
