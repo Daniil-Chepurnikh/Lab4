@@ -449,6 +449,7 @@ namespace Task
                 PrintError("Невозможно удалить элементы в пустом массиве!");
                 return;
             }
+            
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0) // нечего удалять
                 return;
