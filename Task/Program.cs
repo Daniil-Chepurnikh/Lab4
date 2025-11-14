@@ -402,11 +402,17 @@ namespace Task
             }
         }
 
-        private static void Swap(int[] integerArray, uint indexMin, uint q)
+        /// <summary>
+        /// Мненяет местами два элемента в массиве
+        /// </summary>
+        /// <param name="integerArray">Массив, в котором нужно произвести обмен</param>
+        /// <param name="indexFirst">Номер первого элемента</param>
+        /// <param name="indexSecond">Номер второго элемента</param>
+        private static void Swap(int[] integerArray, uint indexFirst, uint indexSecond)
         {
-            int temp = integerArray[q];
-            integerArray[q] = integerArray[indexMin];
-            integerArray[indexMin] = temp;
+            int temp = integerArray[indexSecond];
+            integerArray[indexSecond] = integerArray[indexFirst];
+            integerArray[indexFirst] = temp;
         }
 
         /// <summary>
