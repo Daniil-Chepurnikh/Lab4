@@ -547,7 +547,6 @@ namespace Task
             }
 
             uint countEvens = CountEvens(integerArray);
-
             if (countEvens == 0)
                 return integerArray; // не делай лишнего
 
@@ -566,8 +565,8 @@ namespace Task
         /// <summary>
         /// Печатаем красивые сообщения пользователю
         /// </summary>
-        /// <param name="message">Сообщение</param>
-        /// <param name="color">Цвет</param>
+        /// <param name="message">Сообщение на печать</param>
+        /// <param name="color">Цвет печать</param>
         public static void PrintMessage(string message = "Ввод корректен", ConsoleColor color = ConsoleColor.Green)
         {
             Console.ForegroundColor = color;
