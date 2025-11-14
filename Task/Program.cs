@@ -77,7 +77,7 @@ namespace Task
                         array = AddElements(array);
                         break;
                     case 8:
-                        EvenOddSort(array);
+                        array = EvenOddSort(array);
                         break;
 
                     case 9:
@@ -302,7 +302,10 @@ namespace Task
         private static int FindFirstEven(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
+            {
+                PrintError("Невозможно найти элемент в пустом массиве!");
                 return -1;
+            }
 
             for (int i = 0; i < integerArray.Length; i++)
             {
@@ -324,8 +327,10 @@ namespace Task
         private static int BinarySearch(int[] sortedIntegerArray)
         {
             if (CheckEmpty(sortedIntegerArray))
+            {
+                PrintError("Невозможно найти элемент в пустом массиве!");
                 return -1;
-
+            }
             if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
             {
                 int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка: Вы ввели не целое число!");
@@ -381,8 +386,10 @@ namespace Task
         private static void SelectionSort(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
+            {
+                PrintError("Невозможно отсортировать пустой массив!");
                 return;
-
+            }
             for (uint q = 0; q < integerArray.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
                 int min = integerArray[q]; // чтобы самым первым минимальным
@@ -438,8 +445,10 @@ namespace Task
         private static void DeleteEvens(ref int[] integerArray)
         {
             if (CheckEmpty(integerArray))
+            {
+                PrintError("Невозможно удалить элементы в пустом массиве!");
                 return;
-
+            }
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0) // нечего удалять
                 return;
@@ -472,10 +481,7 @@ namespace Task
         private static bool CheckEmpty(int[] integerArray)
         {
             if (integerArray.Length == 0)
-            {
-                PrintError("Невозможно выполнить выбранное действие в пустом массиве!");
                 return true;
-            }
 
             return false;
         }
@@ -492,14 +498,24 @@ namespace Task
                 "Добавить элементы случайно"
             };
             int newElementsCount = ReadInteger("Введите количство добавляемых элементов");
-            int[] newArray = new int[newElementsCount + integerArray.Length];
+            int[] newArray;
+
+            try
+            {
+                newArray = new int[newElementsCount + integerArray.Length];
+            }
+            catch (OutOfMemoryException)
+            {
+                PrintError("После добавления массив стал слишком большим!");
+                return integerArray; // вернём, что дали
+            }
 
             switch (PrintMenu(addMenu, "Выберете способ добавления элементов:"))
             {
                 case 1:
                     for (int p = 0; p < newElementsCount; p++)
                     {
-                        newArray[p] = ReadInteger("Введите элемент массива");
+                        newArray[p] = ReadInteger("Введите элемент массива: ");
                     }
                 break;
 
@@ -531,6 +547,10 @@ namespace Task
             }
 
             uint countEvens = CountEvens(integerArray);
+
+            if (countEvens == 0)
+                return integerArray; // не делай лишнего
+
             int[] sortedArray = new int[integerArray.Length];
             uint counter = 0;
             for (uint p = 0; p < integerArray.Length; p++)
