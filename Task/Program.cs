@@ -62,7 +62,7 @@ namespace Task
                         PrintArray(array);
                         break;
                     case 3:
-                        SelectionSort(array);
+                        Sort(array);
                         break;
                     case 4:
                         DeleteEvens(ref array);
@@ -136,7 +136,7 @@ namespace Task
             string[] arrayMenu =
             {
                 "Создать массив самостоятельно",
-                "Создать массмв случайно"
+                "Создать массив случайно"
             };
 
             int[] array = [];
@@ -596,7 +596,7 @@ namespace Task
                         SelectionSort(array);
                         break;
                     case 2:
-                        // TODO: Сортировка Хоара
+                        HoareSort(array, 0, array.Length - 1);
                         break;
                 }
             } while (!isSorted);
@@ -611,8 +611,7 @@ namespace Task
         /// <param name="left">Левая граница массива</param>
         /// <param name="right">Правая граница массива</param>
         private static void HoareSort(int[] array, int left, int right)
-        {
-            right = array.Length - 1;
+        {            
             if (left < right) // если равно то один элемент в подмассиве и его сортировать не надо
             {
                 int pivotIndex = HoarePartition(array, left, right); // получаем новый опорный индекс
@@ -652,7 +651,7 @@ namespace Task
             // получили что маленькие до большие после
             Swap(array, left, high);
 
-            return right; // вернули индекс О
+            return high; // вернули индекс О
         }
     }
 }
