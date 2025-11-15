@@ -615,8 +615,8 @@ namespace Task
             if (left < right) // если равно то один элемент в подмассиве и его сортировать не надо
             {
                 int pivotIndex = HoarePartition(array, left, right); // получаем новый опорный индекс
+                HoareSort(array, left, pivotIndex - 1); // сортируем те которые оказались меньше
                 HoareSort(array, pivotIndex + 1, right); // сортируем те которые оказались больше или равны
-                HoareSort(array, left, pivotIndex - 1); // сортируем то которые оказались меньше
             }
         }
 
