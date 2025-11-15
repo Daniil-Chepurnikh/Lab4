@@ -604,6 +604,12 @@ namespace Task
 
 
         // TODO: написать сортировку Хоара или лох и не смог
+        /// <summary>
+        /// Сортировка Хоара
+        /// </summary>
+        /// <param name="array">Сортируемый массив</param>
+        /// <param name="left">Левая граница массива</param>
+        /// <param name="right">Правая граница массива</param>
         private static void HoareSort(int[] array, int left, int right)
         {
             right = array.Length - 1;
@@ -626,7 +632,7 @@ namespace Task
         {
             int pivot = array[left]; // выбрали первый элемент как опорный
             int low = left + 1; // начало мальньких
-            int high = right; // конец конец больших
+            int high = right; // конец больших
 
             while (low <= high) // чтобы не гулять по чужим подмассивам(маленьким по большим и наоборот)
             {
@@ -638,7 +644,7 @@ namespace Task
 
                 Swap(array, low, high); // меняем местами попаданцев не в свой подмассив
             }
-            
+
             // по последнему обольшому сдвинульсь так что большой указывает на последенего маленького
             // О М М М М М Б Б Б Б Б Б Б Б
             // поэтому по индексу большого и попрного меняемся
@@ -646,7 +652,7 @@ namespace Task
             // получили что маленькие до большие после
             Swap(array, left, high);
 
-            return right; // вернули О индекс
+            return right; // вернули индекс О
         }
     }
 }
