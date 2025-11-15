@@ -619,16 +619,16 @@ namespace Task
         private static int HoarePartition(int[] array, int left, int right)
         {
             int pivot = array[left]; // выбрали первый элемент как опорный
-            int low = left + 1; // начало тех что меньше
-            int high = right; // конец тех что больше
+            int low = left + 1; // начало мальньких
+            int high = right; // конец конец больших
 
             while (low <= high) // 
             {
-                while (array[low] <= pivot)
-                    low++;
+                while (array[low] < pivot) // встретили большой элемент среди маленьких и ушли
+                    low++; // сдвигаемся к провому концу массива
 
-                while (array[high] >= pivot)
-                    high--;
+                while (array[high] >= pivot) // встретили маленький элемент среди больших и ушли
+                    high--; // сдвигаемся к левому концу массива
 
                 Swap(array, low, high); // меняем местами
             }
