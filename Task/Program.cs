@@ -390,11 +390,11 @@ namespace Task
                 PrintError("Невозможно отсортировать пустой массив!");
                 return;
             }
-            for (uint q = 0; q < integerArray.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
+            for (int q = 0; q < integerArray.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
                 int min = integerArray[q]; // чтобы самым первым минимальным
-                uint indexMin = q; // не заполнить всё
-                for (uint p = q + 1; p < integerArray.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
+                int indexMin = q; // не заполнить всё
+                for (int p = q + 1; p < integerArray.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
                 {
                     if (min > integerArray[p])
                     {
@@ -415,7 +415,7 @@ namespace Task
         /// <param name="integerArray">Массив, в котором нужно произвести обмен</param>
         /// <param name="indexFirst">Номер первого элемента</param>
         /// <param name="indexSecond">Номер второго элемента</param>
-        private static void Swap(int[] integerArray, uint indexFirst, uint indexSecond)
+        private static void Swap(int[] integerArray, int indexFirst, int indexSecond)
         {
             int temp = integerArray[indexSecond];
             integerArray[indexSecond] = integerArray[indexFirst];
@@ -449,7 +449,7 @@ namespace Task
                 PrintError("Невозможно удалить элементы в пустом массиве!");
                 return;
             }
-            
+
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0) // нечего удалять
                 return;
@@ -518,14 +518,14 @@ namespace Task
                     {
                         newArray[p] = ReadInteger("Введите элемент массива: ");
                     }
-                break;
+                    break;
 
                 case 2:
                     for (int p = 0; p < newElementsCount; p++)
                     {
                         newArray[p] = random.Next(-100, 100);
                     }
-                break;
+                    break;
             }
 
             for (int q = newElementsCount; q < newArray.Length; q++)
@@ -601,7 +601,6 @@ namespace Task
                 }
             } while (!isSorted);
         }
-    }
 
 
         // TODO: написать сортировку Хоара или лох и не смог
@@ -610,9 +609,31 @@ namespace Task
             right = array.Length - 1;
             if (left < right) // если равно то один элемент в подмассиве и его сортировать не надо
             {
-                int pivotIndex = HoarePartitition(array, left, right); // получаем новый опорный индекс
+                int pivotIndex = HoarePartition(array, left, right); // получаем новый опорный индекс
                 HoareSort(array, pivotIndex + 1, right); // сортируем те которые оказались больше или равны
-                HoareSort(array, left, pivotIndex - 1) // сортируем то которые оказались меньше
+                HoareSort(array, left, pivotIndex - 1); // сортируем то которые оказались меньше
             }
         }
+
+
+        private static int HoarePartition(int[] array, int left, int right)
+        {
+            int pivot = array[left]; // выбрали первый элемент как опорный
+            int low = left + 1; // начало тех что меньше
+            int high = right; // конец тех что больше
+
+            while (low <= high) // 
+            {
+                while (array[low] <= pivot)
+                    low++;
+
+                while (array[high] >= pivot)
+                    high--;
+
+                Swap(array, low, high); // меняем местами
+            }
+            return right;
+        }
+
+    }
 }
