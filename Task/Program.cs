@@ -605,4 +605,14 @@ namespace Task
 
 
         // TODO: написать сортировку Хоара или лох и не смог
+        private static void HoareSort(int[] array, int left, int right)
+        {
+            right = array.Length - 1;
+            if (left < right) // если равно то один элемент в подмассиве и его сортировать не надо
+            {
+                int pivotIndex = HoarePartitition(array, left, right); // получаем новый опорный индекс
+                HoareSort(array, pivotIndex + 1, right); // сортируем те которые оказались больше или равны
+                HoareSort(array, left, pivotIndex - 1) // сортируем то которые оказались меньше
+            }
+        }
 }
