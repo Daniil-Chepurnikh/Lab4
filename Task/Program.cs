@@ -62,7 +62,7 @@ namespace Task
                         PrintArray(array);
                         break;
                     case 3:
-                        SelectionSort(array);
+                        Sort(array);
                         break;
                     case 4:
                         DeleteEvens(ref array);
@@ -77,16 +77,16 @@ namespace Task
                         array = AddElements(array);
                         break;
                     case 8:
-                        EvenOddSort(array);
+                        array = EvenOddSort(array);
                         break;
-                    
+
                     case 9:
                         end = "Да";
-                    break;
+                        break;
                 }
             } while (end != "Да");
         }
-        
+
         /// <summary>
         /// Печатает меню и принимает выбор пользователя
         /// </summary>
@@ -135,11 +135,11 @@ namespace Task
         {
             string[] arrayMenu =
             {
-                "Создать массив амостоятельно",
-                "Создать массмв случайно"
+                "Создать массив самостоятельно",
+                "Создать массив случайно"
             };
 
-            int [] array = [];
+            int[] array = [];
             bool isCreated = true;
             do
             {
@@ -299,21 +299,25 @@ namespace Task
         /// </summary>
         /// <param name="array">Массив для поиска</param>
         /// <returns></returns>
-        private static void FindFirstEven(int[] integerArray)
+        private static int FindFirstEven(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
-                return;
+            {
+                PrintError("Невозможно найти элемент в пустом массиве!");
+                return -1;
+            }
 
-            for (uint i = 0; i < integerArray.Length; i++)
+            for (int i = 0; i < integerArray.Length; i++)
             {
                 if (integerArray[i] % 2 == 0)
                 {
                     Console.WriteLine($"Первый чётный элемент: {integerArray[i]}. Количество сравнений: {i + 1}");
-                    return;
+                    return i + 1;
                 }
             }
 
             Console.WriteLine("Нет чётных элементов!");
+            return -1;
         }
 
         /// <summary>
@@ -323,8 +327,10 @@ namespace Task
         private static int BinarySearch(int[] sortedIntegerArray)
         {
             if (CheckEmpty(sortedIntegerArray))
+            {
+                PrintError("Невозможно найти элемент в пустом массиве!");
                 return -1;
-
+            }
             if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
             {
                 int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка: Вы ввели не целое число!");
@@ -351,7 +357,7 @@ namespace Task
             else
                 return -1;
 
-                Console.WriteLine("Элемента нет в массиве!");
+            Console.WriteLine("Элемента нет в массиве!");
             return -1;
         }
 
@@ -380,29 +386,40 @@ namespace Task
         private static void SelectionSort(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
+            {
+                PrintError("Невозможно отсортировать пустой массив!");
                 return;
-
-            
-            for (uint q = 0; q < integerArray.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
+            }
+            for (int q = 0; q < integerArray.Length - 1; q++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
                 int min = integerArray[q]; // чтобы самым первым минимальным
-                uint index = q; // не заполнить всё
-                for (uint p = q + 1; p < integerArray.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
+                int indexMin = q; // не заполнить всё
+                for (int p = q + 1; p < integerArray.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
                 {
-                    if (min > integerArray[p] && p != q)
+                    if (min > integerArray[p])
                     {
                         min = integerArray[p]; // запомнили минимальный
-                        index = p; // место откуда его взяли
+                        indexMin = p; // место откуда его взяли
                     }
                 }
-
-                if (index == q)
+                if (indexMin == q)
                     continue;
 
-                int temp = integerArray[q];
-                integerArray[q] = min;
-                integerArray[index] = temp;
+                Swap(integerArray, indexMin, q);
             }
+        }
+
+        /// <summary>
+        /// Мненяет местами два элемента в массиве
+        /// </summary>
+        /// <param name="integerArray">Массив, в котором нужно произвести обмен</param>
+        /// <param name="indexFirst">Номер первого элемента</param>
+        /// <param name="indexSecond">Номер второго элемента</param>
+        private static void Swap(int[] integerArray, int indexFirst, int indexSecond)
+        {
+            int temp = integerArray[indexSecond];
+            integerArray[indexSecond] = integerArray[indexFirst];
+            integerArray[indexFirst] = temp;
         }
 
         /// <summary>
@@ -428,7 +445,10 @@ namespace Task
         private static void DeleteEvens(ref int[] integerArray)
         {
             if (CheckEmpty(integerArray))
+            {
+                PrintError("Невозможно удалить элементы в пустом массиве!");
                 return;
+            }
 
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0) // нечего удалять
@@ -451,7 +471,7 @@ namespace Task
                     }
                 }
                 integerArray = newArray;
-            }  
+            }
         }
 
         /// <summary>
@@ -462,10 +482,7 @@ namespace Task
         private static bool CheckEmpty(int[] integerArray)
         {
             if (integerArray.Length == 0)
-            {
-                PrintError("Невозможно выполнить выбранное действие в пустом массиве!");
                 return true;
-            }
 
             return false;
         }
@@ -482,34 +499,44 @@ namespace Task
                 "Добавить элементы случайно"
             };
             int newElementsCount = ReadInteger("Введите количство добавляемых элементов");
-            int[] newArray = new int[newElementsCount + integerArray.Length];
+            int[] newArray;
 
-            switch(PrintMenu(addMenu,"Выберете способ добавления элементов:"))
+            try
+            {
+                newArray = new int[newElementsCount + integerArray.Length];
+            }
+            catch (OutOfMemoryException)
+            {
+                PrintError("После добавления массив стал слишком большим!");
+                return integerArray; // вернём, что дали
+            }
+
+            switch (PrintMenu(addMenu, "Выберете способ добавления элементов:"))
             {
                 case 1:
                     for (int p = 0; p < newElementsCount; p++)
                     {
-                        newArray[p] = ReadInteger("Введите элемент массива");
+                        newArray[p] = ReadInteger("Введите элемент массива: ");
                     }
-                break;
+                    break;
 
                 case 2:
                     for (int p = 0; p < newElementsCount; p++)
                     {
-                        newArray[p] = random.Next(-100,100);
+                        newArray[p] = random.Next(-100, 100);
                     }
-                break;
-            }          
-            
+                    break;
+            }
+
             for (int q = newElementsCount; q < newArray.Length; q++)
             {
                 newArray[q] = integerArray[q - newElementsCount];
             }
             return newArray;
         }
-        
+
         /// <summary>
-        /// Перставляет чётные в начало, а нечётные в конец
+        /// Перставляет чётные в начало
         /// </summary>
         /// <param name="integerArray">Массив для перестановки</param>
         private static int[] EvenOddSort(int[] integerArray)
@@ -517,10 +544,13 @@ namespace Task
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно переставлить элементы в пустом массиве!");
-                return integerArray; 
+                return integerArray;
             }
 
             uint countEvens = CountEvens(integerArray);
+            if (countEvens == 0)
+                return integerArray; // не делай лишнего
+
             int[] sortedArray = new int[integerArray.Length];
             uint counter = 0;
             for (uint p = 0; p < integerArray.Length; p++)
@@ -536,13 +566,94 @@ namespace Task
         /// <summary>
         /// Печатаем красивые сообщения пользователю
         /// </summary>
-        /// <param name="message">Сообщение</param>
-        /// <param name="color">Цвет</param>
+        /// <param name="message">Сообщение на печать</param>
+        /// <param name="color">Цвет печать</param>
         public static void PrintMessage(string message = "Ввод корректен", ConsoleColor color = ConsoleColor.Green)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(message);
             Console.ResetColor();
         }
+
+        /// <summary>
+        /// Сортирует массив выбранным способом
+        /// </summary>
+        /// <param name="array">Сортируемый массив</param>
+        private static void Sort(int[] array)
+        {
+            string[] sortMenu =
+            {
+                "Сортировка простым выбором",
+                "Сортировка Хоара"
+            };
+
+            bool isSorted = true;
+            do
+            {
+                switch (PrintMenu(sortMenu, "Выберете способ создания массива:"))
+                {
+                    case 1:
+                        SelectionSort(array);
+                        break;
+                    case 2:
+                        HoareSort(array, 0, array.Length - 1);
+                        break;
+                }
+            } while (!isSorted);
+        }
+
+
+        // TODO: написать сортировку Хоара или лох и не смог
+        /// <summary>
+        /// Сортировка Хоара
+        /// </summary>
+        /// <param name="array">Сортируемый массив</param>
+        /// <param name="left">Левая граница массива</param>
+        /// <param name="right">Правая граница массива</param>
+        private static void HoareSort(int[] array, int left, int right)
+        {            
+            if (left < right) // если равно то один элемент в подмассиве и его сортировать не надо
+            {
+                int pivotIndex = HoarePartition(array, left, right); // получаем новый опорный индекс
+                HoareSort(array, left, pivotIndex - 1); // сортируем те которые оказались меньше
+                HoareSort(array, pivotIndex + 1, right); // сортируем те которые оказались больше или равны
+            }
+        }
+
+        /// <summary>
+        /// Разделение массива для сортировки Хоара
+        /// </summary>
+        /// <param name="array">Массив который делим</param>
+        /// <param name="left">Левая граница массива</param>
+        /// <param name="right">Правая граница массив</param>
+        /// <returns>Индекс, на котором оказался опорный элемент</returns>
+        private static int HoarePartition(int[] array, int left, int right)
+        {
+            int pivot = array[left]; // выбрали первый элемент как опорный
+            int low = left + 1; // начало мальньких
+            int high = right; // конец больших
+
+            while (high > low) // чтобы не гулять по чужим подмассивам(маленьким по большим и наоборот)
+            {
+                while (high >= low && array[low] < pivot) // встретили большой элемент среди маленьких и ушли
+                    low++; // сдвигаемся к провому концу массива
+
+                while (high >= low && array[high] >= pivot) // встретили маленький элемент среди больших и ушли
+                    high--; // сдвигаемся к левому концу массива
+
+                if (high < low) // совсем плохо когда правая граница меньше левой
+                    break;
+                Swap(array, low, high); // меняем местами попаданцев не в свой подмассив
+            }
+
+            // по последнему обольшому сдвинульсь так что большой указывает на последенего маленького
+            // О М М М М М Б Б Б Б Б Б Б Б
+            // поэтому по индексу большого и попрного меняемся
+            // М М М М М О Б Б Б Б Б Б Б Б 
+            // получили что маленькие до большие после
+            Swap(array, left, high);
+
+            return high; // вернули индекс О
+        }
     }
-} 
+}
