@@ -615,7 +615,13 @@ namespace Task
             }
         }
 
-
+        /// <summary>
+        /// Разделение массива для сортировки Хоара
+        /// </summary>
+        /// <param name="array">Массив который делим</param>
+        /// <param name="left">Левая граница массива</param>
+        /// <param name="right">Правая граница массив</param>
+        /// <returns>Индекс, на котором оказался опорный элемент</returns>
         private static int HoarePartition(int[] array, int left, int right)
         {
             int pivot = array[left]; // выбрали первый элемент как опорный
@@ -640,8 +646,7 @@ namespace Task
             // получили что маленькие до большие после
             Swap(array, left, high);
 
-            return right;
+            return right; // вернули О индекс
         }
-
     }
 }
