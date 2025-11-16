@@ -679,7 +679,7 @@ namespace Task
             int[] sortedArray = new int[right - left + 1]; // массив в который будем вписывать элементы в нужном порядке, его длина это буквально сколько между лефт и райт элементов
             int sortedArrayCounter = 0;
 
-            while (leftCounter <= mid && rightCounter <= right)
+            while (leftCounter <= mid && rightCounter <= right) // чтобы чужим индексом не влезть в не свой подмассив
             {
                 if (array[leftCounter] <= array[rightCounter])
                     sortedArray[sortedArrayCounter++] = array[leftCounter++];
