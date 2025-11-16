@@ -686,6 +686,7 @@ namespace Task
                 }
             }
 
+            array = sortedArray;
         }
     }
 }
