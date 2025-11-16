@@ -674,13 +674,13 @@ namespace Task
             int[] sortedArray = new int[right - left + 1];
             int sortedArrayCounter = 0;
 
-            while (leftCounter <= mid && rightCounter <= right)
+            while (leftCounter <= mid || rightCounter <= right)
             {
-                if (array[leftCounter] <= array[rightCounter])
+                if (array[leftCounter] <= array[rightCounter] || rightCounter > right)
                 {
                     sortedArray[sortedArrayCounter++] = array[leftCounter++];
                 }
-                else
+                if (array[leftCounter] > array[rightCounter] || leftCounter > mid)
                 {
                     sortedArray[sortedArrayCounter++] = array[rightCounter++];
                 }
