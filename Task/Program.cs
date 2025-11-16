@@ -687,13 +687,13 @@ namespace Task
                     sortedArray[sortedArrayCounter++] = array[rightCounter++];
             }
 
-            while (leftCounter <= mid)
+            while (leftCounter <= mid) // оставшиеся большие в левом подмассиве вписываем последними
                 sortedArray[sortedArrayCounter++] = array[leftCounter++];
             
-            while (rightCounter <= right)
+            while (rightCounter <= right) // оставшиеся большие в правом подмассиве вписываем последеними
                 sortedArray[sortedArrayCounter++] = array[rightCounter++];
 
-            for(int i = 0; i < sortedArray.Length; i++)
+            for(int i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(лефт + и, как раз из-за того что лефт не всегда будет нулём и это жесть как плохо не могу к этому привыкнуть)
                 array[left + i] = sortedArray[i];
         }
     }
