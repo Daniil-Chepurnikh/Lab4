@@ -663,12 +663,28 @@ namespace Task
                 int mid = left + (right - left) / 2; 
                 MergeSort(array, left, mid - 1); // левый подмассив
                 MergeSort(array, left, mid + 1); // правый подмассив
-                Merge(array, left, mid, right); // соединям два отсортированных подмассива
+                Merge(ref array, left, mid, right); // соединям два отсортированных подмассива
             }
         }
 
-        private static void Merge(int[] array, int left, int mid, int right)
+        private static void Merge(ref int[] array, int left, int mid, int right)
         {
+            int leftCounter = left;
+            int rightCounter = mid + 1;
+            int[] sortedArray = new int[right + 1];
+            int sortedArrayCounter = 0;
+
+            while (leftCounter < mid && rightCounter < right)
+            {
+                if (array[leftCounter] <= array[rightCounter])
+                {
+                    sortedArray[sortedArrayCounter++] = array[leftCounter++];
+                }
+                else
+                {
+                    sortedArray[sortedArrayCounter++] = array[rightCounter++];
+                }
+            }
 
         }
     }
