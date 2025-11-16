@@ -660,7 +660,7 @@ namespace Task
         {
             if (left < right)
             {
-                int mid = left + (right - left) / 2; 
+                int mid = left + (right - left) / 2; // чтобы 
                 MergeSort(array, left, mid); // левый подмассив
                 MergeSort(array, mid + 1, right); // правый подмассив
                 Merge(array, left, mid, right); // соединям два отсортированных подмассива
@@ -682,13 +682,13 @@ namespace Task
                     sortedArray[sortedArrayCounter++] = array[rightCounter++];
             }
 
-            while (leftCounter < mid - left + 1)
+            while (leftCounter <= mid)
                 sortedArray[sortedArrayCounter++] = array[leftCounter++];
             
-            while (rightCounter < right)
+            while (rightCounter <= right)
                 sortedArray[sortedArrayCounter++] = array[rightCounter++];
 
-            for(int i = 0; i < sortedArrayCounter; i++)
+            for(int i = 0; i < sortedArray.Length; i++)
                 array[left + i] = sortedArray[i];
         }
     }
