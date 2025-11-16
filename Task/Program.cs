@@ -653,5 +653,20 @@ namespace Task
 
             return high; // вернули индекс О
         }
+
+
+        private static void MergeSort(int[] array, int left, int right)
+        {
+            if (left < right)
+            {
+                int mid = left + (right - left) / 2; 
+                MergeSort(array, left, mid - 1); // левый подмассив
+                MergeSort(array, left, mid + 1); // правый подмассив
+                Merge(array, left, mid, right); // соединям два отсортированных подмассива
+            }
+        }
+
+        private static void Merge(int[] array, int left, int mid, int right)
+        {
     }
 }
