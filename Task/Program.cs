@@ -655,7 +655,12 @@ namespace Task
             return high; // вернули индекс О
         }
 
-
+        /// <summary>
+        /// Сортировка слиянием
+        /// </summary>
+        /// <param name="array">Сортируемый массив</param>
+        /// <param name="left">Левая граница сортируемого массива(не обязательно нуль)</param>
+        /// <param name="right">Правая граница сортируемого массива(не обязательно длина без единицы)</param>
         private static void MergeSort(int[] array, int left, int right)
         {
             if (left < right)
