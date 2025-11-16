@@ -582,21 +582,29 @@ namespace Task
         private static void Sort(int[] array)
         {
             string[] sortMenu =
-            {
+            [
                 "Сортировка простым выбором",
-                "Сортировка Хоара"
-            };
+                "Сортировка Хоара",
+                "Сортировка слиянием"
 
-            bool isSorted = true;
+            ];
+
+            bool isSorted = false;
             do
             {
                 switch (PrintMenu(sortMenu, "Выберете способ создания массива:"))
                 {
                     case 1:
                         SelectionSort(array);
+                        isSorted = true;
                         break;
                     case 2:
                         HoareSort(array, 0, array.Length - 1);
+                        isSorted = true;
+                        break;
+                    case 3:
+                        MergeSort(array, 0, array.Length - 1);
+                        isSorted = true;
                         break;
                 }
             } while (!isSorted);
