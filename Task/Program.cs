@@ -602,8 +602,6 @@ namespace Task
             } while (!isSorted);
         }
 
-
-        // TODO: написать сортировку Хоара или лох и не смог
         /// <summary>
         /// Сортировка Хоара
         /// </summary>
