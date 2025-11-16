@@ -592,7 +592,7 @@ namespace Task
             bool isSorted = false;
             do
             {
-                switch (PrintMenu(sortMenu, "Выберете способ создания массива:"))
+                switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:"))
                 {
                     case 1:
                         SelectionSort(array);
