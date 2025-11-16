@@ -672,6 +672,13 @@ namespace Task
             }
         }
 
+        /// <summary>
+        /// Сливает отсортированные массивы
+        /// </summary>
+        /// <param name="array">Массив в котором были сливаемые подмассивы</param>
+        /// <param name="left">Левая граница(не всегда нуль)</param>
+        /// <param name="mid">Середина массива от лефт до райт</param>
+        /// <param name="right">Правая граница(не всегда настоящая правая)</param>
         private static void Merge(int[] array, int left, int mid, int right)
         {
             int leftCounter = left; // счётчик по левому подмассиву
