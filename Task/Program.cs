@@ -37,7 +37,7 @@ namespace Task
         private static void DoWork()
         {
             string[] mainMenu =
-            {
+            [
                     "Создание массива",
                     "Печать массива",
                     "Сортировка массива",
@@ -47,7 +47,7 @@ namespace Task
                     "Добавление элементов в начало массива",
                     "Перестановка чётных элементов в начало массива",
                     "Завершить работу"
-            };
+            ];
 
             string end = "Нет";
             int[] array = [];
@@ -134,10 +134,10 @@ namespace Task
         private static int[] CreateArray()
         {
             string[] arrayMenu =
-            {
+            [
                 "Создать массив самостоятельно",
                 "Создать массив случайно"
-            };
+            ];
 
             int[] array = [];
             bool isCreated = true;
@@ -456,7 +456,7 @@ namespace Task
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
                 Console.WriteLine("После удаления массив стал пустым!");
-                integerArray = new int[0];
+                integerArray = [];
             }
             else
             {
@@ -494,10 +494,10 @@ namespace Task
         private static int[] AddElements(int[] integerArray)
         {
             string[] addMenu =
-            {
+            [
                 "Добавить элементы самостоятельно",
                 "Добавить элементы случайно"
-            };
+            ];
             int newElementsCount = ReadInteger("Введите количство добавляемых элементов");
             int[] newArray;
 
@@ -582,28 +582,34 @@ namespace Task
         private static void Sort(int[] array)
         {
             string[] sortMenu =
-            {
+            [
                 "Сортировка простым выбором",
-                "Сортировка Хоара"
-            };
+                "Сортировка Хоара",
+                "Сортировка слиянием"
 
-            bool isSorted = true;
+            ];
+
+            bool isSorted = false;
             do
             {
-                switch (PrintMenu(sortMenu, "Выберете способ создания массива:"))
+                switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:"))
                 {
                     case 1:
                         SelectionSort(array);
+                        isSorted = true;
                         break;
                     case 2:
                         HoareSort(array, 0, array.Length - 1);
+                        isSorted = true;
+                        break;
+                    case 3:
+                        MergeSort(array, 0, array.Length - 1);
+                        isSorted = true;
                         break;
                 }
             } while (!isSorted);
         }
 
-
-        // TODO: написать сортировку Хоара или лох и не смог
         /// <summary>
         /// Сортировка Хоара
         /// </summary>
@@ -634,6 +640,7 @@ namespace Task
             int high = right; // конец больших
 
             while (high > low) // чтобы не гулять по чужим подмассивам(маленьким по большим и наоборот)
+                // когда сразу на входе равны они сразу смотрят на один элемент в одноэлементном массиве и его не надо трогать смотрят на один элемент
             {
                 while (high >= low && array[low] < pivot) // встретили большой элемент среди маленьких и ушли
                     low++; // сдвигаемся к провому концу массива
@@ -654,6 +661,55 @@ namespace Task
             Swap(array, left, high);
 
             return high; // вернули индекс О
+        }
+
+        /// <summary>
+        /// Сортировка слиянием
+        /// </summary>
+        /// <param name="array">Сортируемый массив</param>
+        /// <param name="left">Левая граница сортируемого массива(не обязательно нуль)</param>
+        /// <param name="right">Правая граница сортируемого массива(не обязательно длина без единицы)</param>
+        private static void MergeSort(int[] array, int left, int right)
+        {
+            if (left < right)
+            {
+                int mid = left + (right - left) / 2; // хотя бы середину стандартно считаем
+                MergeSort(array, left, mid); // левый подмассив
+                MergeSort(array, mid + 1, right); // правый подмассив
+                Merge(array, left, mid, right); // соединям два отсортированных подмассива
+            }
+        }
+
+        /// <summary>
+        /// Сливает отсортированные массивы
+        /// </summary>
+        /// <param name="array">Массив в котором были сливаемые подмассивы</param>
+        /// <param name="left">Левая граница(не всегда нуль)</param>
+        /// <param name="mid">Середина массива от лефт до райт</param>
+        /// <param name="right">Правая граница(не всегда настоящая правая)</param>
+        private static void Merge(int[] array, int left, int mid, int right)
+        {
+            int leftCounter = left; // счётчик по левому подмассиву
+            int rightCounter = mid + 1; // счётчик по правому подмассиву
+            int[] sortedArray = new int[right - left + 1]; // массив в который будем вписывать элементы в нужном порядке, его длина это буквально сколько между лефт и райт элементов
+            int sortedArrayCounter = 0;
+
+            while (leftCounter <= mid && rightCounter <= right) // чтобы чужим индексом не влезть в не свой подмассив
+            {
+                if (array[leftCounter] <= array[rightCounter])
+                    sortedArray[sortedArrayCounter++] = array[leftCounter++];
+                else
+                    sortedArray[sortedArrayCounter++] = array[rightCounter++];
+            }
+
+            while (leftCounter <= mid) // оставшиеся большие в левом подмассиве вписываем последними
+                sortedArray[sortedArrayCounter++] = array[leftCounter++];
+            
+            while (rightCounter <= right) // оставшиеся большие в правом подмассиве вписываем последеними
+                sortedArray[sortedArrayCounter++] = array[rightCounter++];
+
+            for(int i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(лефт + и, как раз из-за того что лефт не всегда будет нулём и это жесть как плохо не могу к этому привыкнуть)
+                array[left + i] = sortedArray[i];
         }
     }
 }
