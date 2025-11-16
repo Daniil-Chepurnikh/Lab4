@@ -663,30 +663,33 @@ namespace Task
                 int mid = left + (right - left) / 2; 
                 MergeSort(array, left, mid); // левый подмассив
                 MergeSort(array, mid + 1, right); // правый подмассив
-                Merge(ref array, left, mid, right); // соединям два отсортированных подмассива
+                Merge(array, left, mid, right); // соединям два отсортированных подмассива
             }
         }
 
-        private static void Merge(ref int[] array, int left, int mid, int right)
+        private static void Merge(int[] array, int left, int mid, int right)
         {
             int leftCounter = left;
             int rightCounter = mid + 1;
             int[] sortedArray = new int[right - left + 1];
             int sortedArrayCounter = 0;
 
-            while (leftCounter <= mid || rightCounter <= right)
+            while (leftCounter <= mid && rightCounter <= right)
             {
-                if (array[leftCounter] <= array[rightCounter] || rightCounter > right)
-                {
+                if (array[leftCounter] <= array[rightCounter])
                     sortedArray[sortedArrayCounter++] = array[leftCounter++];
-                }
-                if (array[leftCounter] > array[rightCounter] || leftCounter > mid)
-                {
+                else
                     sortedArray[sortedArrayCounter++] = array[rightCounter++];
-                }
             }
 
-            array = sortedArray;
+            while (leftCounter < mid - left + 1)
+                sortedArray[sortedArrayCounter++] = array[leftCounter++];
+            
+            while (rightCounter < right)
+                sortedArray[sortedArrayCounter++] = array[rightCounter++];
+
+            for(int i = 0; i < sortedArrayCounter; i++)
+                array[left + i] = sortedArray[i];
         }
     }
 }
