@@ -661,8 +661,8 @@ namespace Task
             if (left < right)
             {
                 int mid = left + (right - left) / 2; 
-                MergeSort(array, left, mid - 1); // левый подмассив
-                MergeSort(array, left, mid + 1); // правый подмассив
+                MergeSort(array, left, mid); // левый подмассив
+                MergeSort(array, mid + 1, right); // правый подмассив
                 Merge(ref array, left, mid, right); // соединям два отсортированных подмассива
             }
         }
@@ -671,10 +671,10 @@ namespace Task
         {
             int leftCounter = left;
             int rightCounter = mid + 1;
-            int[] sortedArray = new int[right + 1];
+            int[] sortedArray = new int[right - left + 1];
             int sortedArrayCounter = 0;
 
-            while (leftCounter < mid && rightCounter < right)
+            while (leftCounter <= mid && rightCounter <= right)
             {
                 if (array[leftCounter] <= array[rightCounter])
                 {
