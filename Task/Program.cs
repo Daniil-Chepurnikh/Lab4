@@ -674,9 +674,9 @@ namespace Task
 
         private static void Merge(int[] array, int left, int mid, int right)
         {
-            int leftCounter = left;
-            int rightCounter = mid + 1;
-            int[] sortedArray = new int[right - left + 1];
+            int leftCounter = left; // счётчик по левому подмассиву
+            int rightCounter = mid + 1; // счётчик по правому подмассиву
+            int[] sortedArray = new int[right - left + 1]; // массив в который будем вписывать элементы в нужном порядке, его длина это буквально сколько между лефт и райт элементов
             int sortedArrayCounter = 0;
 
             while (leftCounter <= mid && rightCounter <= right)
