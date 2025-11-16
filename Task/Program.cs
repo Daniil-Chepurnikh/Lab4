@@ -660,7 +660,7 @@ namespace Task
         {
             if (left < right)
             {
-                int mid = left + (right - left) / 2; // чтобы 
+                int mid = left + (right - left) / 2; // хотя бы середину стандартно считаем
                 MergeSort(array, left, mid); // левый подмассив
                 MergeSort(array, mid + 1, right); // правый подмассив
                 Merge(array, left, mid, right); // соединям два отсортированных подмассива
