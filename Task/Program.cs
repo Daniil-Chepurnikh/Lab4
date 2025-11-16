@@ -37,7 +37,7 @@ namespace Task
         private static void DoWork()
         {
             string[] mainMenu =
-            {
+            [
                     "Создание массива",
                     "Печать массива",
                     "Сортировка массива",
@@ -47,7 +47,7 @@ namespace Task
                     "Добавление элементов в начало массива",
                     "Перестановка чётных элементов в начало массива",
                     "Завершить работу"
-            };
+            ];
 
             string end = "Нет";
             int[] array = [];
@@ -134,10 +134,10 @@ namespace Task
         private static int[] CreateArray()
         {
             string[] arrayMenu =
-            {
+            [
                 "Создать массив самостоятельно",
                 "Создать массив случайно"
-            };
+            ];
 
             int[] array = [];
             bool isCreated = true;
@@ -456,7 +456,7 @@ namespace Task
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
                 Console.WriteLine("После удаления массив стал пустым!");
-                integerArray = new int[0];
+                integerArray = [];
             }
             else
             {
@@ -494,10 +494,10 @@ namespace Task
         private static int[] AddElements(int[] integerArray)
         {
             string[] addMenu =
-            {
+            [
                 "Добавить элементы самостоятельно",
                 "Добавить элементы случайно"
-            };
+            ];
             int newElementsCount = ReadInteger("Введите количство добавляемых элементов");
             int[] newArray;
 
