@@ -56,33 +56,49 @@ namespace Task
                 switch (PrintMenu(mainMenu))
                 {
                     case 1:
-                        array = CreateArray();
-                        break;
+                        {
+                            array = CreateArray();
+                            break;
+                        }
                     case 2:
-                        PrintArray(array);
-                        break;
+                        {
+                            PrintArray(array);
+                            break;
+                        }
                     case 3:
-                        Sort(array);
-                        break;
+                        {
+                            Sort(array);
+                            break;
+                        }
                     case 4:
-                        DeleteEvens(ref array);
-                        break;
+                        {
+                            DeleteEvens(ref array);
+                            break;
+                        }
                     case 5:
-                        FindFirstEven(array);
-                        break;
+                        {
+                            FindFirstEven(array);
+                            break;
+                        }
                     case 6:
                         BinarySearch(array);
                         break;
                     case 7:
-                        array = AddElements(array);
-                        break;
+                        {
+                            array = AddElements(array);
+                            break;
+                        }
                     case 8:
-                        array = EvenOddSort(array);
-                        break;
+                        {
+                            array = EvenOddSort(array);
+                            break;
+                        }
 
                     case 9:
-                        end = "Да";
-                        break;
+                        {
+                            end = "Да";
+                            break;
+                        }    
                 }
             } while (end != "Да");
         }
@@ -117,6 +133,7 @@ namespace Task
                     }
                 } while (!isCorrectAction);
 
+                Console.WriteLine("Вы выбрали дейстиве: " + menu[action - 1]);
                 Console.WriteLine("Вы уверены в своём выборе? Если уверены, напишите \"Да\", любой другой ввод будет воспринят как нет");
                 choice = Console.ReadLine();
 
