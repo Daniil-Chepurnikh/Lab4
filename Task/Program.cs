@@ -380,6 +380,7 @@ namespace Task
             }
             else
             {
+                PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
                 return -1;
             }
             PrintMessage("Элемента нет в массиве", ConsoleColor.Yellow);
@@ -397,7 +398,6 @@ namespace Task
             {
                 if (array[p] > array[++p])
                 {
-                    PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
                     return false;
                 }
             }
@@ -746,7 +746,6 @@ namespace Task
                 if (array[leftCounter] <= array[rightCounter])
                 {
                     sortedArray[sortedArrayCounter++] = array[leftCounter++];
-
                 }
                 else
                 {
