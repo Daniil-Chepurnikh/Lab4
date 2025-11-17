@@ -509,11 +509,7 @@ namespace Task
         /// <returns>Логическое значение true если пустой</returns>
         private static bool CheckEmpty(int[] integerArray)
         {
-            if (integerArray.Length == 0)
-            {
-                return true;
-            }
-            return false;
+            return integerArray.Length == 0;
         }
 
         /// <summary>
