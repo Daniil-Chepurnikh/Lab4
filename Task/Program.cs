@@ -27,7 +27,7 @@ namespace Task
         private static void StartWork()
         {
             Console.WriteLine("Здравствуйте!");
-            PrintMessage("Работа начата", ConsoleColor.Yellow);
+            PrintMessage("Работа начата", ConsoleColor.Cyan);
             stopwatch.Start();
         }
 
@@ -179,7 +179,7 @@ namespace Task
         /// </summary>
         private static void FinishWork()
         {
-            PrintMessage("Работа закончена", ConsoleColor.Yellow);
+            PrintMessage("Работа закончена", ConsoleColor.Cyan);
             stopwatch.Stop();
             Console.WriteLine($"Время выполнения: {stopwatch.ElapsedMilliseconds} мс");
             Console.WriteLine("До свидания!");
@@ -223,7 +223,7 @@ namespace Task
         {
             if (CheckEmpty(integerArray))
             {
-                PrintMessage("Массив пустой", ConsoleColor.Yellow);
+                PrintMessage("Массив пустой", ConsoleColor.Cyan);
             }
             else
             {
@@ -383,7 +383,7 @@ namespace Task
                 PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
                 return -1;
             }
-            PrintMessage("Элемента нет в массиве", ConsoleColor.Yellow);
+            PrintMessage("Элемента нет в массиве", ConsoleColor.Cyan);
             return -1;
         }
 
