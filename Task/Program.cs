@@ -56,33 +56,49 @@ namespace Task
                 switch (PrintMenu(mainMenu))
                 {
                     case 1:
-                        array = CreateArray();
-                        break;
+                        {
+                            array = CreateArray();
+                            break;
+                        }
                     case 2:
-                        PrintArray(array);
-                        break;
+                        {
+                            PrintArray(array);
+                            break;
+                        }
                     case 3:
-                        Sort(array);
-                        break;
+                        {
+                            Sort(array);
+                            break;
+                        }
                     case 4:
-                        DeleteEvens(ref array);
-                        break;
+                        {
+                            DeleteEvens(ref array);
+                            break;
+                        }
                     case 5:
-                        FindFirstEven(array);
-                        break;
+                        {
+                            FindFirstEven(array);
+                            break;
+                        }
                     case 6:
                         BinarySearch(array);
                         break;
                     case 7:
-                        array = AddElements(array);
-                        break;
+                        {
+                            array = AddElements(array);
+                            break;
+                        }
                     case 8:
-                        array = EvenOddSort(array);
-                        break;
+                        {
+                            array = EvenOddSort(array);
+                            break;
+                        }
 
                     case 9:
-                        end = "Да";
-                        break;
+                        {
+                            end = "Да";
+                            break;
+                        }    
                 }
             } while (end != "Да");
         }
@@ -117,6 +133,7 @@ namespace Task
                     }
                 } while (!isCorrectAction);
 
+                Console.WriteLine("Вы выбрали дейстиве: " + menu[action - 1]);
                 Console.WriteLine("Вы уверены в своём выборе? Если уверены, напишите \"Да\", любой другой ввод будет воспринят как нет");
                 choice = Console.ReadLine();
 
@@ -205,13 +222,17 @@ namespace Task
         private static void PrintArray(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
-                Console.Write("Массив пустой");
+            {
+                PrintMessage("Массив пустой", ConsoleColor.Yellow);
+            }
             else
+            {
                 foreach (int p in integerArray)
                 {
                     Console.Write(p + " ");
                 }
-            Console.WriteLine();
+                Console.WriteLine();
+            }        
         }
 
         /// <summary>
@@ -347,17 +368,22 @@ namespace Task
                         return mid + 1;
                     }
                     else if (target > sortedIntegerArray[mid])
+                    {
                         left = mid + 1;
+                    }
                     else
+                    {
                         right = mid - 1;
-
+                    }
                     steps++;
                 }
             }
             else
+            {
+                PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
                 return -1;
-
-            Console.WriteLine("Элемента нет в массиве!");
+            }
+            PrintMessage("Элемента нет в массиве", ConsoleColor.Yellow);
             return -1;
         }
 
@@ -372,7 +398,6 @@ namespace Task
             {
                 if (array[p] > array[++p])
                 {
-                    PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
                     return false;
                 }
             }
@@ -403,8 +428,9 @@ namespace Task
                     }
                 }
                 if (indexMin == q)
+                {
                     continue;
-
+                }
                 Swap(integerArray, indexMin, q);
             }
         }
@@ -432,7 +458,9 @@ namespace Task
             foreach (int p in integerArray)
             {
                 if (p % 2 == 0)
+                {
                     count++;
+                }
             }
             return count;
         }
@@ -481,10 +509,7 @@ namespace Task
         /// <returns>Логическое значение true если пустой</returns>
         private static bool CheckEmpty(int[] integerArray)
         {
-            if (integerArray.Length == 0)
-                return true;
-
-            return false;
+            return integerArray.Length == 0;
         }
 
         /// <summary>
@@ -548,17 +573,23 @@ namespace Task
             }
 
             uint countEvens = CountEvens(integerArray);
-            if (countEvens == 0)
+            if (countEvens == 0 || countEvens == integerArray.Length)
+            {
                 return integerArray; // не делай лишнего
+            }
 
             int[] sortedArray = new int[integerArray.Length];
             uint counter = 0;
             for (uint p = 0; p < integerArray.Length; p++)
             {
                 if (integerArray[p] % 2 == 0)
+                {
                     sortedArray[counter++] = integerArray[p];
+                }
                 else
+                {
                     sortedArray[countEvens++] = integerArray[p];
+                }
             }
             return sortedArray;
         }
@@ -581,6 +612,12 @@ namespace Task
         /// <param name="array">Сортируемый массив</param>
         private static void Sort(int[] array)
         {
+            if (CheckSort(array))
+            {
+                PrintMessage("Массив уже отсортирован");
+                return;
+            }
+            
             string[] sortMenu =
             [
                 "Сортировка простым выбором",
@@ -639,17 +676,23 @@ namespace Task
             int low = left + 1; // начало мальньких
             int high = right; // конец больших
 
-            while (high > low) // чтобы не гулять по чужим подмассивам(маленьким по большим и наоборот)
-                // когда сразу на входе равны они сразу смотрят на один элемент в одноэлементном массиве и его не надо трогать смотрят на один элемент
+            // чтобы не гулять по чужим подмассивам(маленьким по большим и наоборот)
+            while (high > low) // когда сразу на входе равны они сразу смотрят на один элемент в одноэлементном массиве и его не надо трогать смотрят на один элемент
             {
                 while (high >= low && array[low] < pivot) // встретили большой элемент среди маленьких и ушли
+                {
                     low++; // сдвигаемся к провому концу массива
-
+                }
+                
                 while (high >= low && array[high] >= pivot) // встретили маленький элемент среди больших и ушли
+                {
                     high--; // сдвигаемся к левому концу массива
-
+                }
+                
                 if (high < low) // совсем плохо когда правая граница меньше левой
+                {
                     break;
+                }
                 Swap(array, low, high); // меняем местами попаданцев не в свой подмассив
             }
 
@@ -697,19 +740,27 @@ namespace Task
             while (leftCounter <= mid && rightCounter <= right) // чтобы чужим индексом не влезть в не свой подмассив
             {
                 if (array[leftCounter] <= array[rightCounter])
+                {
                     sortedArray[sortedArrayCounter++] = array[leftCounter++];
+                }
                 else
+                {
                     sortedArray[sortedArrayCounter++] = array[rightCounter++];
+                }
             }
 
             while (leftCounter <= mid) // оставшиеся большие в левом подмассиве вписываем последними
+            {
                 sortedArray[sortedArrayCounter++] = array[leftCounter++];
-            
+            }
             while (rightCounter <= right) // оставшиеся большие в правом подмассиве вписываем последеними
+            {
                 sortedArray[sortedArrayCounter++] = array[rightCounter++];
-
-            for(int i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(лефт + и, как раз из-за того что лефт не всегда будет нулём и это жесть как плохо не могу к этому привыкнуть)
+            }
+            for (int i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(лефт + и, как раз из-за того что лефт не всегда будет нулём и это жесть как плохо не могу к этому привыкнуть)
+            {
                 array[left + i] = sortedArray[i];
+            }
         }
     }
 }
