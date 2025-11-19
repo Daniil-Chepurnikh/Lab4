@@ -707,13 +707,12 @@ namespace Task
                 Swap(array, low, high); // меняем местами попаданцев не в свой подмассив
             }
 
-            // по последнему обольшому сдвинульсь так что большой указывает на последенего маленького
+            // по последнему большому сдвинульсь так что большой указывает на последенего маленького
             // О М М М М М Б Б Б Б Б Б Б Б
-            // поэтому по индексу большого и попрного меняемся
+            // поэтому по индексу большого и опорного меняемся
             // М М М М М О Б Б Б Б Б Б Б Б 
             // получили что маленькие до большие после
             Swap(array, left, high);
-
             return high; // вернули индекс О
         }
 
@@ -746,7 +745,7 @@ namespace Task
             int leftCounter = left; // счётчик по левому подмассиву
             int rightCounter = mid + 1; // счётчик по правому подмассиву
             int[] sortedArray = new int[right - left + 1]; // массив в который будем вписывать элементы в нужном порядке, его длина это буквально сколько между лефт и райт элементов
-            int sortedArrayCounter = 0;
+            int sortedArrayCounter = 0; // счётчик по сортированному массиву из которого потом будем в основной вписывать
 
             while (leftCounter <= mid && rightCounter <= right) // чтобы чужим индексом не влезть в не свой подмассив
             {
@@ -762,15 +761,17 @@ namespace Task
 
             while (leftCounter <= mid) // оставшиеся большие в левом подмассиве вписываем последними
             {
-                sortedArray[sortedArrayCounter++] = array[leftCounter++];
+                sortedArray[sortedArrayCounter++] = array[leftCounter++]; // вписка левых
             }
+            
             while (rightCounter <= right) // оставшиеся большие в правом подмассиве вписываем последеними
             {
-                sortedArray[sortedArrayCounter++] = array[rightCounter++];
+                sortedArray[sortedArrayCounter++] = array[rightCounter++]; // вписка правых
             }
-            for (int i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(left + i, как раз из-за того что left не всегда будет нулём)
+            
+            for (uint i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(left + i, как раз из-за того что left не всегда будет нулём)
             {
-                array[left + i] = sortedArray[i];
+                array[left + i] = sortedArray[i]; // вписка в исходный массив
             }
         }
     }
