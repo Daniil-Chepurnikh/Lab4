@@ -100,7 +100,7 @@ namespace Task
                             break;
                         }    
                 }
-            } while (string.Equals(end, "Да", StringComparison.OrdinalIgnoreCase));
+            } while (string.Equals(end, "Нет", StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Task
                 Console.WriteLine("Вы уверены в своём выборе? Если уверены, напишите Да(в любом регистре), любой другой ввод будет воспринят как нет");
                 choice = Console.ReadLine();
 
-            } while (string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase));
+            } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase));
 
             PrintMessage("Приступаю к выполнению команды");
 
