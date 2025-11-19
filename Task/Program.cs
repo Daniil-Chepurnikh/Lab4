@@ -137,7 +137,7 @@ namespace Task
                 Console.WriteLine("Вы уверены в своём выборе? Если уверены, напишите Да(в любом регистре), любой другой ввод будет воспринят как нет");
                 choice = Console.ReadLine();
 
-            } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase));
+            } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase)); // подсказал интернет
 
             PrintMessage("Приступаю к выполнению команды");
 
