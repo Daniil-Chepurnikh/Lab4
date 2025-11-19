@@ -81,8 +81,10 @@ namespace Task
                             break;
                         }
                     case 6:
-                        BinarySearch(array);
-                        break;
+                        {
+                            BinarySearch(array);
+                            break;
+                        }
                     case 7:
                         {
                             array = AddElements(array);
@@ -93,7 +95,6 @@ namespace Task
                             array = EvenOddSort(array);
                             break;
                         }
-
                     case 9:
                         {
                             end = "Да";
@@ -163,14 +164,17 @@ namespace Task
                 switch (PrintMenu(arrayMenu, "Выберете способ создания массива:"))
                 {
                     case 1:
-                        array = ReadArray();
-                        break;
+                        {
+                            array = ReadArray();
+                            break;
+                        }
                     case 2:
-                        array = MakeRandomArray();
-                        break;
+                        {
+                            array = MakeRandomArray();
+                            break;
+                        }
                 }
             } while (!isCreated);
-
             return array;
         }
 
@@ -211,7 +215,6 @@ namespace Task
                 }
 
             } while (!isNumber);
-
             return number;
         }
 
@@ -259,7 +262,6 @@ namespace Task
             {
                 keyboardArray[q] = ReadInteger("Введите элемент массива: ");
             }
-
             return keyboardArray;
         }
 
@@ -276,7 +278,6 @@ namespace Task
             {
                 randomArray[q] = random.Next(-100, 100);
             }
-
             return randomArray;
         }
 
@@ -311,7 +312,6 @@ namespace Task
                     }
                 }
             } while (!isCorrectArraySize);
-
             return length;
         }
 
@@ -336,7 +336,6 @@ namespace Task
                     return i + 1;
                 }
             }
-
             Console.WriteLine("Нет чётных элементов!");
             return -1;
         }
@@ -480,7 +479,9 @@ namespace Task
 
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0) // нечего удалять
-                return;
+            { 
+                return; 
+            }
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
                 Console.WriteLine("После удаления массив стал пустым!");
@@ -539,18 +540,22 @@ namespace Task
             switch (PrintMenu(addMenu, "Выберете способ добавления элементов:"))
             {
                 case 1:
-                    for (int p = 0; p < newElementsCount; p++)
                     {
-                        newArray[p] = ReadInteger("Введите элемент массива: ");
+                        for (int p = 0; p < newElementsCount; p++)
+                        {
+                            newArray[p] = ReadInteger("Введите элемент массива: ");
+                        }
+                        break;
                     }
-                    break;
 
                 case 2:
-                    for (int p = 0; p < newElementsCount; p++)
                     {
-                        newArray[p] = random.Next(-100, 100);
+                        for (int p = 0; p < newElementsCount; p++)
+                        {
+                            newArray[p] = random.Next(-100, 100);
+                        }
+                        break;
                     }
-                    break;
             }
 
             for (int q = newElementsCount; q < newArray.Length; q++)
@@ -632,17 +637,23 @@ namespace Task
                 switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:"))
                 {
                     case 1:
-                        SelectionSort(array);
-                        isSorted = true;
-                        break;
+                        {
+                            SelectionSort(array);
+                            isSorted = true;
+                            break;
+                        }
                     case 2:
-                        HoareSort(array, 0, array.Length - 1);
-                        isSorted = true;
-                        break;
+                        {
+                            HoareSort(array, 0, array.Length - 1);
+                            isSorted = true;
+                            break;
+                        }
                     case 3:
-                        MergeSort(array, 0, array.Length - 1);
-                        isSorted = true;
-                        break;
+                        {
+                            MergeSort(array, 0, array.Length - 1);
+                            isSorted = true;
+                            break;
+                        }
                 }
             } while (!isSorted);
         }
@@ -717,9 +728,9 @@ namespace Task
             if (left < right)
             {
                 int mid = left + (right - left) / 2; // хотя бы середину стандартно считаем
-                MergeSort(array, left, mid); // левый подмассив
-                MergeSort(array, mid + 1, right); // правый подмассив
-                Merge(array, left, mid, right); // соединям два отсортированных подмассива
+                MergeSort(array, left, mid); // сортируем левый подмассив
+                MergeSort(array, mid + 1, right); // сортируем правый подмассив
+                Merge(array, left, mid, right); // сливаем два отсортированных подмассива
             }
         }
 
@@ -757,7 +768,7 @@ namespace Task
             {
                 sortedArray[sortedArrayCounter++] = array[rightCounter++];
             }
-            for (int i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(лефт + и, как раз из-за того что лефт не всегда будет нулём и это жесть как плохо не могу к этому привыкнуть)
+            for (int i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(left + i, как раз из-за того что left не всегда будет нулём)
             {
                 array[left + i] = sortedArray[i];
             }
