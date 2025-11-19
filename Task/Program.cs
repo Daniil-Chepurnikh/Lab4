@@ -393,9 +393,10 @@ namespace Task
         /// <returns>false если массив не отсортирован</returns>
         private static bool CheckSort(int[] array)
         {
-            for (uint p = 0; p < array.Length - 1;)
+            uint index = 0;
+            while (index  < array.Length - 1)
             {
-                if (array[p] > array[++p])
+                if (array[index] > array[++index])
                 {
                     return false;
                 }
