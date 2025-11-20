@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace Task
 {
@@ -99,7 +100,7 @@ namespace Task
                         {
                             end = "Да";
                             break;
-                        }    
+                        }
                 }
             } while (string.Equals(end, "Нет", StringComparison.OrdinalIgnoreCase));
         }
@@ -199,7 +200,7 @@ namespace Task
         /// </summary>
         /// <param name="message">Приглашение к нужному вводу</param>
         /// <param name="error">Уведомление об ошибочном вводе</param>
-        /// <returns></returns>
+        /// <returns>Прочитанное число</returns>
         private static int ReadInteger(string message = "Введите количество элементов массива:", string error = "Вы не ввели целое число в разрешённом дипазоне!")
         {
             bool isNumber;
@@ -235,7 +236,7 @@ namespace Task
                     Console.Write(p + " ");
                 }
                 Console.WriteLine();
-            }        
+            }
         }
 
         /// <summary>
@@ -255,7 +256,7 @@ namespace Task
         /// <param name="keyboardArray">Получившийся массив</param>
         private static int[] ReadArray()
         {
-            uint length = GetArraySize();
+            int length = GetArraySize();
 
             int[] keyboardArray = new int[length];
             for (int q = 0; q < length; q++)
@@ -271,7 +272,7 @@ namespace Task
         /// <param name="randomArray"></param>
         private static int[] MakeRandomArray()
         {
-            uint length = GetArraySize();
+            int length = GetArraySize();
 
             int[] randomArray = new int[length];
             for (int q = 0; q < length; q++)
@@ -285,13 +286,13 @@ namespace Task
         /// Проверяет переполнение памяти массивом целых чисел и неположительное количество элементов
         /// </summary>
         /// <param name="length">Длина массива</param>
-        private static uint GetArraySize()
+        private static int GetArraySize()
         {
             bool isCorrectArraySize;
-            uint length;
+            int length;
             do
             {
-                length = (uint)ReadInteger();
+                length = ReadInteger();
                 if (length < 0)
                 {
                     PrintError("Массив не может иметь отрицательную длину!");
@@ -328,16 +329,24 @@ namespace Task
                 return -1;
             }
 
-            for (int i = 0; i < integerArray.Length; i++)
+            if (CountEvens(integerArray) == 0)
             {
-                if (integerArray[i] % 2 == 0)
-                {
-                    Console.WriteLine($"Первый чётный элемент: {integerArray[i]}. Количество сравнений: {i + 1}");
-                    return i + 1;
-                }
+                Console.WriteLine("Нет чётных элементов!");
+                return -1;
             }
-            Console.WriteLine("Нет чётных элементов!");
-            return -1;
+            else
+            {
+                int index = 0;
+                for (; index < integerArray.Length; index++)
+                {
+                    if (integerArray[index] % 2 == 0)
+                    {
+                        Console.WriteLine($"Первый чётный элемент: {integerArray[index]}. Количество сравнений: {index + 1}");
+                        break;
+                    }
+                }
+                return index + 1;
+            }
         }
 
         /// <summary>
@@ -351,12 +360,12 @@ namespace Task
                 PrintError("Невозможно найти элемент в пустом массиве!");
                 return -1;
             }
+            int steps = 1;
             if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
             {
                 int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка: Вы ввели не целое число!");
                 int left = 0;
                 int right = sortedIntegerArray.Length - 1;
-                int steps = 1;
                 while (left <= right)
                 {
                     int mid = left + (right - left) / 2;
@@ -383,6 +392,7 @@ namespace Task
                 return -1;
             }
             PrintMessage("Элемента нет в массиве", ConsoleColor.Cyan);
+            Console.WriteLine($"Количество сравнений: {steps}");
             return -1;
         }
 
@@ -479,8 +489,8 @@ namespace Task
 
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0) // нечего удалять
-            { 
-                return; 
+            {
+                return;
             }
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
@@ -518,15 +528,30 @@ namespace Task
         /// </summary>
         /// <param name="integerArray">Массив, в который надо добавить элемент</param>
         private static int[] AddElements(int[] integerArray)
-        {
-            string[] addMenu =
-            [
-                "Добавить элементы самостоятельно",
-                "Добавить элементы случайно"
-            ];
-            int newElementsCount = ReadInteger("Введите количство добавляемых элементов");
-            int[] newArray;
+        {          
+            int newElementsCount = GetArraySize();
+            if (newElementsCount == 0)
+            {
+                PrintMessage("Добавлять нуль элементов это странно", ConsoleColor.Cyan);
+                return integerArray;
+            }
+            if (newElementsCount < 0)
+            {
+                PrintError("Невозможно добавить отрицательное число элементов!");
+                return integerArray;
+            }
 
+            try
+            {
+                int check = newElementsCount + integerArray.Length;
+            }
+            catch (OverflowException)
+            {
+                PrintError("Невозможно вычислить количество элементов из-за переполнения!");
+                return integerArray;
+            }
+            
+            int[] newArray;
             try
             {
                 newArray = new int[newElementsCount + integerArray.Length];
@@ -536,6 +561,12 @@ namespace Task
                 PrintError("После добавления массив стал слишком большим!");
                 return integerArray; // вернём, что дали
             }
+
+            string[] addMenu =
+            [
+                "Добавить элементы самостоятельно",
+                "Добавить элементы случайно"
+            ];
 
             switch (PrintMenu(addMenu, "Выберете способ добавления элементов:"))
             {
@@ -580,6 +611,7 @@ namespace Task
             uint countEvens = CountEvens(integerArray);
             if (countEvens == 0 || countEvens == integerArray.Length)
             {
+                Console.WriteLine("Массив не изменился");
                 return integerArray; // не делай лишнего
             }
 
@@ -617,7 +649,12 @@ namespace Task
         /// <param name="array">Сортируемый массив</param>
         private static void Sort(int[] array)
         {
-            if (CheckSort(array))
+            if (CheckEmpty(array))
+            {
+                PrintError("Невозможно отсортировать пустой массив!");
+                return;
+            }
+            if (!CheckSort(array))
             {
                 PrintMessage("Массив уже отсортирован");
                 return;
@@ -665,7 +702,7 @@ namespace Task
         /// <param name="left">Левая граница массива</param>
         /// <param name="right">Правая граница массива</param>
         private static void HoareSort(int[] array, int left, int right)
-        {            
+        {
             if (left < right) // если равно то один элемент в подмассиве и его сортировать не надо
             {
                 int pivotIndex = Partition(array, left, right); // получаем новый опорный индекс
@@ -694,12 +731,12 @@ namespace Task
                 {
                     low++; // сдвигаемся к провому концу массива
                 }
-                
+
                 while (high >= low && array[high] >= pivot) // встретили маленький элемент среди больших и ушли
                 {
                     high--; // сдвигаемся к левому концу массива
                 }
-                
+
                 if (high < low) // совсем плохо когда правая граница меньше левой
                 {
                     break;
@@ -774,4 +811,4 @@ namespace Task
             }
         }
     }
-} 
+}
