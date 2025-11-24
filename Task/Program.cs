@@ -656,7 +656,7 @@ namespace Task
                 PrintError("Невозможно отсортировать пустой массив!");
                 return;
             }
-            if (!CheckSort(integerArray))
+            if (CheckSort(integerArray))
             {
                 PrintMessage("Массив уже отсортирован");
                 return;
