@@ -325,6 +325,7 @@ namespace Task
         /// </summary>
         /// <param name="integerArray">Массив для поиска</param>
         /// <returns>Номер первого чётного, считая с единицы</returns>
+
         private static int FindFirstEven(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
@@ -535,6 +536,7 @@ namespace Task
         private static int[] AddElements(int[] integerArray)
         {
             int newElementsCount = ReadInteger("Введите количество добавляемых элементов:");
+
             if (newElementsCount == 0)
             {
                 PrintError("Добавлять нуль элементов бессмысленно!");
