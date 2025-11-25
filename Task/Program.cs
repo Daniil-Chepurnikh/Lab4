@@ -141,7 +141,6 @@ namespace Task
             } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase)); // подсказал интернет
 
             PrintMessage("Приступаю к выполнению команды");
-
             return action;
         }
 
@@ -346,7 +345,7 @@ namespace Task
                 {
                     if (integerArray[index] % 2 == 0)
                     {
-                        Console.WriteLine($"Первый чётный элемент: {integerArray[index]}. Количество сравнений: {index + 1}");
+                        Console.WriteLine($"Первый чётный элемент: {integerArray[index]}. Его индекс: {index + 1}. Количество сравнений: {index + 1}");
                         break;
                     }
                 }
