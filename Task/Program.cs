@@ -141,7 +141,6 @@ namespace Task
             } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase)); // подсказал интернет
 
             PrintMessage("Приступаю к выполнению команды");
-
             return action;
         }
 
@@ -153,8 +152,8 @@ namespace Task
         {
             string[] arrayMenu =
             [
-                "Создать массив самостоятельно",
-                "Создать массив случайно"
+                    "Создать массив самостоятельно",
+                    "Создать массив случайно"
             ];
 
             int[] integerArray = [];
@@ -346,7 +345,7 @@ namespace Task
                 {
                     if (integerArray[index] % 2 == 0)
                     {
-                        Console.WriteLine($"Первый чётный элемент: {integerArray[index]}. Количество сравнений: {index + 1}");
+                        Console.WriteLine($"Первый чётный элемент: {integerArray[index]}. Его индекс: {index + 1}. Количество сравнений: {index + 1}");
                         break;
                     }
                 }
@@ -494,9 +493,9 @@ namespace Task
             }
 
             uint evensCount = CountEvens(integerArray);
-            if (evensCount == 0) // нечего удалять
+            if (evensCount == 0)
             {
-                return;
+                Console.WriteLine("Нечего удалять!");
             }
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
@@ -566,8 +565,8 @@ namespace Task
 
             string[] addMenu =
             [
-                "Добавить элементы самостоятельно",
-                "Добавить элементы случайно"
+                    "Добавить элементы самостоятельно",
+                    "Добавить элементы случайно"
             ];
 
             switch (PrintMenu(addMenu, "Выберете способ добавления элементов:"))
@@ -580,7 +579,6 @@ namespace Task
                         }
                         break;
                     }
-
                 case 2:
                     {
                         for (int p = 0; p < newElementsCount; p++)
@@ -664,10 +662,9 @@ namespace Task
 
             string[] sortMenu =
             [
-                "Сортировка простым выбором",
-                "Сортировка Хоара",
-                "Сортировка слиянием"
-
+                    "Сортировка простым выбором",
+                    "Сортировка Хоара",
+                    "Сортировка слиянием"
             ];
 
             bool isSorted = false;
@@ -731,15 +728,15 @@ namespace Task
             {
                 while (high >= low && integerArray[low] < pivot) // встретили большой элемент среди маленьких и ушли
                 {
-                    low++; // сдвигаемся к провому концу массива
+                    low++; // сдвигаемся к провому концу подмассива
                 }
 
                 while (high >= low && integerArray[high] >= pivot) // встретили маленький элемент среди больших и ушли
                 {
-                    high--; // сдвигаемся к левому концу массива
+                    high--; // сдвигаемся к левому концу подмассива
                 }
 
-                if (high < low) // совсем плохо когда правая граница меньше левой
+                if (high < low) // в конце указателем больших смотрим на маленький
                 {
                     break;
                 }
@@ -766,7 +763,7 @@ namespace Task
         {
             if (left < right)
             {
-                int mid = left + (right - left) / 2; // хотя бы середину стандартно считаем
+                int mid = left + (right - left) / 2;
                 MergeSort(integerArray, left, mid); // сортируем левый подмассив
                 MergeSort(integerArray, mid + 1, right); // сортируем правый подмассив
                 Merge(integerArray, left, mid, right); // сливаем два отсортированных подмассива
