@@ -494,9 +494,9 @@ namespace Task
             }
 
             uint evensCount = CountEvens(integerArray);
-            if (evensCount == 0) // нечего удалять
+            if (evensCount == 0)
             {
-                return;
+                Console.WriteLine("Нечего удалять!");
             }
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
@@ -580,7 +580,6 @@ namespace Task
                         }
                         break;
                     }
-
                 case 2:
                     {
                         for (int p = 0; p < newElementsCount; p++)
