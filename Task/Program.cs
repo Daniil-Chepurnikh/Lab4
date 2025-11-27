@@ -26,8 +26,8 @@ namespace Task
         /// </summary>
         private static void StartWork()
         {
-            Console.WriteLine("Здравствуйте!");
-            PrintMessage("Работа начата", ConsoleColor.Cyan);
+            PrintMessage("Здравствуйте!\n", ConsoleColor.White);
+            PrintMessage("Работа начата\n", ConsoleColor.White);
             stopwatch.Start();
         }
 
@@ -109,7 +109,7 @@ namespace Task
         /// </summary>
         /// <param name="menu">Массив возможных действий</param>
         /// <returns>Выбранное действие</returns>
-        private static uint PrintMenu(string[] menu, string message = "Программа реализует следующую функциональность: ")
+        private static uint PrintMenu(string[] menu, string message = "Программа реализует следующую функциональность: \n")
         {
             uint action;
             string? choice;
@@ -121,11 +121,11 @@ namespace Task
                     PrintMessage(message);
                     for (int i = 0; i < menu.Length; i++)
                     {
-                        Console.WriteLine($"  {i + 1} " + menu[i]);
+                        PrintMessage($" {i + 1}.  " + menu[i] + "\n\n", ConsoleColor.White);
                     }
 
-                    Console.Write("Введите номер выбранного действия: ");
-                    isCorrectAction = uint.TryParse(Console.ReadLine(), out action);
+                    PrintMessage("Введите номер выбранного действия:  ", ConsoleColor.White);
+                    isCorrectAction = uint.TryParse(ReadData(), out action);
 
                     if (action > menu.Length || action == 0)
                     {
@@ -134,13 +134,13 @@ namespace Task
                     }
                 } while (!isCorrectAction);
 
-                Console.WriteLine("Вы выбрали дейстиве: " + menu[action - 1]);
-                Console.WriteLine("Вы уверены в своём выборе? Если уверены, напишите Да(в любом регистре), любой другой ввод будет воспринят как нет");
-                choice = Console.ReadLine();
+                PrintMessage("Вы выбрали дейстиве: " + menu[action - 1] + '\n', ConsoleColor.White);
+                PrintMessage("Вы уверены в своём выборе? Если уверены, напишите ДА(в любом регистре), любой другой ввод будет воспринят как НЕТ" + '\n', ConsoleColor.White);
+                choice = ReadData();
 
             } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase)); // подсказал интернет
 
-            PrintMessage("Приступаю к выполнению команды");
+            PrintMessage("Приступаю к выполнению команды\n");
             return action;
         }
 
@@ -160,7 +160,7 @@ namespace Task
             bool isCreated = true;
             do
             {
-                switch (PrintMenu(arrayMenu, "Выберете способ создания массива:"))
+                switch (PrintMenu(arrayMenu, "Выберете способ создания массива:\n"))
                 {
                     case 1:
                         {
@@ -182,10 +182,10 @@ namespace Task
         /// </summary>
         private static void FinishWork()
         {
-            PrintMessage("Работа закончена", ConsoleColor.Cyan);
+            PrintMessage("Работа закончена" + '\n', ConsoleColor.White);
             stopwatch.Stop();
-            Console.WriteLine($"Время выполнения: {stopwatch.ElapsedMilliseconds} мс");
-            Console.WriteLine("До свидания!");
+            PrintMessage($"Время выполнения: {stopwatch.ElapsedMilliseconds} мс" + '\n', ConsoleColor.White);
+            PrintMessage("До свидания!", ConsoleColor.White);
         }
 
         /// <summary>
@@ -199,15 +199,15 @@ namespace Task
         /// <param name="message">Приглашение к нужному вводу</param>
         /// <param name="error">Уведомление об ошибочном вводе</param>
         /// <returns>Прочитанное число</returns>
-        private static int ReadInteger(string message = "Введите количество элементов массива:", string error = "Вы не ввели целое число в разрешённом дипазоне!")
+        private static int ReadInteger(string message = "Введите количество элементов массива:   ", string error = "Вы не ввели целое число в разрешённом дипазоне!\n")
         {
             bool isNumber;
             int number;
             do
             {
-                Console.WriteLine(message);
+                PrintMessage(message, ConsoleColor.White);
 
-                isNumber = int.TryParse(Console.ReadLine(), out number);
+                isNumber = int.TryParse(ReadData(), out number);
                 if (!isNumber)
                 {
                     PrintError(error);
@@ -225,15 +225,15 @@ namespace Task
         {
             if (CheckEmpty(integerArray))
             {
-                PrintMessage("Массив пустой", ConsoleColor.Cyan);
+                PrintMessage("Массив пустой\n", ConsoleColor.White);
             }
             else
             {
                 foreach (int p in integerArray)
                 {
-                    Console.Write(p + " ");
+                    PrintMessage(p + " ", ConsoleColor.White);
                 }
-                Console.WriteLine();
+                PrintMessage("\n");
             }
         }
 
@@ -259,7 +259,7 @@ namespace Task
             int[] keyboardArray = new int[length];
             for (int q = 0; q < length; q++)
             {
-                keyboardArray[q] = ReadInteger("Введите элемент массива: ");
+                keyboardArray[q] = ReadInteger("Введите элемент массива:   ");
             }
             return keyboardArray;
         }
@@ -324,7 +324,6 @@ namespace Task
         /// </summary>
         /// <param name="integerArray">Массив для поиска</param>
         /// <returns>Номер первого чётного, считая с единицы</returns>
-
         private static int FindFirstEven(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
@@ -335,7 +334,7 @@ namespace Task
 
             if (CountEvens(integerArray) == 0)
             {
-                Console.WriteLine("Нет чётных элементов!");
+                PrintMessage("Нет чётных элементов!" + '\n', ConsoleColor.White);
                 return -1;
             }
             else
@@ -345,7 +344,7 @@ namespace Task
                 {
                     if (integerArray[index] % 2 == 0)
                     {
-                        Console.WriteLine($"Первый чётный элемент: {integerArray[index]}. Его индекс: {index + 1}. Количество сравнений: {index + 1}");
+                        PrintMessage($"Первый чётный элемент: {integerArray[index]}. Его индекс: {index + 1}. Количество сравнений: {index + 1}" + '\n', ConsoleColor.White);
                         break;
                     }
                 }
@@ -368,7 +367,7 @@ namespace Task
             int steps = 1;
             if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
             {
-                int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:", "Ошибка: Вы ввели не целое число!");
+                int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:   ", "Ошибка: Вы ввели не целое число!");
                 int left = 0;
                 int right = sortedIntegerArray.Length - 1;
                 while (left <= right)
@@ -377,7 +376,7 @@ namespace Task
 
                     if (target == sortedIntegerArray[mid])
                     {
-                        Console.WriteLine($"Элемент есть в массиве. Его индекс: {mid + 1}. Количество сравнений: {steps}");
+                        PrintMessage($"Элемент есть в массиве. Его индекс: {mid + 1}. Количество сравнений: {steps}" + '\n', ConsoleColor.White);
                         return mid + 1; // нашли
                     }
                     else if (target > sortedIntegerArray[mid])
@@ -396,8 +395,8 @@ namespace Task
                 PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
                 return -1;
             }
-            PrintMessage("Элемента нет в массиве", ConsoleColor.Cyan);
-            Console.WriteLine($"Количество сравнений: {steps}");
+            PrintMessage("Элемента нет в массиве" + '\n', ConsoleColor.White);
+            PrintMessage($"Количество сравнений: {steps}" + '\n', ConsoleColor.White);
             return -1;
         }
 
@@ -418,6 +417,18 @@ namespace Task
             return true;
         }
 
+        /// <summary>
+        /// Получает ввод пользователя
+        /// </summary>
+        /// <returns>Строка введённая пользователем</returns>
+        private static string? ReadData()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            string? choice = Console.ReadLine();
+            Console.ResetColor();
+            return choice;
+        } 
+        
         /// <summary>
         /// Сортирует массив простым выбором
         /// </summary>
@@ -495,11 +506,11 @@ namespace Task
             uint evensCount = CountEvens(integerArray);
             if (evensCount == 0)
             {
-                Console.WriteLine("Нечего удалять!");
+                PrintMessage("Нечего удалять!" + '\n', ConsoleColor.White);
             }
             else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
             {
-                Console.WriteLine("После удаления массив стал пустым!");
+                PrintMessage("После удаления массив стал пустым!" + '\n', ConsoleColor.White);
                 integerArray = [];
             }
             else
@@ -534,7 +545,7 @@ namespace Task
         /// <param name="integerArray">Массив, в который надо добавить элемент</param>
         private static int[] AddElements(int[] integerArray)
         {
-            int newElementsCount = ReadInteger("Введите количество добавляемых элементов:");
+            int newElementsCount = ReadInteger("Введите количество добавляемых элементов:   ");
 
             if (newElementsCount == 0)
             {
@@ -569,13 +580,13 @@ namespace Task
                     "Добавить элементы случайно"
             ];
 
-            switch (PrintMenu(addMenu, "Выберете способ добавления элементов:"))
+            switch (PrintMenu(addMenu, "Выберете способ добавления элементов:\n"))
             {
                 case 1:
                     {
                         for (int p = 0; p < newElementsCount; p++)
                         {
-                            newArray[p] = ReadInteger("Введите элемент массива: ");
+                            newArray[p] = ReadInteger("Введите элемент массива:  ");
                         }
                         break;
                     }
@@ -611,7 +622,7 @@ namespace Task
             uint countEvens = CountEvens(integerArray);
             if (countEvens == 0 || countEvens == integerArray.Length)
             {
-                Console.WriteLine("Массив не изменился");
+                PrintMessage("Массив не изменился" + '\n', ConsoleColor.White);
                 return integerArray; // не делай лишнего
             }
 
@@ -636,10 +647,10 @@ namespace Task
         /// </summary>
         /// <param name="message">Сообщение на печать</param>
         /// <param name="color">Цвет печать</param>
-        public static void PrintMessage(string message = "Ввод корректен", ConsoleColor color = ConsoleColor.Green)
+        public static void PrintMessage(string message = "Ввод корректен \n", ConsoleColor color = ConsoleColor.Green)
         {
             Console.ForegroundColor = color;
-            Console.WriteLine(message);
+            Console.Write(message);
             Console.ResetColor();
         }
 
@@ -656,7 +667,7 @@ namespace Task
             }
             if (CheckSort(integerArray))
             {
-                PrintMessage("Массив уже отсортирован");
+                PrintMessage("Массив уже отсортирован\n");
                 return;
             }
 
@@ -670,7 +681,7 @@ namespace Task
             bool isSorted = false;
             do
             {
-                switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:"))
+                switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:\n"))
                 {
                     case 1:
                         {
@@ -771,7 +782,7 @@ namespace Task
         }
 
         /// <summary>
-        /// Сливает отсортированные массивы
+        /// Сливает отсортированные подмассивы
         /// </summary>
         /// <param name="integerArray">Массив в котором были сливаемые подмассивы</param>
         /// <param name="left">Левая граница(не всегда нуль)</param>
