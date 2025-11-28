@@ -326,20 +326,19 @@ namespace Task
         /// <returns>Номер первого чётного, считая с единицы</returns>
         private static int FindFirstEven(int[] integerArray)
         {
+            int index = 0;
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно найти элемент в пустом массиве!");
-                return -1;
+                index = -2;
             }
-
             if (CountEvens(integerArray) == 0)
             {
                 PrintMessage("Нет чётных элементов!" + '\n', ConsoleColor.White);
-                return -1;
+                index = -2;
             }
             else
             {
-                int index = 0;
                 for (; index < integerArray.Length; index++)
                 {
                     if (integerArray[index] % 2 == 0)
@@ -348,8 +347,8 @@ namespace Task
                         break;
                     }
                 }
-                return index + 1;
             }
+            return index + 1;
         }
 
         /// <summary>
