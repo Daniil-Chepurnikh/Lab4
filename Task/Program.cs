@@ -391,7 +391,7 @@ namespace Task
                 }
                 if (left > right)
                 {
-                    PrintMessage("Элемента нет в массиве ", ConsoleColor.White);
+                    PrintMessage("Элемента нет в массиве. ", ConsoleColor.White);
                     PrintMessage($"Количество сравнений: {steps}" + '\n', ConsoleColor.White);
                 }
             }
