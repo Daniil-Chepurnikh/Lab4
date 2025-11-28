@@ -72,7 +72,7 @@ namespace Task
                         }
                     case 4:
                         {
-                            DeleteEvens(ref integerArray);
+                            integerArray = DeleteEvens(integerArray);
                             break;
                         }
                     case 5:
@@ -496,20 +496,18 @@ namespace Task
         /// Удаляет все чётные элементы из массива
         /// </summary>
         /// <param name="integerArray">Массив, из которого  надо удалить</param>
-        private static void DeleteEvens(ref int[] integerArray)
+        private static int[] DeleteEvens(int[] integerArray)
         {
+            uint evensCount = CountEvens(integerArray);
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно удалить элементы в пустом массиве!");
-                return;
             }
-
-            uint evensCount = CountEvens(integerArray);
-            if (evensCount == 0)
+            else if (evensCount == 0)
             {
                 PrintMessage("Нечего удалять!" + '\n', ConsoleColor.White);
             }
-            else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
+            else if (evensCount == integerArray.Length)
             {
                 PrintMessage("После удаления массив стал пустым!" + '\n', ConsoleColor.White);
                 integerArray = [];
@@ -528,6 +526,7 @@ namespace Task
                 }
                 integerArray = newArray;
             }
+            return integerArray;
         }
 
         /// <summary>
