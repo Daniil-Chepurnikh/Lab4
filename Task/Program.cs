@@ -451,11 +451,10 @@ namespace Task
                         indexMin = p; // место откуда его взяли
                     }
                 }
-                if (indexMin == first)
+                if (indexMin != first)
                 {
-                    continue;
+                    Swap(integerArray, indexMin, first);
                 }
-                Swap(integerArray, indexMin, first);
             }
         }
 
@@ -544,66 +543,67 @@ namespace Task
         /// <param name="integerArray">Массив, в который надо добавить элемент</param>
         private static int[] AddElements(int[] integerArray)
         {
-            int newElementsCount = ReadInteger("Введите количество добавляемых элементов:   ");
+            int[] newArray = [];
 
+            int newElementsCount = ReadInteger("Введите количество добавляемых элементов:   ");
             if (newElementsCount == 0)
             {
                 PrintError("Добавлять нуль элементов бессмысленно!");
-                return integerArray;
             }
-            if (newElementsCount < 0)
+            else if (newElementsCount < 0)
             {
                 PrintError("Невозможно добавить отрицательное число элементов!");
-                return integerArray;
+            }
+            else
+            {
+                try
+                {
+                    newArray = new int[checked(newElementsCount + integerArray.Length)];
+                }
+                catch (OutOfMemoryException)
+                {
+                    PrintError("После добавления массив стал слишком большим!");
+                }
+                catch (OverflowException)
+                {
+                    PrintError("Невозможно вычислить сумму для количества элементов в заданном типе!");
+                }
             }
 
-            int[] newArray;
-            try
+            if (newArray.Length != 0)
             {
-                newArray = new int[checked(newElementsCount + integerArray.Length)];
-            }
-            catch (OutOfMemoryException)
-            {
-                PrintError("После добавления массив стал слишком большим!");
-                return integerArray; // вернём, что дали
-            }
-            catch (OverflowException)
-            {
-                PrintError("Невозможно вычислить сумму для количества элементов в заданном типе!");
-                return integerArray; // вернём, что дали
-            }
-
-            string[] addMenu =
-            [
-                    "Добавить элементы самостоятельно",
-                    "Добавить элементы случайно"
-            ];
-
-            switch (PrintMenu(addMenu, "Выберете способ добавления элементов:\n"))
-            {
-                case 1:
-                    {
-                        for (int p = 0; p < newElementsCount; p++)
+                string[] addMenu =
+                [
+                        "Добавить элементы самостоятельно",
+                        "Добавить элементы случайно"
+                ];
+                switch (PrintMenu(addMenu, "Выберете способ добавления элементов:\n"))
+                {
+                    case 1:
                         {
-                            newArray[p] = ReadInteger("Введите элемент массива:  ");
+                            for (int p = 0; p < newElementsCount; p++)
+                            {
+                                newArray[p] = ReadInteger("Введите элемент массива:  ");
+                            }
+                            break;
                         }
-                        break;
-                    }
-                case 2:
-                    {
-                        for (int p = 0; p < newElementsCount; p++)
+                    case 2:
                         {
-                            newArray[p] = random.Next(-100, 100);
+                            for (int p = 0; p < newElementsCount; p++)
+                            {
+                                newArray[p] = random.Next(-100, 100);
+                            }
+                            break;
                         }
-                        break;
-                    }
-            }
+                }
 
-            for (int q = newElementsCount; q < newArray.Length; q++)
-            {
-                newArray[q] = integerArray[q - newElementsCount];
+                for (int q = newElementsCount; q < newArray.Length; q++)
+                {
+                    newArray[q] = integerArray[q - newElementsCount];
+                }
+                integerArray = newArray;
             }
-            return newArray;
+            return integerArray;
         }
 
         /// <summary>
