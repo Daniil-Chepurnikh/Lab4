@@ -667,7 +667,7 @@ namespace Task
             }
             if (CheckSort(integerArray))
             {
-                PrintMessage("Массив уже отсортирован\n");
+                PrintMessage("Массив уже отсортирован\n", ConsoleColor.White);
                 return;
             }
 
