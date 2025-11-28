@@ -77,12 +77,12 @@ namespace Task
                         }
                     case 5:
                         {
-                            FindFirstEven(integerArray);
+                            _ = FindFirstEven(integerArray);
                             break;
                         }
                     case 6:
                         {
-                            BinarySearch(integerArray);
+                            _ = BinarySearch(integerArray);
                             break;
                         }
                     case 7:
