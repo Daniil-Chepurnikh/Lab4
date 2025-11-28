@@ -358,10 +358,10 @@ namespace Task
         /// <returns></returns>
         private static int BinarySearch(int[] sortedIntegerArray)
         {
+            int mid = -1;
             if (CheckEmpty(sortedIntegerArray))
             {
                 PrintError("Невозможно найти элемент в пустом массиве!");
-                return -1;
             }
             int steps = 1;
             if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
@@ -369,14 +369,15 @@ namespace Task
                 int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:   ", "Ошибка: Вы ввели не целое число!");
                 int left = 0;
                 int right = sortedIntegerArray.Length - 1;
-                while (left <= right)
+                bool find = false;
+                while (left <= right && !find)
                 {
-                    int mid = left + (right - left) / 2;
+                    mid = left + (right - left) / 2;
 
                     if (target == sortedIntegerArray[mid])
                     {
-                        PrintMessage($"Элемент есть в массиве. Его индекс: {mid + 1}. Количество сравнений: {steps}" + '\n', ConsoleColor.White);
-                        return mid + 1; // нашли
+                        PrintMessage($"Элемент есть в массиве. Его порядковый номер, считая с единицы: {mid + 1}. Количество сравнений: {steps}" + '\n', ConsoleColor.White);
+                        find = true;
                     }
                     else if (target > sortedIntegerArray[mid])
                     {
@@ -388,15 +389,17 @@ namespace Task
                     }
                     steps++;
                 }
+                if (left > right)
+                {
+                    PrintMessage("Элемента нет в массиве ", ConsoleColor.White);
+                    PrintMessage($"Количество сравнений: {steps}" + '\n', ConsoleColor.White);
+                }
             }
             else
             {
                 PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
-                return -1;
             }
-            PrintMessage("Элемента нет в массиве ", ConsoleColor.White);
-            PrintMessage($"Количество сравнений: {steps}" + '\n', ConsoleColor.White);
-            return -1;
+            return mid;
         }
 
         /// <summary>
