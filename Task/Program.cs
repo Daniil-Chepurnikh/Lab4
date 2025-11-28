@@ -275,7 +275,7 @@ namespace Task
             int[] randomArray = new int[length];
             for (int q = 0; q < length; q++)
             {
-                randomArray[q] = random.Next(-100, 100);
+                randomArray[q] = random.Next(int.MinValue, int.MaxValue);
             }
             return randomArray;
         }
@@ -593,7 +593,7 @@ namespace Task
                         {
                             for (int p = 0; p < newElementsCount; p++)
                             {
-                                newArray[p] = random.Next(-100, 100);
+                                newArray[p] = random.Next(int.MinValue, int.MaxValue);
                             }
                             break;
                         }
