@@ -330,12 +330,12 @@ namespace Task
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно найти элемент в пустом массиве!");
-                index = -2;
+                index = -1;
             }
             if (CountEvens(integerArray) == 0)
             {
                 PrintMessage("Нет чётных элементов!" + '\n', ConsoleColor.White);
-                index = -2;
+                index = -1;
             }
             else
             {
@@ -343,12 +343,12 @@ namespace Task
                 {
                     if (integerArray[index] % 2 == 0)
                     {
-                        PrintMessage($"Первый чётный элемент: {integerArray[index]}. Его индекс: {index + 1}. Количество сравнений: {index + 1}" + '\n', ConsoleColor.White);
+                        PrintMessage($"Первый чётный элемент: {integerArray[index]}. Его порядковый номер, считая с единицы: {index + 1}. Количество сравнений: {index + 1}" + '\n', ConsoleColor.White);
                         break;
                     }
                 }
             }
-            return index + 1;
+            return index;
         }
 
         /// <summary>
