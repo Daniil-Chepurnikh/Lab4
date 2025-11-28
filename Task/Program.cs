@@ -395,7 +395,7 @@ namespace Task
                 PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
                 return -1;
             }
-            PrintMessage("Элемента нет в массиве" + '\n', ConsoleColor.White);
+            PrintMessage("Элемента нет в массиве ", ConsoleColor.White);
             PrintMessage($"Количество сравнений: {steps}" + '\n', ConsoleColor.White);
             return -1;
         }
