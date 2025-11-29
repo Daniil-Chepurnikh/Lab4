@@ -330,12 +330,10 @@ namespace Task
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно найти элемент в пустом массиве!");
-                index = -1;
             }
-            if (CountEvens(integerArray) == 0)
+            else if (CountEvens(integerArray) == 0)
             {
                 PrintMessage("Нет чётных элементов!" + '\n', ConsoleColor.White);
-                index = -1;
             }
             else
             {
