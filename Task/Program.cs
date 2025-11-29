@@ -339,16 +339,18 @@ namespace Task
             }
             else
             {
-                for (; index < integerArray.Length; index++)
+                bool find = false;
+                do
                 {
                     if (integerArray[index] % 2 == 0)
                     {
                         PrintMessage($"Первый чётный элемент: {integerArray[index]}. Его порядковый номер, считая с единицы: {index + 1}. Количество сравнений: {index + 1}" + '\n', ConsoleColor.White);
-                        break;
+                        find = true;
                     }
-                }
+                    index++;
+                } while (index <  integerArray.Length && !find) ;
             }
-            return index;
+            return index - 1;
         }
 
         /// <summary>
