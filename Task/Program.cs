@@ -72,17 +72,17 @@ namespace Task
                         }
                     case 4:
                         {
-                            DeleteEvens(ref integerArray);
+                            integerArray = DeleteEvens(integerArray);
                             break;
                         }
                     case 5:
                         {
-                            FindFirstEven(integerArray);
+                            _ = FindFirstEven(integerArray);
                             break;
                         }
                     case 6:
                         {
-                            BinarySearch(integerArray);
+                            _ = BinarySearch(integerArray);
                             break;
                         }
                     case 7:
@@ -275,7 +275,7 @@ namespace Task
             int[] randomArray = new int[length];
             for (int q = 0; q < length; q++)
             {
-                randomArray[q] = random.Next(-100, 100);
+                randomArray[q] = random.Next(int.MinValue, int.MaxValue);
             }
             return randomArray;
         }
@@ -326,30 +326,29 @@ namespace Task
         /// <returns>Номер первого чётного, считая с единицы</returns>
         private static int FindFirstEven(int[] integerArray)
         {
+            int index = 0;
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно найти элемент в пустом массиве!");
-                return -1;
             }
-
-            if (CountEvens(integerArray) == 0)
+            else if (CountEvens(integerArray) == 0)
             {
                 PrintMessage("Нет чётных элементов!" + '\n', ConsoleColor.White);
-                return -1;
             }
             else
             {
-                int index = 0;
-                for (; index < integerArray.Length; index++)
+                bool find = false;
+                do
                 {
                     if (integerArray[index] % 2 == 0)
                     {
-                        PrintMessage($"Первый чётный элемент: {integerArray[index]}. Его индекс: {index + 1}. Количество сравнений: {index + 1}" + '\n', ConsoleColor.White);
-                        break;
+                        PrintMessage($"Первый чётный элемент: {integerArray[index]}. Его порядковый номер, считая с единицы: {index + 1}. Количество сравнений: {index + 1}" + '\n', ConsoleColor.White);
+                        find = true;
                     }
-                }
-                return index + 1;
+                    index++;
+                } while (index <  integerArray.Length && !find) ;
             }
+            return index - 1;
         }
 
         /// <summary>
@@ -359,10 +358,10 @@ namespace Task
         /// <returns></returns>
         private static int BinarySearch(int[] sortedIntegerArray)
         {
+            int mid = -1;
             if (CheckEmpty(sortedIntegerArray))
             {
                 PrintError("Невозможно найти элемент в пустом массиве!");
-                return -1;
             }
             int steps = 1;
             if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
@@ -370,14 +369,15 @@ namespace Task
                 int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:   ", "Ошибка: Вы ввели не целое число!");
                 int left = 0;
                 int right = sortedIntegerArray.Length - 1;
-                while (left <= right)
+                bool find = false;
+                while (left <= right && !find)
                 {
-                    int mid = left + (right - left) / 2;
+                    mid = left + (right - left) / 2;
 
                     if (target == sortedIntegerArray[mid])
                     {
-                        PrintMessage($"Элемент есть в массиве. Его индекс: {mid + 1}. Количество сравнений: {steps}" + '\n', ConsoleColor.White);
-                        return mid + 1; // нашли
+                        PrintMessage($"Элемент есть в массиве. Его порядковый номер, считая с единицы: {mid + 1}. Количество сравнений: {steps}" + '\n', ConsoleColor.White);
+                        find = true;
                     }
                     else if (target > sortedIntegerArray[mid])
                     {
@@ -389,15 +389,17 @@ namespace Task
                     }
                     steps++;
                 }
+                if (left > right)
+                {
+                    PrintMessage("Элемента нет в массиве. ", ConsoleColor.White);
+                    PrintMessage($"Количество сравнений: {steps}" + '\n', ConsoleColor.White);
+                }
             }
             else
             {
                 PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
-                return -1;
             }
-            PrintMessage("Элемента нет в массиве ", ConsoleColor.White);
-            PrintMessage($"Количество сравнений: {steps}" + '\n', ConsoleColor.White);
-            return -1;
+            return mid;
         }
 
         /// <summary>
@@ -452,11 +454,10 @@ namespace Task
                         indexMin = p; // место откуда его взяли
                     }
                 }
-                if (indexMin == first)
+                if (indexMin != first)
                 {
-                    continue;
+                    Swap(integerArray, indexMin, first);
                 }
-                Swap(integerArray, indexMin, first);
             }
         }
 
@@ -495,20 +496,18 @@ namespace Task
         /// Удаляет все чётные элементы из массива
         /// </summary>
         /// <param name="integerArray">Массив, из которого  надо удалить</param>
-        private static void DeleteEvens(ref int[] integerArray)
+        private static int[] DeleteEvens(int[] integerArray)
         {
+            uint evensCount = CountEvens(integerArray);
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно удалить элементы в пустом массиве!");
-                return;
             }
-
-            uint evensCount = CountEvens(integerArray);
-            if (evensCount == 0)
+            else if (evensCount == 0)
             {
                 PrintMessage("Нечего удалять!" + '\n', ConsoleColor.White);
             }
-            else if (evensCount == integerArray.Length) // проще сразу отдать пустоту
+            else if (evensCount == integerArray.Length)
             {
                 PrintMessage("После удаления массив стал пустым!" + '\n', ConsoleColor.White);
                 integerArray = [];
@@ -527,6 +526,7 @@ namespace Task
                 }
                 integerArray = newArray;
             }
+            return integerArray;
         }
 
         /// <summary>
@@ -545,66 +545,67 @@ namespace Task
         /// <param name="integerArray">Массив, в который надо добавить элемент</param>
         private static int[] AddElements(int[] integerArray)
         {
-            int newElementsCount = ReadInteger("Введите количество добавляемых элементов:   ");
+            int[] newArray = [];
 
+            int newElementsCount = ReadInteger("Введите количество добавляемых элементов:   ");
             if (newElementsCount == 0)
             {
                 PrintError("Добавлять нуль элементов бессмысленно!");
-                return integerArray;
             }
-            if (newElementsCount < 0)
+            else if (newElementsCount < 0)
             {
                 PrintError("Невозможно добавить отрицательное число элементов!");
-                return integerArray;
+            }
+            else
+            {
+                try
+                {
+                    newArray = new int[checked(newElementsCount + integerArray.Length)];
+                }
+                catch (OutOfMemoryException)
+                {
+                    PrintError("После добавления массив стал слишком большим!");
+                }
+                catch (OverflowException)
+                {
+                    PrintError("Невозможно вычислить сумму для количества элементов в заданном типе!");
+                }
             }
 
-            int[] newArray;
-            try
+            if (newArray.Length != 0)
             {
-                newArray = new int[checked(newElementsCount + integerArray.Length)];
-            }
-            catch (OutOfMemoryException)
-            {
-                PrintError("После добавления массив стал слишком большим!");
-                return integerArray; // вернём, что дали
-            }
-            catch (OverflowException)
-            {
-                PrintError("Невозможно вычислить сумму для количества элементов в заданном типе!");
-                return integerArray; // вернём, что дали
-            }
-
-            string[] addMenu =
-            [
-                    "Добавить элементы самостоятельно",
-                    "Добавить элементы случайно"
-            ];
-
-            switch (PrintMenu(addMenu, "Выберете способ добавления элементов:\n"))
-            {
-                case 1:
-                    {
-                        for (int p = 0; p < newElementsCount; p++)
+                string[] addMenu =
+                [
+                        "Добавить элементы самостоятельно",
+                        "Добавить элементы случайно"
+                ];
+                switch (PrintMenu(addMenu, "Выберете способ добавления элементов:\n"))
+                {
+                    case 1:
                         {
-                            newArray[p] = ReadInteger("Введите элемент массива:  ");
+                            for (int p = 0; p < newElementsCount; p++)
+                            {
+                                newArray[p] = ReadInteger("Введите элемент массива:  ");
+                            }
+                            break;
                         }
-                        break;
-                    }
-                case 2:
-                    {
-                        for (int p = 0; p < newElementsCount; p++)
+                    case 2:
                         {
-                            newArray[p] = random.Next(-100, 100);
+                            for (int p = 0; p < newElementsCount; p++)
+                            {
+                                newArray[p] = random.Next(int.MinValue, int.MaxValue);
+                            }
+                            break;
                         }
-                        break;
-                    }
-            }
+                }
 
-            for (int q = newElementsCount; q < newArray.Length; q++)
-            {
-                newArray[q] = integerArray[q - newElementsCount];
+                for (int q = newElementsCount; q < newArray.Length; q++)
+                {
+                    newArray[q] = integerArray[q - newElementsCount];
+                }
+                integerArray = newArray;
             }
-            return newArray;
+            return integerArray;
         }
 
         /// <summary>
@@ -747,11 +748,11 @@ namespace Task
                     high--; // сдвигаемся к левому концу подмассива
                 }
 
-                if (high < low) // в конце указателем больших смотрим на маленький
+                if (high >= low) // в конце указателем больших смотрим на маленький
                 {
-                    break;
+                    Swap(integerArray, low, high); // меняем местами попаданцев не в свой подмассив
                 }
-                Swap(integerArray, low, high); // меняем местами попаданцев не в свой подмассив
+                 
             }
 
             // по последнему обольшому сдвинульсь так что большой указывает на последенего маленького
