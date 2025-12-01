@@ -816,9 +816,9 @@ namespace Task
             {
                 sortedArray[sortedArrayCounter++] = integerArray[rightCounter++];
             }
-            for (uint i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(left + i, как раз из-за того что left не всегда будет нулём)
+            for (uint p = 0; p < sortedArray.Length; p++) // записываем в правильном порядке в нужное место исходного массива(left + p, как раз из-за того что left не всегда будет нулём)
             {
-                integerArray[left + i] = sortedArray[i];
+                integerArray[left + p] = sortedArray[p];
             }
         }
     }
