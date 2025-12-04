@@ -333,7 +333,7 @@ namespace Task
             }
             else if (CountEvens(integerArray) == 0)
             {
-                PrintMessage("Нет чётных элементов!" + '\n', ConsoleColor.White);
+                PrintMessage($"Нет чётных элементов!. Количество сравнений: {integerArray.Length}" + '\n', ConsoleColor.White);
             }
             else
             {
@@ -342,11 +342,11 @@ namespace Task
                 {
                     if (integerArray[index] % 2 == 0)
                     {
-                        PrintMessage($"Первый чётный элемент: {integerArray[index]}. Его порядковый номер, считая с единицы: {index + 1}. Количество сравнений: {index + 1}" + '\n', ConsoleColor.White);
+                        PrintMessage($"Первый чётный элемент: {integerArray[index]}. Его порядковый номер, считая с единицы: {index + 1}" + '\n', ConsoleColor.White);
                         find = true;
                     }
                     index++;
-                } while (index <  integerArray.Length && !find) ;
+                } while (index < integerArray.Length && !find);
             }
             return index - 1;
         }
@@ -363,20 +363,20 @@ namespace Task
             {
                 PrintError("Невозможно найти элемент в пустом массиве!");
             }
-            int steps = 1;
             if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
             {
                 int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:   ", "Ошибка: Вы ввели не целое число!");
                 int left = 0;
                 int right = sortedIntegerArray.Length - 1;
                 bool find = false;
+                int steps = 0; // количество сравнений перед входом в цикл нуль
                 while (left <= right && !find)
                 {
                     mid = left + (right - left) / 2;
 
-                    if (target == sortedIntegerArray[mid])
+                    if (target == sortedIntegerArray[mid]) // так как увеличени сравнений в конце цикла в выходном сообщении выводим текущее число сравнений плюс один
                     {
-                        PrintMessage($"Элемент есть в массиве. Его порядковый номер, считая с единицы: {mid + 1}. Количество сравнений: {steps}" + '\n', ConsoleColor.White);
+                        PrintMessage($"Элемент есть в массиве. Его порядковый номер, считая с единицы: {mid + 1}. Количество сравнений: {steps + 1}" + '\n', ConsoleColor.White);
                         find = true;
                     }
                     else if (target > sortedIntegerArray[mid])
@@ -387,7 +387,7 @@ namespace Task
                     {
                         right = mid - 1; // сдвинулись в левую половину
                     }
-                    steps++;
+                    steps++; // сравнение случилось
                 }
                 if (left > right)
                 {
@@ -429,8 +429,8 @@ namespace Task
             string? choice = Console.ReadLine();
             Console.ResetColor();
             return choice;
-        } 
-        
+        }
+
         /// <summary>
         /// Сортирует массив простым выбором
         /// </summary>
@@ -752,7 +752,7 @@ namespace Task
                 {
                     Swap(integerArray, low, high); // меняем местами попаданцев не в свой подмассив
                 }
-                 
+
             }
 
             // по последнему обольшому сдвинульсь так что большой указывает на последенего маленького
@@ -812,13 +812,13 @@ namespace Task
             {
                 sortedArray[sortedArrayCounter++] = integerArray[leftCounter++];
             }
-            while (rightCounter <= right) // оставшиеся большие в правом подмассиве вписываем последеними
+            while (rightCounter <= right) // оставшиеся большие в правом подмассиве вписываем последними
             {
                 sortedArray[sortedArrayCounter++] = integerArray[rightCounter++];
             }
-            for (uint i = 0; i < sortedArray.Length; i++) // записываем в правильном порядке в нужное место исходного массива(left + i, как раз из-за того что left не всегда будет нулём)
+            for (uint p = 0; p < sortedArray.Length; p++) // записываем в правильном порядке в нужное место исходного массива(left + p, как раз из-за того что left не всегда будет нулём)
             {
-                integerArray[left + i] = sortedArray[i];
+                integerArray[left + p] = sortedArray[p];
             }
         }
     }
