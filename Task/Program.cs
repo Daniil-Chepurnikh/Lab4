@@ -135,7 +135,7 @@ namespace Task
                 } while (!isCorrectAction);
 
                 PrintMessage("Вы выбрали дейстиве: " + menu[action - 1] + '\n', ConsoleColor.White);
-                PrintMessage("Вы уверены в своём выборе? Если уверены, напишите ДА(в любом регистре), любой другой ввод будет воспринят как НЕТ" + '\n', ConsoleColor.White);
+                PrintMessage("Вы уверены в своём выборе? Если уверены, напишите ДА(в любом регистре), любой другой ввод будет воспринят как НЕТ:  ", ConsoleColor.White);
                 choice = ReadData();
 
             } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase)); // подсказал интернет
@@ -157,23 +157,19 @@ namespace Task
             ];
 
             int[] integerArray = [];
-            bool isCreated = true;
-            do
+            switch (PrintMenu(arrayMenu, "Выберете способ создания массива:\n"))
             {
-                switch (PrintMenu(arrayMenu, "Выберете способ создания массива:\n"))
-                {
-                    case 1:
-                        {
-                            integerArray = ReadArray();
-                            break;
-                        }
-                    case 2:
-                        {
-                            integerArray = MakeRandomArray();
-                            break;
-                        }
-                }
-            } while (!isCreated);
+               case 1:
+                    {
+                        integerArray = ReadArray();
+                        break;
+                    }
+               case 2:
+                    {
+                        integerArray = MakeRandomArray();
+                        break;
+                    }
+            }
             return integerArray;
         }
 
@@ -617,30 +613,30 @@ namespace Task
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно переставить элементы в пустом массиве!");
-                return integerArray;
             }
-
-            uint countEvens = CountEvens(integerArray);
-            if (countEvens == 0 || countEvens == integerArray.Length)
+            else if (CountEvens(integerArray) == 0 || CountEvens(integerArray) == integerArray.Length)
             {
                 PrintMessage("Массив не изменился" + '\n', ConsoleColor.White);
-                return integerArray; // не делай лишнего
             }
-
-            int[] sortedArray = new int[integerArray.Length];
-            uint counter = 0;
-            for (uint p = 0; p < integerArray.Length; p++)
+            else
             {
-                if (integerArray[p] % 2 == 0)
+                uint countEvens = CountEvens(integerArray);
+                int[] sortedArray = new int[integerArray.Length];
+                uint counter = 0;
+                for (uint p = 0; p < integerArray.Length; p++)
                 {
-                    sortedArray[counter++] = integerArray[p];
+                    if (integerArray[p] % 2 == 0)
+                    {
+                        sortedArray[counter++] = integerArray[p];
+                    }
+                    else
+                    {
+                        sortedArray[countEvens++] = integerArray[p];
+                    }
                 }
-                else
-                {
-                    sortedArray[countEvens++] = integerArray[p];
-                }
+                integerArray = sortedArray;
             }
-            return sortedArray;
+            return integerArray;
         }
 
         /// <summary>
@@ -679,31 +675,24 @@ namespace Task
                     "Сортировка слиянием"
             ];
 
-            bool isSorted = false;
-            do
+            switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:\n"))
             {
-                switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:\n"))
-                {
-                    case 1:
-                        {
-                            SelectionSort(integerArray);
-                            isSorted = true;
-                            break;
-                        }
-                    case 2:
-                        {
-                            HoareSort(integerArray, 0, integerArray.Length - 1);
-                            isSorted = true;
-                            break;
-                        }
-                    case 3:
-                        {
-                            MergeSort(integerArray, 0, integerArray.Length - 1);
-                            isSorted = true;
-                            break;
-                        }
-                }
-            } while (!isSorted);
+                case 1:
+                    {
+                        SelectionSort(integerArray);
+                        break;
+                    }
+                case 2:
+                    {
+                        HoareSort(integerArray, 0, integerArray.Length - 1);
+                        break;
+                    }
+                case 3:
+                    {
+                        MergeSort(integerArray, 0, integerArray.Length - 1);
+                        break;
+                    }
+            }
         }
 
         /// <summary>
