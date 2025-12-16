@@ -359,7 +359,7 @@ namespace Task
             {
                 PrintError("Невозможно найти элемент в пустом массиве!");
             }
-            if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
+            else if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
             {
                 int target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:   ", "Ошибка: Вы ввели не целое число!");
                 int left = 0;
