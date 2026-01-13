@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 
 namespace Task
@@ -20,6 +19,8 @@ namespace Task
         /// Время выполнения программы
         /// </summary>
         private static Stopwatch stopwatch = new();
+
+        #region Стадии работы программы
 
         /// <summary>
         /// Здоровается, начинает работу
@@ -101,76 +102,7 @@ namespace Task
                             break;
                         }
                 }
-            } while (string.Equals(end, "Нет", StringComparison.OrdinalIgnoreCase));
-        }
-
-        /// <summary>
-        /// Печатает меню и принимает выбор пользователя
-        /// </summary>
-        /// <param name="menu">Массив возможных действий</param>
-        /// <returns>Выбранное действие</returns>
-        private static uint PrintMenu(string[] menu, string message = "Программа реализует следующую функциональность: \n")
-        {
-            uint action;
-            string? choice;
-            do
-            {
-                bool isCorrectAction;
-                do
-                {
-                    PrintMessage(message);
-                    for (int i = 0; i < menu.Length; i++)
-                    {
-                        PrintMessage($" {i + 1}.  " + menu[i] + "\n\n", ConsoleColor.White);
-                    }
-
-                    PrintMessage("Введите номер выбранного действия:  ", ConsoleColor.White);
-                    isCorrectAction = uint.TryParse(ReadData(), out action);
-
-                    if (action > menu.Length || action == 0)
-                    {
-                        PrintError();
-                        isCorrectAction = false;
-                    }
-                } while (!isCorrectAction);
-
-                PrintMessage("Вы выбрали дейстиве: " + menu[action - 1] + '\n', ConsoleColor.White);
-                PrintMessage("Вы уверены в своём выборе? Если уверены, напишите ДА(в любом регистре), любой другой ввод будет воспринят как НЕТ:  ", ConsoleColor.White);
-                choice = ReadData();
-
-            } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase)); // подсказал интернет
-
-            PrintMessage("Приступаю к выполнению команды\n");
-            return action;
-        }
-
-        /// <summary>
-        /// Создаёт массив выбранным способом
-        /// </summary>
-        /// <returns>Созданный массив</returns>
-        private static int[] CreateArray()
-        {
-            string[] arrayMenu =
-            [
-                    "Создать массив самостоятельно",
-                    "Создать массив случайно"
-            ];
-
-            int[] integerArray = [];
-            switch (PrintMenu(arrayMenu, "Выберете способ создания массива:\n"))
-            {
-               case 1:
-                    {
-                        integerArray = ReadArray();
-                        break;
-                    }
-               case 2:
-                    {
-                        integerArray = MakeRandomArray();
-                        break;
-                    }
-            }
-            return integerArray;
+            } while (string.Equals(end, "Нет"));
         }
 
         /// <summary>
@@ -184,10 +116,26 @@ namespace Task
             PrintMessage("До свидания!", ConsoleColor.White);
         }
 
+        #endregion
+
         /// <summary>
         /// Датчик случайных чисел
         /// </summary>
         private static Random random = new();
+
+        #region Чтение ввода
+
+        /// <summary>
+        /// Получает ввод пользователя
+        /// </summary>
+        /// <returns>Строка введённая пользователем</returns>
+        private static string? ReadData()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            string? choice = Console.ReadLine();
+            Console.ResetColor();
+            return choice;
+        }
 
         /// <summary>
         /// Читает целое число и сообщает об ошибках ввода оного
@@ -213,35 +161,37 @@ namespace Task
             return number;
         }
 
-        /// <summary>
-        /// Печатает массив целых чисел
-        /// </summary>
-        /// <param name="integerArray">Печатаемый массив</param>
-        private static void PrintArray(int[] integerArray)
-        {
-            if (CheckEmpty(integerArray))
-            {
-                PrintMessage("Массив пустой\n", ConsoleColor.White);
-            }
-            else
-            {
-                foreach (int p in integerArray)
-                {
-                    PrintMessage(p + " ", ConsoleColor.White);
-                }
-                PrintMessage("\n");
-            }
-        }
+        #endregion
+
+        #region Создание массива
 
         /// <summary>
-        /// Сообщает об ошибках
+        /// Создаёт массив выбранным способом
         /// </summary>
-        /// <param name="error">Печатаемая ошибка</param>
-        private static void PrintError(string error = "Нераспознанная команда! Проверьте корректность ввода")
+        /// <returns>Созданный массив</returns>
+        private static int[] CreateArray()
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Ошибка: " + error);
-            Console.ResetColor();
+            string[] arrayMenu =
+            [
+                    "Создать массив самостоятельно",
+                    "Создать массив случайно"
+            ];
+
+            int[] integerArray = [];
+            switch (PrintMenu(arrayMenu, "Выберете способ создания массива:\n"))
+            {
+                case 1:
+                    {
+                        integerArray = ReadArray();
+                        break;
+                    }
+                case 2:
+                    {
+                        integerArray = MakeRandomArray();
+                        break;
+                    }
+            }
+            return integerArray;
         }
 
         /// <summary>
@@ -315,6 +265,8 @@ namespace Task
             return length;
         }
 
+        #endregion
+
         /// <summary>
         /// Находит первый чётный элемент в массиве
         /// </summary>
@@ -329,7 +281,7 @@ namespace Task
             }
             else if (CountEvens(integerArray) == 0)
             {
-                PrintMessage($"Нет чётных элементов!. Количество сравнений: {integerArray.Length}" + '\n', ConsoleColor.White);
+                PrintMessage($"Нет чётных элементов! Количество сравнений: {integerArray.Length}" + '\n', ConsoleColor.White);
             }
             else
             {
@@ -416,48 +368,6 @@ namespace Task
         }
 
         /// <summary>
-        /// Получает ввод пользователя
-        /// </summary>
-        /// <returns>Строка введённая пользователем</returns>
-        private static string? ReadData()
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            string? choice = Console.ReadLine();
-            Console.ResetColor();
-            return choice;
-        }
-
-        /// <summary>
-        /// Сортирует массив простым выбором
-        /// </summary>
-        /// <param name="integerArray">Сортируемый массив</param>
-        private static void SelectionSort(int[] integerArray)
-        {
-            if (CheckEmpty(integerArray))
-            {
-                PrintError("Невозможно отсортировать пустой массив!");
-                return;
-            }
-            for (int first = 0; first < integerArray.Length - 1; first++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
-            {
-                int min = integerArray[first]; // чтобы самым первым минимальным
-                int indexMin = first; // не заполнить всё
-                for (int p = first + 1; p < integerArray.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
-                {
-                    if (min > integerArray[p])
-                    {
-                        min = integerArray[p]; // запомнили минимальный
-                        indexMin = p; // место откуда его взяли
-                    }
-                }
-                if (indexMin != first)
-                {
-                    Swap(integerArray, indexMin, first);
-                }
-            }
-        }
-
-        /// <summary>
         /// Меняет местами два элемента в массиве
         /// </summary>
         /// <param name="integerArray">Массив, в котором нужно произвести обмен</param>
@@ -465,9 +375,9 @@ namespace Task
         /// <param name="indexSecond">Индекс второго элемента</param>
         private static void Swap(int[] integerArray, int indexFirst, int indexSecond)
         {
-            int temp = integerArray[indexSecond];
+            int clone = integerArray[indexSecond];
             integerArray[indexSecond] = integerArray[indexFirst];
-            integerArray[indexFirst] = temp;
+            integerArray[indexFirst] = clone;
         }
 
         /// <summary>
@@ -604,39 +514,37 @@ namespace Task
             return integerArray;
         }
 
+        #region Печать
+
         /// <summary>
-        /// Перставляет чётные в начало
+        /// Печатает массив целых чисел
         /// </summary>
-        /// <param name="integerArray">Массив для перестановки</param>
-        private static int[] EvenOddSort(int[] integerArray)
+        /// <param name="integerArray">Печатаемый массив</param>
+        private static void PrintArray(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
             {
-                PrintError("Невозможно переставить элементы в пустом массиве!");
-            }
-            else if (CountEvens(integerArray) == 0 || CountEvens(integerArray) == integerArray.Length)
-            {
-                PrintMessage("Массив не изменился" + '\n', ConsoleColor.White);
+                PrintMessage("Массив пустой\n", ConsoleColor.White);
             }
             else
             {
-                uint countEvens = CountEvens(integerArray);
-                int[] sortedArray = new int[integerArray.Length];
-                uint counter = 0;
-                for (uint p = 0; p < integerArray.Length; p++)
+                foreach (int p in integerArray)
                 {
-                    if (integerArray[p] % 2 == 0)
-                    {
-                        sortedArray[counter++] = integerArray[p];
-                    }
-                    else
-                    {
-                        sortedArray[countEvens++] = integerArray[p];
-                    }
+                    PrintMessage(p + " ", ConsoleColor.White);
                 }
-                integerArray = sortedArray;
+                PrintMessage("\n");
             }
-            return integerArray;
+        }
+
+        /// <summary>
+        /// Сообщает об ошибках
+        /// </summary>
+        /// <param name="error">Печатаемая ошибка</param>
+        private static void PrintError(string error = "Нераспознанная команда! Проверьте корректность ввода")
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Ошибка: " + error);
+            Console.ResetColor();
         }
 
         /// <summary>
@@ -652,6 +560,50 @@ namespace Task
         }
 
         /// <summary>
+        /// Печатает меню и принимает выбор пользователя
+        /// </summary>
+        /// <param name="menu">Массив возможных действий</param>
+        /// <returns>Выбранное действие</returns>
+        private static uint PrintMenu(string[] menu, string message = "Программа реализует следующую функциональность: \n")
+        {
+            uint action;
+            string? choice;
+            do
+            {
+                bool isCorrectAction;
+                do
+                {
+                    PrintMessage(message);
+                    for (int i = 0; i < menu.Length; i++)
+                    {
+                        PrintMessage($" {i + 1}.  " + menu[i] + "\n\n", ConsoleColor.White);
+                    }
+
+                    PrintMessage("Введите номер выбранного действия:  ", ConsoleColor.White);
+                    isCorrectAction = uint.TryParse(ReadData(), out action);
+
+                    if (action > menu.Length || action == 0)
+                    {
+                        PrintError();
+                        isCorrectAction = false;
+                    }
+                } while (!isCorrectAction);
+
+                PrintMessage("Вы выбрали дейстиве: " + menu[action - 1] + '\n', ConsoleColor.White);
+                PrintMessage("Вы уверены в своём выборе? Если уверены, напишите ДА(в любом регистре), любой другой ввод будет воспринят как НЕТ:  ", ConsoleColor.White);
+                choice = ReadData();
+
+            } while (!string.Equals(choice, "Да", StringComparison.OrdinalIgnoreCase)); // подсказал интернет
+
+            PrintMessage("Приступаю к выполнению команды\n");
+            return action;
+        }
+
+        #endregion
+
+        #region Сортировка
+
+        /// <summary>
         /// Сортирует массив выбранным способом
         /// </summary>
         /// <param name="integerArray">Сортируемый массив</param>
@@ -660,38 +612,63 @@ namespace Task
             if (CheckEmpty(integerArray))
             {
                 PrintError("Невозможно отсортировать пустой массив!");
-                return;
             }
             if (CheckSort(integerArray))
             {
                 PrintMessage("Массив уже отсортирован\n", ConsoleColor.White);
-                return;
             }
-
-            string[] sortMenu =
-            [
+            else
+            {
+                string[] sortMenu =
+                [
                     "Сортировка простым выбором",
                     "Сортировка Хоара",
                     "Сортировка слиянием"
-            ];
+                ];
 
-            switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:\n"))
+                switch (PrintMenu(sortMenu, "Выберете способ сортировки массива:\n"))
+                {
+                    case 1:
+                        {
+                            SelectionSort(integerArray);
+                            break;
+                        }
+                    case 2:
+                        {
+                            HoareSort(integerArray, 0, integerArray.Length - 1);
+                            break;
+                        }
+                    case 3:
+                        {
+                            MergeSort(integerArray, 0, integerArray.Length - 1);
+                            break;
+                        }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Сортирует массив простым выбором
+        /// </summary>
+        /// <param name="integerArray">Сортируемый массив</param>
+        private static void SelectionSort(int[] integerArray)
+        {
+            for (int first = 0; first < integerArray.Length - 1; first++) // идём до предпоследнего. он один останется иначе он бы был минимумом на другом шаге 
             {
-                case 1:
+                int min = integerArray[first]; // чтобы самым первым минимальным
+                int indexMin = first; // не заполнить всё
+                for (int p = first + 1; p < integerArray.Length; p++) // идём до последнего чтобы на каждом шаге проверять всё на минимум
+                {
+                    if (min > integerArray[p])
                     {
-                        SelectionSort(integerArray);
-                        break;
+                        min = integerArray[p]; // запомнили минимальный
+                        indexMin = p; // место откуда его взяли
                     }
-                case 2:
-                    {
-                        HoareSort(integerArray, 0, integerArray.Length - 1);
-                        break;
-                    }
-                case 3:
-                    {
-                        MergeSort(integerArray, 0, integerArray.Length - 1);
-                        break;
-                    }
+                }
+                if (indexMin != first)
+                {
+                    Swap(integerArray, indexMin, first);
+                }
             }
         }
 
@@ -810,5 +787,42 @@ namespace Task
                 integerArray[left + p] = sortedArray[p];
             }
         }
+
+        /// <summary>
+        /// Перставляет чётные в начало
+        /// </summary>
+        /// <param name="integerArray">Массив для перестановки</param>
+        private static int[] EvenOddSort(int[] integerArray)
+        {
+            if (CheckEmpty(integerArray))
+            {
+                PrintError("Невозможно переставить элементы в пустом массиве!");
+            }
+            else if (CountEvens(integerArray) == 0 || CountEvens(integerArray) == integerArray.Length)
+            {
+                PrintMessage("Массив не изменился" + '\n', ConsoleColor.White);
+            }
+            else
+            {
+                uint countEvens = CountEvens(integerArray);
+                int[] sortedArray = new int[integerArray.Length];
+                uint counter = 0;
+                for (uint p = 0; p < integerArray.Length; p++)
+                {
+                    if (integerArray[p] % 2 == 0)
+                    {
+                        sortedArray[counter++] = integerArray[p];
+                    }
+                    else
+                    {
+                        sortedArray[countEvens++] = integerArray[p];
+                    }
+                }
+                integerArray = sortedArray;
+            }
+            return integerArray;
+        }
+
+        #endregion
     }
 }
