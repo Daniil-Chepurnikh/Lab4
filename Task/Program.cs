@@ -446,7 +446,7 @@ namespace Task
         }
 
         /// <summary>
-        /// Добавляет К элементов в начало массива
+        /// Добавляет желаемое количество элементов в начало массива
         /// </summary>
         /// <param name="integerArray">Массив, в который надо добавить элемент</param>
         private static int[] AddElements(int[] integerArray)
