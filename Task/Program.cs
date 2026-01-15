@@ -440,10 +440,7 @@ namespace Task
         /// </summary>
         /// <param name="integerArray">Проверяемый массив</param>
         /// <returns>Логическое значение true если пустой</returns>
-        private static bool CheckEmpty(int[] integerArray)
-        {
-            return integerArray.Length == 0;
-        }
+        private static bool CheckEmpty(int[] integerArray) => integerArray.Length == 0;
 
         /// <summary>
         /// Добавляет желаемое количество элементов в начало массива
