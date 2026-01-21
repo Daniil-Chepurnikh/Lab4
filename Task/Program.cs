@@ -106,7 +106,6 @@ namespace Task
         private static Stopwatch stopwatch = new();
 
         #region Чтение ввода
-
         /// <summary>
         /// Получает ввод пользователя
         /// </summary>
@@ -140,11 +139,9 @@ namespace Task
             } while (!isNumber);
             return number;
         }
-
         #endregion
 
         #region Создание массива
-
         /// <summary>
         /// Создаёт массив выбранным способом
         /// </summary>
@@ -240,7 +237,6 @@ namespace Task
             } while (!isCorrectArraySize);
             return length;
         }
-
         #endregion
 
         /// <summary>
