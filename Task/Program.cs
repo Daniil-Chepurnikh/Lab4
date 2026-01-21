@@ -215,12 +215,12 @@ namespace Task
                 length = ReadInteger();
                 if (length < 0)
                 {
-                    PrintError("Массив не может иметь отрицательную длину!");
+                    PrintError("Массив не может иметь отрицательную длину");
                     isCorrectArraySize = false;
                 }
                 else if (length == 0)
                 {
-                    PrintError("Сейчас бессмысленно создавать массив длины нуль!");
+                    PrintError("Сейчас бессмысленно создавать массив длины нуль");
                     isCorrectArraySize = false;
                 }
                 else
@@ -233,7 +233,7 @@ namespace Task
                     }
                     catch (OutOfMemoryException)
                     {
-                        PrintError("Переполнение памяти слишком большим массивом!");
+                        PrintError("Переполнение памяти слишком большим массивом");
                         isCorrectArraySize = false;
                     }
                 }
@@ -252,11 +252,9 @@ namespace Task
         {
             var index = 0;
             if (CheckEmpty(integerArray))
-                PrintError("Невозможно найти элемент в пустом массиве!");
-            
+                PrintError("Невозможно найти элемент в пустом массиве");
             else if (CountEvens(integerArray) == 0)
-                PrintMessage($"Нет чётных элементов! Количество сравнений: {integerArray.Length}" + '\n', ConsoleColor.White);
-            
+                PrintMessage($"Нет чётных элементов! Количество сравнений: {integerArray.Length}\n", ConsoleColor.White);
             else
             {
                 var find = false;
@@ -264,7 +262,7 @@ namespace Task
                 {
                     if (integerArray[index++] % 2 == 0)
                     {
-                        PrintMessage($"Первый чётный элемент: {integerArray[index - 1]}. Его порядковый номер, считая с единицы: {index}" + '\n', ConsoleColor.White);
+                        PrintMessage($"Первый чётный элемент: {integerArray[index - 1]}. Его порядковый номер, считая с единицы: {index}\n", ConsoleColor.White);
                         find = true;
                     } 
                 } while (index < integerArray.Length && !find);
@@ -282,11 +280,10 @@ namespace Task
             var mid = -1;
             
             if (CheckEmpty(sortedIntegerArray))
-                PrintError("Невозможно найти элемент в пустом массиве!");
-            
+                PrintError("Невозможно найти элемент в пустом массиве");
             else if (CheckSort(sortedIntegerArray)) // ищем только если отсортирован
             {
-                var target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:   ", "Ошибка: Вы ввели не целое число!");
+                var target = ReadInteger("Введите целое число, которое вы хотите найти в массиве:   ", "Вы ввели не целое число");
                 var left = 0;
                 var right = sortedIntegerArray.Length - 1;
                 var find = false;
@@ -297,13 +294,11 @@ namespace Task
 
                     if (target == sortedIntegerArray[mid]) // так как увеличени сравнений в конце цикла в выходном сообщении выводим текущее число сравнений плюс один
                     {
-                        PrintMessage($"Элемент есть в массиве. Его порядковый номер, считая с единицы: {mid + 1}. Количество сравнений: {steps + 1}" + '\n', ConsoleColor.White);
+                        PrintMessage($"Элемент есть в массиве. Его порядковый номер, считая с единицы: {mid + 1}. Количество сравнений: {steps + 1}\n", ConsoleColor.White);
                         find = true;
                     }
-                    
                     else if (target > sortedIntegerArray[mid])
                         left = mid + 1; // сдвинулись в правую половину
-                    
                     else
                         right = mid - 1; // сдвинулись в левую половину
                     
@@ -312,12 +307,11 @@ namespace Task
                 if (left > right)
                 {
                     PrintMessage("Элемента нет в массиве. ", ConsoleColor.White);
-                    PrintMessage($"Количество сравнений: {steps}" + '\n', ConsoleColor.White);
+                    PrintMessage($"Количество сравнений: {steps}\n", ConsoleColor.White);
                 }
             }
-            
             else
-                PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве!");
+                PrintError("Невозможно использовать бинарный поиск в неотсортированном массиве");
             
             return mid;
         }
@@ -379,14 +373,12 @@ namespace Task
             var evensCount = CountEvens(integerArray);
             
             if (CheckEmpty(integerArray))
-                PrintError("Невозможно удалить элементы в пустом массиве!");
-            
+                PrintError("Невозможно удалить элементы в пустом массиве");
             else if (evensCount == 0)
-                PrintMessage("Нечего удалять!" + '\n', ConsoleColor.White);
-            
+                PrintMessage("Нечего удалять!\n", ConsoleColor.White);
             else if (evensCount == integerArray.Length)
             {
-                PrintMessage("После удаления массив стал пустым!" + '\n', ConsoleColor.White);
+                PrintMessage("После удаления массив стал пустым!\n", ConsoleColor.White);
                 integerArray = [];
             }
             else
@@ -419,12 +411,11 @@ namespace Task
             int[] newArray = [];
 
             var newElementsCount = ReadInteger("Введите количество добавляемых элементов:   ");
+            
             if (newElementsCount == 0)
-                PrintError("Добавлять нуль элементов бессмысленно!");
-
+                PrintError("Добавлять нуль элементов бессмысленно");
             else if (newElementsCount < 0)
-                PrintError("Невозможно добавить отрицательное число элементов!");
-
+                PrintError("Невозможно добавить отрицательное число элементов");
             else
             {
                 try
@@ -433,11 +424,11 @@ namespace Task
                 }
                 catch (OutOfMemoryException)
                 {
-                    PrintError("После добавления массив стал слишком большим!");
+                    PrintError("После добавления массив стал слишком большим");
                 }
                 catch (OverflowException)
                 {
-                    PrintError("Невозможно вычислить сумму для количества элементов в заданном типе!");
+                    PrintError("Невозможно вычислить сумму для количества элементов в заданном типе");
                 }
             }
 
@@ -451,21 +442,17 @@ namespace Task
                 switch (PrintMenu(addMenu, "Выберете способ добавления элементов:\n"))
                 {
                     case 1:
-                        {
                             for (int p = 0; p < newElementsCount; p++)
                             {
                                 newArray[p] = ReadInteger("Введите элемент массива:  ");
                             }
                             break;
-                        }
                     case 2:
-                        {
                             for (int p = 0; p < newElementsCount; p++)
                             {
                                 newArray[p] = random.Next(int.MinValue, int.MaxValue);
                             }
                             break;
-                        }
                 }
 
                 for (int q = newElementsCount; q < newArray.Length; q++)
@@ -478,7 +465,6 @@ namespace Task
         }
 
         #region Печать
-
         /// <summary>
         /// Печатает массив целых чисел
         /// </summary>
@@ -487,12 +473,11 @@ namespace Task
         {
             if (CheckEmpty(integerArray))
                 PrintMessage("Массив пустой\n", ConsoleColor.White);
-
             else
             {
                 foreach (int p in integerArray)
                 {
-                    PrintMessage(p + " ", ConsoleColor.White);
+                    PrintMessage($"{p} ", ConsoleColor.White);
                 }
                 PrintMessage("\n");
             }
@@ -502,12 +487,7 @@ namespace Task
         /// Сообщает об ошибках
         /// </summary>
         /// <param name="error">Печатаемая ошибка</param>
-        private static void PrintError(string error = "Нераспознанная команда! Проверьте корректность ввода")
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Ошибка: " + error);
-            Console.ResetColor();
-        }
+        private static void PrintError(string error) => PrintMessage($"Ошибка: {error}!\n", ConsoleColor.Red);
 
         /// <summary>
         /// Печатаем красивые сообщения пользователю
@@ -538,7 +518,7 @@ namespace Task
                     PrintMessage(message);
                     for (int i = 0; i < menu.Length; i++)
                     {
-                        PrintMessage($" {i + 1}.  " + menu[i] + "\n\n", ConsoleColor.White);
+                        PrintMessage($" {i + 1}.  {menu[i]}\n\n", ConsoleColor.White);
                     }
 
                     PrintMessage("Введите номер выбранного действия:  ", ConsoleColor.White);
@@ -546,12 +526,12 @@ namespace Task
 
                     if (action > menu.Length || action == 0)
                     {
-                        PrintError();
+                        PrintError("Нераспознанная команда! Проверьте корректность ввода");
                         isCorrectAction = false;
                     }
                 } while (!isCorrectAction);
 
-                PrintMessage("Вы выбрали дейстиве: " + menu[action - 1] + '\n', ConsoleColor.White);
+                PrintMessage($"Вы выбрали дейстиве: {menu[action - 1]}\n", ConsoleColor.White);
                 PrintMessage("Вы уверены в своём выборе? Если уверены, напишите ДА(в любом регистре), любой другой ввод будет воспринят как НЕТ:  ", ConsoleColor.White);
                 choice = ReadData();
 
@@ -560,11 +540,9 @@ namespace Task
             PrintMessage("Приступаю к выполнению команды\n");
             return action;
         }
-
         #endregion
 
         #region Сортировка
-
         /// <summary>
         /// Сортирует массив выбранным способом
         /// </summary>
@@ -572,11 +550,9 @@ namespace Task
         private static void Sort(int[] integerArray)
         {
             if (CheckEmpty(integerArray))
-                PrintError("Невозможно отсортировать пустой массив!");
-
+                PrintError("Невозможно отсортировать пустой массив");
             if (CheckSort(integerArray))
                 PrintMessage("Массив уже отсортирован\n", ConsoleColor.White);
-
             else
             {
                 string[] sortMenu =
@@ -714,7 +690,6 @@ namespace Task
             {
                 if (integerArray[leftCounter] <= integerArray[rightCounter])
                     sortedArray[sortedArrayCounter++] = integerArray[leftCounter++];
-
                 else
                     sortedArray[sortedArrayCounter++] = integerArray[rightCounter++];
             }
@@ -734,17 +709,16 @@ namespace Task
         }
 
         /// <summary>
-        /// Перставляет чётные в начало
+        /// Переставляет чётные в элементы в начало
         /// </summary>
         /// <param name="integerArray">Массив для перестановки</param>
+        /// <returns>Изменённый массив</returns>
         private static int[] EvenOddSort(int[] integerArray) // TODO: переписать оптимальнее. убрать лишнюю проходку по массиву
         {
             if (CheckEmpty(integerArray))
-                PrintError("Невозможно переставить элементы в пустом массиве!");
-
+                PrintError("Невозможно переставить элементы в пустом массиве");
             else if (CountEvens(integerArray) == 0 || CountEvens(integerArray) == integerArray.Length)
-                PrintMessage("Массив не изменился" + '\n', ConsoleColor.White);
-
+                PrintMessage("Массив не изменился\n", ConsoleColor.White);
             else
             {
                 var countEvens = CountEvens(integerArray);
@@ -754,7 +728,6 @@ namespace Task
                 {
                     if (integerArray[p] % 2 == 0)
                         sortedArray[counter++] = integerArray[p];
-
                     else
                         sortedArray[countEvens++] = integerArray[p];
                 }
@@ -762,7 +735,6 @@ namespace Task
             }
             return integerArray;
         }
-
         #endregion
     }
 }
