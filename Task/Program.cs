@@ -16,7 +16,6 @@ namespace Task
         }
 
         #region Стадии работы программы
-
         /// <summary>
         /// Здоровается, начинает работу
         /// </summary>
@@ -96,7 +95,7 @@ namespace Task
         #endregion
 
         /// <summary>
-        /// Датчик случайных чисел
+        /// Генератор случайных чисел
         /// </summary>
         private static Random random = new();
 
